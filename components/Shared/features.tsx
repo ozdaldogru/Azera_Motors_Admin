@@ -1,0 +1,28 @@
+  export const features = [
+      {label: "Air Conditioner",value: "airConditioner"},
+      {label: "Digital Odometer",value: "digitalOdometer"},
+      {label: "Heater",value: "heater"},
+      {label: "Leather Seats",value: "leatherSeats"},
+      {label: "Panoramic Sunroof",value: "panoramicSunroof"},
+      {label: "Tachometer",value: "tachometer"},
+      {label: "Touchscreen Display",value: "touchscreenDisplay"},
+      {label: "Anti-lock Braking",value: "antiLockBraking"},
+      {label: "Brake Assist",value: "brakeAssist"},
+      {label: "Child Safety Locks",value: "childSafetyLocks"},
+      {label: "Driver Air Bag",value: "driverAirBag"},
+      {label: "Power Door Locks",value: "powerDoorLocks"},
+      {label: "Stability Control",value: "stabilityControl"},
+      {label: "Traction Control",value: "tractionControl"},
+      {label: "Fog Lights Front",value: "fogLightsFront"},
+      {label: "Rain Sensing Wiper",value: "rainSensingWiper"},
+      {label: "Rear Spoiler",value: "rearSpoiler"},
+      {label: "Windows - Electric",value: "windowsElectric"},
+      {label: "Comfort & Convenience",value: "comfortConvenience"},
+      {label: "Android Auto",value: "androidAuto"},
+      {label: "Apple CarPlay",value: "appleCarPlay"},
+      {label: "Bluetooth",value: "bluetooth"},
+      {label: "HomeLink",value: "homeLink"},
+      {label: "Power Steering",value: "powerSteering"},
+      {label: "Vanity Mirror",value: "vanityMirror",}
+];
+
