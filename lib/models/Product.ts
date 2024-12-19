@@ -24,7 +24,6 @@ const ProductSchema = new mongoose.Schema({
   description: String,
   media: [String],
   categories: String, 
-  vin: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 }, { toJSON: { getters: true } });

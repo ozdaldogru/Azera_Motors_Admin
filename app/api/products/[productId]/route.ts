@@ -77,7 +77,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
       description,
       media,
       categories,
-      vin,
     } = await req.json();
 
     if (!title || !description || !media || !price || !make) {
@@ -147,7 +146,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
         description,
         media,
         categories,
-        vin,
       },
       { new: true }
     ).populate({ path: "features", model: Feature })

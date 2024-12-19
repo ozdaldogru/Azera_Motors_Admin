@@ -1,6 +1,5 @@
 export const CarMakes = [
-{label: "Ford",name: "Ford"},
-{label: "Honda",name: "Honda"},
+{label: "Ford",name: "Ford"},{label: "Honda",name: "Honda"},
 {label: "Hyundai",name: "Hyundai"},
 {label: "Mazda",name: "Mazda"},
 {label: "Toyota",name: "Toyota"},

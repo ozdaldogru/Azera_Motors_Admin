@@ -38,7 +38,6 @@ export const POST = async (req: NextRequest) => {
       description,
       media,
       categories,
-      vin,
       
     } = await req.json();
 
@@ -71,7 +70,6 @@ export const POST = async (req: NextRequest) => {
       description,
       media,
       categories,
-      vin,
     });
 
     await newProduct.save();

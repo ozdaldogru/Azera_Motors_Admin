@@ -50,10 +50,8 @@ const formSchema = z.object({
   door: z.coerce.number().min(2),
   status: z.string(),
   numberofowner: z.coerce.number(),
-  vin: z.string(),
-  description: z.string().min(10).max(1500).trim(),
+  description: z.string().min(10).max(500).trim(),
   media: z.array(z.string()),
-
 });
 
 
@@ -102,7 +100,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           media: [],  
           lowmileage: "",
           numberofowner: 0,
-          vin: "",
           
         },
   });
@@ -367,7 +364,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <FormLabel>Features</FormLabel>
                     <FormControl>
                       <MultiSelectFeature 
-                        aria-label="Select Features"
+                        aria-label="Select  Car Type"
                         placeholder="Features"
                         features={features}
                         value={field.value}
@@ -399,7 +396,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
                   <FormControl >
-                  <Select  {...field} aria-label="Select category"   >
+                  <Select  {...field} aria-label="Select category"             
+                  >
                         {Categories.map((Categories) => (
                           <SelectItem className="overflow-visible bg-white"
                           aria-label="Select Status" key={Categories.name}>
@@ -415,7 +413,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 )}
               />    
                         
-                  
                         
 
             <FormField
@@ -628,27 +625,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-
-<FormField
-            control={form.control}
-            name="vin"
-            aria-label="Enter VIN "
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>VIN</FormLabel>
-                <FormControl>
-                  <Input
-                  aria-label="Enter VIN"
-                   type="text"
-                    placeholder="VIN"
-                    {...field}
-                    onKeyDown={handleKeyPress}
-                  />
-                </FormControl>
-                <FormMessage className="text-red-1" />
-              </FormItem>
-            )}
-          />
 
 
 
