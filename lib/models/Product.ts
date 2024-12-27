@@ -22,6 +22,8 @@ const ProductSchema = new mongoose.Schema({
   door: Number,
   status: String,  
   description: String,
+  vin:  String,
+  history: String,
   media: [String],
   categories: String, 
   createdAt: { type: Date, default: Date.now },

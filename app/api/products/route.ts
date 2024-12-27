@@ -38,6 +38,8 @@ export const POST = async (req: NextRequest) => {
       description,
       media,
       categories,
+      vin,
+      history,
       
     } = await req.json();
 
@@ -70,6 +72,8 @@ export const POST = async (req: NextRequest) => {
       description,
       media,
       categories,
+      vin,
+      history,
     });
 
     await newProduct.save();

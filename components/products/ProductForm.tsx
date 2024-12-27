@@ -24,6 +24,7 @@ import {driveTypes} from "../Shared/drivetype";
 import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
+import {Select, SelectItem} from "@nextui-org/react";
 
 
 
@@ -51,6 +52,8 @@ const formSchema = z.object({
   door: z.coerce.number().min(2),
   status: z.string(),
   numberofowner: z.coerce.number(),
+  vin: z.string(),
+  history: z.string(),
   description: z.string().min(10).max(500).trim(),
   media: z.array(z.string()),
 });
@@ -101,7 +104,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           media: [],  
           lowmileage: "",
           numberofowner: 0,
-          
+          vin: "",
+          history: "",
         },
   });
 
@@ -212,14 +216,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Makes</FormLabel>
                   <FormControl>
-                  <select aria-label="Enter Car Brand" {...field}>
+                  <Select aria-label="Enter Car Brand" {...field}>
                         {CarMakes.map((CarMakes) => (
-                          <option className="overflow-visible bg-white"
-                          aria-label="Enter Car Brand" key={CarMakes.label}>
+                          <SelectItem className="overflow-visible bg-white"
+                          aria-label="Enter Car Brand" 
+                          key={CarMakes.label}>
                             {CarMakes.label}
-                          </option>
+                          </SelectItem>
                         ))}
-                      </select>       
+                      </Select>       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -255,17 +260,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Conditions</FormLabel>
                   <FormControl>
-                  <select  
+                  <Select  
                   aria-label="Enter Condition" {...field}>
                         {Conditions.map((Conditions) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Enter Condition"
                          
                           key={Conditions.key}>
                             {Conditions.label}
-                          </option>
+                          </SelectItem>
                         ))}
-                      </select>       
+                      </Select>       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -342,16 +347,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Is Low Mileage?</FormLabel>
                   <FormControl>
-                  <select  
-                  aria-label="Enter Condition" {...field}>
+                  <Select  
+                      placeholder="Select Low Mileage Situation"
+                      {...field}>
+                        
                         {IsLowMileage.map((IsLowMileage) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Enter Condition"
                           key={IsLowMileage.key}>
                             {IsLowMileage.label}
-                          </option>
+                          </SelectItem>
                         ))}
-                      </select>       
+                      </Select>       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -401,17 +408,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
                   <FormControl >
-                  <select  {...field} aria-label="Select category"             
+                  <Select  {...field} aria-label="Select category"             
                   >
                         {Categories.map((Categories) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Select Status" key={Categories.name}>
                             {Categories.name}
                             
-                          </option>
+                          </SelectItem>
                         ))}
                         
-                        </select>     
+                        </Select>     
                     </FormControl>
                     <FormMessage className="text-red-1" />
                   </FormItem>
@@ -428,17 +435,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <FormControl >
-                  <select  {...field} aria-label="Select Status"                  
+                  <Select  {...field} aria-label="Select Status"                  
                   >
                         {Statuses.map((Statuses) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Select Status" key={Statuses.key}>
                             {Statuses.label}
                             
-                          </option>
+                          </SelectItem>
                         ))}
                         
-                      </select>     
+                      </Select>     
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -453,14 +460,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Drive Type</FormLabel>
                   <FormControl>
-                  <select  {...field} aria-label="Enter Drive Type">
+                  <Select  {...field} aria-label="Enter Drive Type">
                         {driveTypes.map((driveTypes) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Enter Drive Type" key={driveTypes.key}>
                             {driveTypes.label}
-                          </option>
+                          </SelectItem>
                         ))}
-                      </select>       
+                      </Select>       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -475,14 +482,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Fuel Type</FormLabel>
                   <FormControl>
-                  <select  {...field} aria-label="Enter Fuel Type">
+                  <Select  {...field} aria-label="Enter Fuel Type">
                         {fuelTypes.map((fuelTypes) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Enter Fuel Type" key={fuelTypes.key}>
                             {fuelTypes.label}
-                          </option>
+                          </SelectItem>
                         ))}
-                      </select>       
+                      </Select>       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -517,14 +524,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Transmission</FormLabel>
                   <FormControl>
-                  <select  {...field} aria-label="Enter Transmission Type">
+                  <Select  {...field} aria-label="Enter Transmission Type">
                         {transmissions.map((transmissions) => (
-                          <option className="overflow-visible bg-white"
+                          <SelectItem className="overflow-visible bg-white"
                           aria-label="Enter Transmission Type" key={transmissions.key}>
                             {transmissions.label}
-                          </option>
+                          </SelectItem>
                         ))}
-                      </select>       
+                      </Select>       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
@@ -622,6 +629,46 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <Input aria-label="enter number of the doors"
                      type="number"
                       placeholder="Number of the Doors"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-1" />
+                </FormItem>
+              )}
+            />
+
+          <FormField
+              control={form.control}
+              name="vin"
+              aria-label="enter vin number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>VIN</FormLabel>
+                  <FormControl>
+                    <Input aria-label="enter vin number"
+                     type="text"
+                      placeholder="VIN Number"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-1" />
+                </FormItem>
+              )}
+            />
+
+          <FormField
+              control={form.control}
+              name="history"
+              aria-label="enter history link"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Car History</FormLabel>
+                  <FormControl>
+                    <Input aria-label="enter history link"
+                     type="text"
+                      placeholder="Car's History Link"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
