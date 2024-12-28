@@ -41,7 +41,7 @@ const formSchema = z.object({
   condition: z.string(),
   year: z.coerce.number(),
   mileage: z.coerce.number().min(1),
-  lowmileage:  z.array(z.string()),
+  lowmileage:  z.string(),
   driveType: z.string(),
   fuelType: z.string(),
   consumption: z.coerce.number(),
@@ -104,7 +104,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           description: "",
           categories: "",
           media: [],  
-          lowmileage: [], 
+          lowmileage: "",
           numberofowner: 0,
           vin: "",
           history: "",
@@ -345,34 +345,31 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
 
 
-              <FormField
-                control={form.control}
-                name="lowmileage"
-                aria-label="Low Mileage Situation"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Is Low Mileage?</FormLabel>
-                    <FormControl>
-                      <MultiSelectLowMileage 
-                      aria-label="Select Low Mileage Situation"
-                      placeholder="Is Low Mileage?"
-                       value={Array.isArray(field.value) ? field.value.map(Number) : []}
-                      onChange={(value: number) =>
-                        field.onChange([...field.value, value.toString()])
-                      }
-                      onRemove={(valueToRemove: number) =>
-                        field.onChange([
-                          ...(Array.isArray(field.value) ? field.value.filter(
-                            (featureId: string) => featureId !== valueToRemove.toString()
-                          ) : []),
-                        ])
-                      }
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-1" />
-                  </FormItem>
-                )}
-              />
+          <FormField
+              control={form.control}
+              name="lowmileage"
+              aria-label="Low Mileage Situation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Is Low Mileage?</FormLabel>
+                  <FormControl>
+                  <Select  
+                      placeholder="Select Low Mileage Situation"
+                      {...field}>
+                        
+                        {IsLowMileage.map((IsLowMileage) => (
+                          <SelectItem className="overflow-visible bg-white"
+                          aria-label="Enter Condition"
+                          key={IsLowMileage.key}>
+                            {IsLowMileage.label}
+                          </SelectItem>
+                        ))}
+                      </Select>       
+                  </FormControl>
+                  <FormMessage className="text-red-1" />
+                </FormItem>
+              )}
+            />  
 
    
    
