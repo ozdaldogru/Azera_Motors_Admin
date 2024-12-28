@@ -1,6 +1,6 @@
 export const Conditions = [
-    {key: "New",label: "New"},
-    {key: "Like New",label:"Like New"},
-    {key: "Fair",label: "Fair"},
-    {key: "Certified",label: "Certified"} 
-];
+    { id: 1, key: "New", label: "New" },
+    { id: 2, key: "Like New", label: "Like New" },
+    { id: 3, key: "Fair", label: "Fair" },
+    { id: 4, key: "Certified", label: "Certified" }
+  ];

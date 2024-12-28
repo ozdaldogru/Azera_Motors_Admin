@@ -6,7 +6,6 @@ type FeatureType = {
   updatedAt: Date;
 }
 
-
 type ProductType = {
   _id: string;
   title: string;
@@ -17,7 +16,7 @@ type ProductType = {
   numberofowner: number;
   year: number;
   mileage: number;
-  lowmileage: string;
+  lowmileage: [string];
   driveType: string;
   fuelType: string;
   consumption: number;

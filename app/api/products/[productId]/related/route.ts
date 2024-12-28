@@ -17,6 +17,7 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ productId
       $or: [
 
         { features: { $in: product.features }},
+  
  
 
       ],

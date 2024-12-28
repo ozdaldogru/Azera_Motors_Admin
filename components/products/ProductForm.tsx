@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import ImageUpload from "../custom ui/ImageUpload";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
+import MultiSelectLowMileage from "../custom ui/MultiSelectLowMileage";
 import Loader from "../custom ui/Loader";
-import { Textarea } from "../ui/textarea";
 import {CarMakes} from "../Shared/CarMakes";
 import {Categories} from "../Shared/Category";
 import {Conditions} from "../Shared/conditions";
@@ -25,6 +25,7 @@ import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
 import {Select, SelectItem} from "@nextui-org/react";
+import JoditEditor from "jodit-react";
 
 
 
@@ -40,7 +41,7 @@ const formSchema = z.object({
   condition: z.string(),
   year: z.coerce.number(),
   mileage: z.coerce.number().min(1),
-  lowmileage: z.string(),
+  lowmileage:  z.array(z.string()),
   driveType: z.string(),
   fuelType: z.string(),
   consumption: z.coerce.number(),
@@ -69,7 +70,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(true);
   const [features, setFeatures] = useState<FeatureType[]>([]);
-
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -102,7 +104,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           description: "",
           categories: "",
           media: [],  
-          lowmileage: "",
+          lowmileage: [], 
           numberofowner: 0,
           vin: "",
           history: "",
@@ -232,6 +234,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             /> 
 
 
+
             <FormField
               control={form.control}
               name="price"
@@ -339,31 +342,37 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-          <FormField
-              control={form.control}
-              name="lowmileage"
-              aria-label="Low Mileage Situation "
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Is Low Mileage?</FormLabel>
-                  <FormControl>
-                  <Select  
-                      placeholder="Select Low Mileage Situation"
-                      {...field}>
-                        
-                        {IsLowMileage.map((IsLowMileage) => (
-                          <SelectItem className="overflow-visible bg-white"
-                          aria-label="Enter Condition"
-                          key={IsLowMileage.key}>
-                            {IsLowMileage.label}
-                          </SelectItem>
-                        ))}
-                      </Select>       
-                  </FormControl>
-                  <FormMessage className="text-red-1" />
-                </FormItem>
-              )}
-            />  
+
+
+
+              <FormField
+                control={form.control}
+                name="lowmileage"
+                aria-label="Low Mileage Situation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Is Low Mileage?</FormLabel>
+                    <FormControl>
+                      <MultiSelectLowMileage 
+                      aria-label="Select Low Mileage Situation"
+                      placeholder="Is Low Mileage?"
+                       value={Array.isArray(field.value) ? field.value.map(Number) : []}
+                      onChange={(value: number) =>
+                        field.onChange([...field.value, value.toString()])
+                      }
+                      onRemove={(valueToRemove: number) =>
+                        field.onChange([
+                          ...(Array.isArray(field.value) ? field.value.filter(
+                            (featureId: string) => featureId !== valueToRemove.toString()
+                          ) : []),
+                        ])
+                      }
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-1" />
+                  </FormItem>
+                )}
+              />
 
    
    
@@ -386,9 +395,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                         }
                         onRemove={(idToRemove) =>
                           field.onChange([
-                            ...field.value.filter(
+                            ...(Array.isArray(field.value) ? field.value.filter(
                               (featureId) => featureId !== idToRemove
-                            ),
+                            ) : []),
                           ])
                         }
                       />
@@ -688,14 +697,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <Textarea
-                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          
-                            aria-label="enter detailed description"
-                            placeholder="Description"
-                            {...field}
+                          <JoditEditor
+                            ref={editor}
+                            value={content}
+                            onChange={(newContent) => setContent(newContent)}
+                             />
+       
+
+                        </FormControl>
+                        <FormControl>
+
+                             <div>{content}</div>
+
+                        </FormControl>
+                        <FormControl>
+                            <Input aria-label="enter history link"
+                            type="textarea"
                             
-                          />
+                              placeholder="Car's History Link"
+                              {...field}
+                              onKeyDown={handleKeyPress}
+                            />
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>

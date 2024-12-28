@@ -1,5 +1,4 @@
 export const IsLowMileage = [
-    {key: "yes",label: "Yes"},
-    {key: "no",label:"No"},
-
-];
+    { id: 1, key: "Yes", label: "Yes" },
+    { id: 2, key: "No", label: "No" }
+  ];
