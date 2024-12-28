@@ -6,6 +6,13 @@ type FeatureType = {
   updatedAt: Date;
 }
 
+type LowMileageType = {
+  _id: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 type ProductType = {
   _id: string;
   title: string;

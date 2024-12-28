@@ -9,8 +9,6 @@ const FeatureDetails = (props: { params: Promise<{ featureId: string }>}) => {
   const [loading, setLoading] = useState(true)
   const [FeatureDetails, setFeatureDetails] = useState<FeatureType | null>(null)
 
-
-
   const getFeatureDetails = async () => {
     try { 
       const res = await fetch(`/api/features/${params.featureId}`, {

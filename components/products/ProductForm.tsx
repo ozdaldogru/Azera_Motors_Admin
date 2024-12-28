@@ -10,11 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import ImageUpload from "../custom ui/ImageUpload";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
-import MultiSelectLowMileage from "../custom ui/MultiSelectLowMileage";
 import Loader from "../custom ui/Loader";
 import {CarMakes} from "../Shared/CarMakes";
 import {Categories} from "../Shared/Category";
@@ -24,8 +23,7 @@ import {driveTypes} from "../Shared/drivetype";
 import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
-import {Select, SelectItem} from "@nextui-org/react";
-import JoditEditor from "jodit-react";
+import {Select, SelectItem} from "@nextui-org/select"
 
 
 
@@ -41,7 +39,7 @@ const formSchema = z.object({
   condition: z.string(),
   year: z.coerce.number(),
   mileage: z.coerce.number().min(1),
-  lowmileage:  z.string(),
+  lowmileage: z.string(),
   driveType: z.string(),
   fuelType: z.string(),
   consumption: z.coerce.number(),
@@ -70,8 +68,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(true);
   const [features, setFeatures] = useState<FeatureType[]>([]);
-  const editor = useRef(null);
-  const [content, setContent] = useState("");
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -342,9 +339,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
-
-
-          <FormField
+        <FormField
               control={form.control}
               name="lowmileage"
               aria-label="Low Mileage Situation"
@@ -391,9 +386,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                         }
                         onRemove={(idToRemove) =>
                           field.onChange([
-                            ...(Array.isArray(field.value) ? field.value.filter(
+                            ...field.value.filter(
                               (featureId) => featureId !== idToRemove
-                            ) : []),
+                            ),
                           ])
                         }
                       />
@@ -692,20 +687,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <JoditEditor
-                            ref={editor}
-                            value={content}
-                            onChange={(newContent) => setContent(newContent)}
-                             />
-       
-
-                        </FormControl>
-                        <FormControl>
-
-                             <div>{content}</div>
-
-                        </FormControl>
                         <FormControl>
                             <Input aria-label="enter history link"
                             type="textarea"

@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
   numberofowner: Number,
   year: Number,
   mileage: Number,
-  lowmileage: String,
+  lowmileages: String,
   driveType: String,
   fuelType: String,
   consumption: Number,
