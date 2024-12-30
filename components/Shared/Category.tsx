@@ -1,5 +1,5 @@
 export const Categories = [
-
+        {id:0,name:"Select A Body Type",icon:"https://cdn-icons-png.flaticon.com/128/13584/13584003.png"},
         {id:1,name:"SUV",icon:"https://cdn-icons-png.flaticon.com/128/13584/13584003.png"},
         {id:2,name:"Sedan",icon:"https://cdn-icons-png.flaticon.com/128/3202/3202003.png"},
         {id:3,name:"Hatchback",icon:"https://cdn-icons-png.flaticon.com/128/5035/5035167.png"},

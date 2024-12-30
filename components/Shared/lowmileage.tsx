@@ -1,6 +1,7 @@
 export const IsLowMileage = [
-  {key: "yes",label: "Yes"},
-  {key: "no",label:"No"},
+  {key: "Select Low Mileage Situation",label: "Select Low Mileage Situation"},
+  {key: "Yes",label: "Yes"},
+  {key: "No",label:"No"},
 
 ];
 
