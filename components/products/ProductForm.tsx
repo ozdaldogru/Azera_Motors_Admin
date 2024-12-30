@@ -153,7 +153,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   }, []);
 
 
- 
 
   return loading ? (
     <Loader />
@@ -202,7 +201,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
 
 
-          <FormField
+
+<FormField
               control={form.control}
               name="make"
               aria-label="Enter Car Brand"
@@ -210,14 +210,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Makes</FormLabel>
                   <FormControl>
-                  <select {...field}>
+                  <select  
+                       {...field}>
                         {CarMakes.map((CarMakes) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Enter Car Brand" key={CarMakes.label}>
+                            key={CarMakes.label}>
                             {CarMakes.label}
                           </option>
                         ))}
-                      </select>       
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
