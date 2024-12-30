@@ -211,6 +211,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Makes</FormLabel>
                   <FormControl>
                   <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
                         {CarMakes.map((CarMakes) => (
                           <option className="overflow-visible bg-white"
@@ -254,7 +255,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Conditions</FormLabel>
                   <FormControl>
-                  <select  
+                  <select className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
                         {Conditions.map((Conditions) => (
                           <option className="overflow-visible bg-white"
@@ -339,7 +340,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Is Low Mileage?</FormLabel>
                   <FormControl>
-                  <select  
+                  <select className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
                         {...field}>
                         {IsLowMileage.map((IsLowMileage) => (
                           <option className="overflow-visible bg-white"
@@ -396,7 +397,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
                   <FormControl >
-                  <select  {...field} aria-label="Select category"             
+                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  {...field}           
                   >
                         {Categories.map((Categories) => (
                           <option 
@@ -424,7 +426,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <FormControl >
-                  <select  {...field}                 
+                  <select className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  {...field}                 
                   >
                         {Statuses.map((Statuses) => (
                           <option className="overflow-visible bg-white"
@@ -448,7 +451,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Drive Type</FormLabel>
                   <FormControl>
-                  <select  {...field}>
+                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  {...field}>
                         {driveTypes.map((driveTypes) => (
                           <option className="overflow-visible bg-white"
                             key={driveTypes.key}>
@@ -470,7 +474,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Fuel Type</FormLabel>
                   <FormControl>
-                  <select  {...field}>
+                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  {...field}>
                         {fuelTypes.map((fuelTypes) => (
                           <option className="overflow-visible bg-white"
                             key={fuelTypes.key}>
@@ -512,7 +517,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Transmission</FormLabel>
                   <FormControl>
-                  <select  {...field}>
+                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  {...field}>
                         {transmissions.map((transmissions) => (
                           <option className="overflow-visible bg-white"
                             key={transmissions.key}>
