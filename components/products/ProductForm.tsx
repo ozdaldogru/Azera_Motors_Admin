@@ -64,7 +64,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(true);
   const [features, setFeatures] = useState<FeatureType[]>([]);
-  const [content, setContent] = useState('');
+
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -688,7 +688,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                               />
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <p>{content} </p>
+                          <textarea
+                            {...field}
+                            
+                          />
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
