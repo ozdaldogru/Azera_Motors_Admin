@@ -1,10 +1,10 @@
-import { LayoutDashboard, Shapes, Tag,} from "lucide-react";
+import { Archive , Shapes, Tag,} from "lucide-react";
 
 export const navLinks = [
   {
     url: "/",
-    icon: <LayoutDashboard />,
-    label: "Dashboard",
+    icon: <Archive  />,
+    label: "Home",
   }, 
   {
     url: "/features",
