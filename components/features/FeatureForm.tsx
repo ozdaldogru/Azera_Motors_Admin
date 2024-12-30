@@ -14,7 +14,7 @@ import Delete from "../custom ui/Delete";
 
 
 const formSchema = z.object({
-  title: z.string().min(2).max(20),
+  title: z.string().min(2).max(50),
 });
 
 interface FeatureFormProps {

@@ -6,8 +6,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "car_dealer_admin",
-  description: "Admin dashboard to manage CarDealer's data",
+  title: "Azera Motors admin",
+  description: "Admin dashboard to manage Azera Motors",
   icons: {
     icon: '/favicon.ico', // /public path
   },

@@ -10,8 +10,8 @@ import { ToasterProvider } from "@/lib/ToasterProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CarDealer - Admin Dashboard",
-  description: "Admin dashboard to manage CarDealer's data",
+  title: "Azera Motors admin",
+  description: "Admin dashboard to manage Azera Motors",
   icons: {
     icon: '/favicon.ico', // /public path
   },
