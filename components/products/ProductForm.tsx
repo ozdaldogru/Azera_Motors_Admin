@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import ImageUpload from "../custom ui/ImageUpload";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
@@ -23,7 +23,7 @@ import {driveTypes} from "../Shared/drivetype";
 import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
-
+import JoditEditor from 'jodit-react';
 
 
 const formSchema = z.object({
@@ -64,6 +64,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(true);
   const [features, setFeatures] = useState<FeatureType[]>([]);
+  const [content, setContent] = useState('');
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -673,25 +674,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             />
 
 
-                  <FormField
+
+
+              <FormField
                     control={form.control}
                     name="description"
                     aria-label="enter detailed description"
                     render={({ field }) => (
                       <FormItem>
+                        <JoditEditor
+                               
+                                {...field}
+                              />
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <textarea
-                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="Description"
-                            {...field}
-                            
-                          />
+                          <p>{content} </p>
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
                     )}
                   />
+
 
         <FormField
             control={form.control}
