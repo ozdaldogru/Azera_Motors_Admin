@@ -28,7 +28,7 @@ type ProductType = {
   interiorColor: string;
   door: number;
   status: string;
-  vin:  string;
+  vin: string;
   history: string;
   description: string;
   media: [string];
