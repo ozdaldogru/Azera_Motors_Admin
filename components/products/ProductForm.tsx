@@ -26,10 +26,6 @@ import {transmissions} from "../Shared/transmission";
 
 
 
-
-
-
-
 const formSchema = z.object({
   title: z.string().min(2).max(200),
   make: z.string(),
@@ -192,7 +188,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input
-                  aria-label="Enter title"
                    type="text"
                     placeholder="Title"
                     {...field}
@@ -215,7 +210,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Makes</FormLabel>
                   <FormControl>
-                  <select aria-label="Enter Car Brand" {...field}>
+                  <select {...field}>
                         {CarMakes.map((CarMakes) => (
                           <option className="overflow-visible bg-white"
                           aria-label="Enter Car Brand" key={CarMakes.label}>
@@ -239,7 +234,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Price ($)</FormLabel>
                   <FormControl>
                     <Input
-                    aria-label="Enter Price"
                       type="number"
                       placeholder="Price"
                       {...field}
@@ -259,12 +253,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Conditions</FormLabel>
                   <FormControl>
                   <select  
-                  aria-label="Enter Condition" {...field}>
+                       {...field}>
                         {Conditions.map((Conditions) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Enter Condition"
-                         
-                          key={Conditions.key}>
+                            key={Conditions.key}>
                             {Conditions.label}
                           </option>
                         ))}
@@ -284,7 +276,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Year</FormLabel>
                   <FormControl>
-                    <Input aria-label="Enter Manufacturing Year"
+                    <Input
                       type="number"
                       placeholder="Year"
                       {...field}
@@ -305,7 +297,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Number Of Owner</FormLabel>
                   <FormControl>
-                    <Input aria-label="Enter Number Of Owner"
+                    <Input
                       type="number"
                       placeholder="Enter Number Of Owner(s)"
                       {...field}
@@ -326,7 +318,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Mileage</FormLabel>
                   <FormControl>
-                    <Input aria-label="Enter Mileage"
+                    <Input
                       type="number"
                       placeholder="Mileage"
                       {...field}
@@ -346,11 +338,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Is Low Mileage?</FormLabel>
                   <FormControl>
                   <select  
-                  aria-label="Enter Condition" {...field}>
+                        {...field}>
                         {IsLowMileage.map((IsLowMileage) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Enter Condition"
-                          key={IsLowMileage.key}>
+                            key={IsLowMileage.key}>
                             {IsLowMileage.label}
                           </option>
                         ))}
@@ -373,7 +364,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <FormLabel>Features</FormLabel>
                     <FormControl>
                       <MultiSelectFeature 
-                        aria-label="Select Features"
                         placeholder="Features"
                         features={features}
                         value={field.value}
@@ -407,8 +397,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  {...field} aria-label="Select category"             
                   >
                         {Categories.map((Categories) => (
-                          <option className="overflow-visible bg-white"
-                          aria-label="Select Status" key={Categories.name}>
+                          <option 
+                            className="overflow-visible bg-white"
+                            key={Categories.name}>
                             {Categories.name}
                             
                           </option>
@@ -431,13 +422,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <FormControl >
-                  <select  {...field} aria-label="Select Status"                  
+                  <select  {...field}                 
                   >
                         {Statuses.map((Statuses) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Select Status" key={Statuses.key}>
-                            {Statuses.label}
-                            
+                             key={Statuses.key}>
+                            {Statuses.label}                            
                           </option>
                         ))}
                         
@@ -456,10 +446,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Drive Type</FormLabel>
                   <FormControl>
-                  <select  {...field} aria-label="Enter Drive Type">
+                  <select  {...field}>
                         {driveTypes.map((driveTypes) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Enter Drive Type" key={driveTypes.key}>
+                            key={driveTypes.key}>
                             {driveTypes.label}
                           </option>
                         ))}
@@ -478,10 +468,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Fuel Type</FormLabel>
                   <FormControl>
-                  <select  {...field} aria-label="Enter Fuel Type">
+                  <select  {...field}>
                         {fuelTypes.map((fuelTypes) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Enter Fuel Type" key={fuelTypes.key}>
+                            key={fuelTypes.key}>
                             {fuelTypes.label}
                           </option>
                         ))}
@@ -500,7 +490,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Consumption</FormLabel>
                   <FormControl>
-                    <Input aria-label="Enter Gas Consumption"
+                    <Input
                       type="number"
                       placeholder="consumption"
                       {...field}
@@ -520,10 +510,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Transmission</FormLabel>
                   <FormControl>
-                  <select  {...field} aria-label="Enter Transmission Type">
+                  <select  {...field}>
                         {transmissions.map((transmissions) => (
                           <option className="overflow-visible bg-white"
-                          aria-label="Enter Transmission Type" key={transmissions.key}>
+                            key={transmissions.key}>
                             {transmissions.label}
                           </option>
                         ))}
@@ -542,7 +532,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Engine Size</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter engine size"
+                    <Input
                     type="number"
                       placeholder="Engine Size"
                       {...field}
@@ -562,7 +552,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Cylinder</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter cylinder"
+                    <Input
                     type="number"
                       placeholder="Cylinder"
                       {...field}
@@ -582,7 +572,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Color</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter exterior color"
+                    <Input 
                     type="text"
                       placeholder="Color"
                       {...field}
@@ -602,7 +592,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Interior Color</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter interior color"
+                    <Input
                      type="text"
                       placeholder="Interior Color"
                       {...field}
@@ -622,7 +612,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Number of the Doors</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter number of the doors"
+                    <Input
                      type="number"
                       placeholder="Number of the Doors"
                       {...field}
@@ -642,7 +632,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>VIN</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter vin number"
+                    <Input
                      type="text"
                       placeholder="VIN Number"
                       {...field}
@@ -662,7 +652,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Car History</FormLabel>
                   <FormControl>
-                    <Input aria-label="enter history link"
+                    <Input
                      type="text"
                       placeholder="Car's History Link"
                       {...field}
@@ -685,8 +675,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                         <FormControl>
                           <textarea
                             className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          
-                            aria-label="enter detailed description"
                             placeholder="Description"
                             {...field}
                             
@@ -706,7 +694,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormLabel>Image</FormLabel>
                 <FormControl>
                   <ImageUpload
-                  aria-label="select images"
                     value={field.value}
                     onChange={(url) => field.onChange([...field.value, url])}
                     onRemove={(url) =>
