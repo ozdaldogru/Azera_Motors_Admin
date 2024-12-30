@@ -12,11 +12,6 @@ export const navLinks = [
     label: "Features",
   },
   {
-    url: "/lowmileages",
-    icon: <Shapes />,
-    label: "Low Mileages",
-  },
-  {
     url: "/products",
     icon: <Tag />,
     label: "Products",

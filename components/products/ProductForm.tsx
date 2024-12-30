@@ -230,6 +230,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             /> 
 
+         <p>Your Selected Make is:<Input {...form.register("make")} /> </p> 
+
 
             <FormField
               control={form.control}
@@ -275,7 +277,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />   
-
+         <p>Your Selected Condition is:<Input {...form.register("condition")} /> </p> 
 
             <FormField
               control={form.control}
@@ -339,21 +341,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
-        <FormField
+<FormField
               control={form.control}
               name="lowmileage"
-              aria-label="Low Mileage Situation"
+              aria-label="Enter Mileage Situation" 
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Is Low Mileage?</FormLabel>
+                  <FormLabel>Low Mileage?</FormLabel>
                   <FormControl>
                   <Select  
-                      placeholder="Select Low Mileage Situation"
-                      {...field}>
-                        
+                  aria-label="Enter Condition" {...field}>
                         {IsLowMileage.map((IsLowMileage) => (
                           <SelectItem className="overflow-visible bg-white"
                           aria-label="Enter Condition"
+                         
                           key={IsLowMileage.key}>
                             {IsLowMileage.label}
                           </SelectItem>
@@ -363,7 +364,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />  
+            />   
+         <p>Your Selected Low Mileage Situation is:<Input {...form.register("lowmileage")} /> </p> 
 
    
    
@@ -424,7 +426,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />    
-                        
+          <p>Your Selected Category is:<Input {...form.register("categories")} /> </p>                        
                         
 
             <FormField
@@ -450,7 +452,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />        
+            />     
+            <p>Your Selected Status is:<Input {...form.register("status")} /> </p>      
 
             <FormField
               control={form.control}
@@ -473,6 +476,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />   
+            <p>Your Selected Drive Type is:<Input {...form.register("driveType")} /> </p>  
 
             <FormField
               control={form.control}
@@ -495,6 +499,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />   
+            <p>Your Selected Fuel Type is:<Input {...form.register("fuelType")} /> </p>  
 
             <FormField
               control={form.control}
@@ -537,7 +542,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />   
-
+            <p>Your Selected Transmission is:<Input {...form.register("transmission")} /> </p>  
             <FormField
               control={form.control}
               name="engineSize"
@@ -723,8 +728,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormMessage className="text-red-1" />
               </FormItem>
             )}
-          />
-     
+          />     
 
     
           <div className="flex gap-10">

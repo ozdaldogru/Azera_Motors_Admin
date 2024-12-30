@@ -23,6 +23,10 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Make",
   },
   {
+    accessorKey: "lowmileage",
+    header: "Low Mileage?",
+  },
+  {
     accessorKey: "price",
     header: "Price ($)",
   },
