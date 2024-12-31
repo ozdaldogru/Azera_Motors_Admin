@@ -49,7 +49,7 @@ const formSchema = z.object({
   numberofowner: z.coerce.number(),
   vin: z.string(),
   history: z.string(),
-  description: z.string().min(10).max(500).trim(),
+  description: z.string().min(10).max(50000).trim(),
   media: z.array(z.string()),
 });
 
@@ -682,17 +682,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     aria-label="enter detailed description"
                     render={({ field }) => (
                       <FormItem>
-                        <JoditEditor
-                               
-                                {...field}
-                              />
+
                         <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <textarea
-                            {...field}
-                            
-                          />
-                        </FormControl>
+                          <FormControl>
+                            <JoditEditor {...field}/>
+                          </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
                     )}
