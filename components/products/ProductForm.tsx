@@ -23,7 +23,7 @@ import {driveTypes} from "../Shared/drivetype";
 import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
-import JoditEditor from "jodit-react";
+import JoditEditor from "jodit-pro-react";
 
 
 const formSchema = z.object({
