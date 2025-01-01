@@ -684,9 +684,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                            <JoditEditor {...field}
-                            placeholder="Description"
-                            />
+                            <JoditEditor {...field}/>
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
