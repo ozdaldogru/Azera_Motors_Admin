@@ -1,6 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const ProductForm = dynamic(() => import('@/components/products/ProductForm'), { ssr: false });
+import ProductForm from '@/components/products/ProductForm';
 
 const CreateProduct = () => {
   return (
