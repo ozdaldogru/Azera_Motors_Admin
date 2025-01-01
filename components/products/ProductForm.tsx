@@ -23,7 +23,7 @@ import {driveTypes} from "../Shared/drivetype";
 import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
-import JoditEditor from 'jodit-react';
+
 
 
 const formSchema = z.object({
@@ -681,18 +681,21 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     aria-label="enter detailed description"
                     render={({ field }) => (
                       <FormItem>
-
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                            <JoditEditor {...field}/>
+                          <textarea
+                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          
+                            aria-label="enter detailed description"
+                            placeholder="Description"
+                            {...field}
+                            
+                          />
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
                     )}
                   />
-
-
-
 
 
         <FormField
