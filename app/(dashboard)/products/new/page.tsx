@@ -1,4 +1,4 @@
-"use client"
+"use strict";
 
 import ProductForm from '@/components/products/ProductForm';
 
