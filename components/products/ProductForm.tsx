@@ -23,8 +23,8 @@ import {driveTypes} from "../Shared/drivetype";
 import {fuelTypes} from "../Shared/fueltype";
 import {Statuses} from "../Shared/statuses";
 import {transmissions} from "../Shared/transmission";
-import {Suspense} from "react";
-import JoditEditor from "jodit-react";
+
+
 
 const formSchema = z.object({
   title: z.string().min(2).max(200),
@@ -683,9 +683,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <Suspense fallback={<>Loading...</>}>
-                            <JoditEditor {...field}/>
-                          </Suspense>
+                          <textarea
+                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          
+                            aria-label="enter detailed description"
+                            placeholder="Description"
+                            {...field}
+                            
+                          />
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
