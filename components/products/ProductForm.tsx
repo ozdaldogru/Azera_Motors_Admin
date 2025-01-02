@@ -5,27 +5,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import ImageUpload from "@/components/custom ui/ImageUpload";
+import ImageUpload from "../custom ui/ImageUpload";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Delete from "@/components/custom ui/Delete";
-import MultiSelectFeature from "@/components/custom ui/MultiSelectFeature";
-import Loader from "@/components/custom ui/Loader";
-import {CarMakes} from "@/components/Shared/CarMakes";
-import {Categories} from "@/components/Shared/Category";
-import {Conditions} from "@/components/Shared/conditions";
-import {IsLowMileage} from "@/components/Shared/lowmileage";
-import {driveTypes} from "@/components/Shared/drivetype";
-import {fuelTypes} from "@/components/Shared/fueltype";
-import {Statuses} from "@/components/Shared/statuses";
-import {transmissions} from "@/components/Shared/transmission";
-import ReactQuill from 'react-quill-new';
-import 'react-quill-new/dist/quill.snow.css';
-
+import Delete from "../custom ui/Delete";
+import MultiSelectFeature from "../custom ui/MultiSelectFeature";
+import Loader from "../custom ui/Loader";
+import {CarMakes} from "../Shared/CarMakes";
+import {Categories} from "../Shared/Category";
+import {Conditions} from "../Shared/conditions";
+import {IsLowMileage} from "../Shared/lowmileage";
+import {driveTypes} from "../Shared/drivetype";
+import {fuelTypes} from "../Shared/fueltype";
+import {Statuses} from "../Shared/statuses";
+import {transmissions} from "../Shared/transmission";
+import {Suspense} from "react";
+import JoditEditor from "jodit-react";
 
 const formSchema = z.object({
   title: z.string().min(2).max(200),
@@ -684,10 +683,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                     
-                          <ReactQuill {...field}  />
-                     
-
+                          <Suspense fallback={<>Loading...</>}>
+                            <JoditEditor {...field}/>
+                          </Suspense>
                         </FormControl>
                         <FormMessage className="text-red-1" />
                       </FormItem>
