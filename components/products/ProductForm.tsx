@@ -9,20 +9,22 @@ import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import ImageUpload from "../custom ui/ImageUpload";
+import ImageUpload from "@/components/custom ui/ImageUpload";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Delete from "../custom ui/Delete";
+import Delete from "@/components/custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
-import Loader from "../custom ui/Loader";
-import {CarMakes} from "../Shared/CarMakes";
-import {Categories} from "../Shared/Category";
-import {Conditions} from "../Shared/conditions";
-import {IsLowMileage} from "../Shared/lowmileage";
-import {driveTypes} from "../Shared/drivetype";
-import {fuelTypes} from "../Shared/fueltype";
-import {Statuses} from "../Shared/statuses";
-import {transmissions} from "../Shared/transmission";
+import Loader from "@/components/custom ui/Loader";
+import {CarMakes} from "@/components/Shared/CarMakes";
+import {Categories} from "@/components/Shared/Category";
+import {Conditions} from "@/components/Shared/conditions";
+import {IsLowMileage} from "@/components/Shared/lowmileage";
+import {driveTypes} from "@/components/Shared/drivetype";
+import {fuelTypes} from "@/components/Shared/fueltype";
+import {Statuses} from "@/components/Shared/statuses";
+import {transmissions} from "@/components/Shared/transmission";
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 
 
@@ -673,7 +675,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
 
 
-<FormField
+                  <FormField
                     control={form.control}
                     name="description"
                     aria-label="enter detailed description"
@@ -681,9 +683,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <textarea
+                          <ReactQuill
                             className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                             placeholder="Description"
+                            placeholder="Description"
                             {...field}
                             
                           />
@@ -692,6 +694,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </FormItem>
                     )}
                   />
+
 
 
         <FormField

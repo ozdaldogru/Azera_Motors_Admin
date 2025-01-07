@@ -1,5 +1,5 @@
 {
-  "name": "car_dealer_admin",
+  "name": "azera_motors_admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -22,6 +22,9 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-table": "^8.12.0",
+    "@tiptap/pm": "^2.11.0",
+    "@tiptap/react": "^2.11.0",
+    "@tiptap/starter-kit": "^2.11.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^0.2.1",
@@ -31,12 +34,13 @@
     "mongoose": "^8.8.2",
     "next": "^15.1.0",
     "next-cloudinary": "^6.16.0",
+    "npm": "^11.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.53.2",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.4.0",
-    "react-select": "^5.8.3",
+    "react-quill-new": "^3.3.3",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
