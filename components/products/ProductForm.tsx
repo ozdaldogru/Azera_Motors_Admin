@@ -23,9 +23,13 @@ import {driveTypes} from "@/components/Shared/drivetype";
 import {fuelTypes} from "@/components/Shared/fueltype";
 import {Statuses} from "@/components/Shared/statuses";
 import {transmissions} from "@/components/Shared/transmission";
-import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import dynamic from 'next/dynamic'
 
+const ReactQuill = dynamic(
+  () => import('react-quill-new'),
+  { ssr: false }
+)
 
 
 const formSchema = z.object({
