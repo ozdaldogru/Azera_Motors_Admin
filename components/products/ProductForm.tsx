@@ -23,11 +23,10 @@ import {driveTypes} from "@/components/Shared/drivetype";
 import {fuelTypes} from "@/components/Shared/fueltype";
 import {Statuses} from "@/components/Shared/statuses";
 import {transmissions} from "@/components/Shared/transmission";
-import 'react-quill-new/dist/quill.snow.css';
 import dynamic from 'next/dynamic'
 
-const ReactQuill = dynamic(
-  () => import('react-quill-new'),
+const JoditEditor = dynamic(
+  () => import('jodit-react'),
   { ssr: false }
 )
 
@@ -687,9 +686,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <ReactQuill
-                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="Description"
+                          <JoditEditor
+                           
                             {...field}
                             
                           />
