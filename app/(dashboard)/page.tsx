@@ -18,7 +18,7 @@ export default  function Home() {
 <br />
 
 <div className="justify-items-center w-100%">
-<Image src="/e6757a799c73f6962ff9885142777d46.jpg" alt="Azera Motor's Logo" width={1000} height={1000} style={{ width: '500px', height: 'auto' }} priority={true} />
+<Image src="/bentley_mulliner_bacalar_2021_0000.jpg" alt="Azera Motor's Logo" width={1000} height={1000} style={{ width: '1200px', height: 'auto' }} priority={true} />
 
 
 
