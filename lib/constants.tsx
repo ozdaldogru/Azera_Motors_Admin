@@ -1,20 +1,55 @@
-import { Archive , Shapes, Tag,} from "lucide-react";
+import { Archive ,  House ,} from "lucide-react";
 
 export const navLinks = [
   {
     url: "/",
-    icon: <Archive  />,
+    icon: <House  />,
     label: "Home",
   }, 
   {
+    url: "/products",
+    icon: <Archive />,
+    label: "Add A New Car",
+  },
+  {
+    url: "/categories",
+    icon: <Archive />,
+    label: "Categories",
+  },
+  {
+    url: "/conditions",
+    icon: <Archive />,
+    label: "Conditions",
+  },
+  {
+    url: "/drivetypes",
+    icon: <Archive />,
+    label: "Drive Types",
+  },
+  {
     url: "/features",
-    icon: <Shapes />,
+    icon: <Archive />,
     label: "Features",
   },
   {
-    url: "/products",
-    icon: <Tag />,
-    label: "Products",
+    url: "/fueltypes",
+    icon: <Archive />,
+    label: "Fuel Types",
+  },
+  {
+    url: "/makes",
+    icon: <Archive />,
+    label: "Makes",
   },
 
+  {
+    url: "/statuses",
+    icon: <Archive />,
+    label: "Statuses",
+  },
+  {
+    url: "/transmissions",
+    icon: <Archive />,
+    label: "Transmissions",
+  },
 ];

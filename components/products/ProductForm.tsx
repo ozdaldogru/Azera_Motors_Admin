@@ -15,14 +15,7 @@ import toast from "react-hot-toast";
 import Delete from "@/components/custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
 import Loader from "@/components/custom ui/Loader";
-import {CarMakes} from "@/components/Shared/CarMakes";
-import {Categories} from "@/components/Shared/Category";
-import {Conditions} from "@/components/Shared/conditions";
 import {IsLowMileage} from "@/components/Shared/lowmileage";
-import {driveTypes} from "@/components/Shared/drivetype";
-import {fuelTypes} from "@/components/Shared/fueltype";
-import {Statuses} from "@/components/Shared/statuses";
-import {transmissions} from "@/components/Shared/transmission";
 import dynamic from 'next/dynamic'
 
 const JoditEditor = dynamic(
@@ -68,7 +61,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [features, setFeatures] = useState<FeatureType[]>([]);
-
+  const [makes, setMakes] = useState<MakeType[]>();
+  const [categories, setCategories] = useState<CategoryType[]>();
+  const [conditions, setConditions] = useState<ConditionType[]>();
+  const [drivetypes, setDriveTypes] = useState<DriveTypeType[]>();
+  const [fueltypes, setFuelTypes] = useState<FuelTypeType[]>();
+  const [statuses, setStatuses] = useState<StatusType[]>();
+  const [transmissions, setTransmissions] = useState<TransmissionType[]>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,8 +75,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       ? {
           ...initialData,
           features: initialData.features.map((feature) => feature._id),
-
-        }
+         }
       : {
 
 
@@ -156,7 +154,142 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     getFeatures();
   }, []);
 
+  const getMakes = async () => {
+    try {
+      const res = await fetch("/api/makes", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setMakes(data);
+      setLoading(false);
 
+    } catch (err) {
+      console.log("[makes_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getMakes();
+  }, []);
+
+
+  const getCategories = async () => {
+    try {
+      const res = await fetch("/api/categories", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setCategories(data);
+      setLoading(false);
+
+    } catch (err) {
+      console.log("[categories_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+
+  const getConditions = async () => {
+    try {
+      const res = await fetch("/api/conditions", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setConditions(data);
+      setLoading(false);
+
+    } catch (err) {
+      console.log("[conditions_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getConditions();
+  }, []);
+
+
+  const getDriveTypes = async () => {
+    try {
+      const res = await fetch("/api/drivetypes", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setDriveTypes(data);
+      setLoading(false);
+
+    } catch (err) {
+      console.log("[drivetypes_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getDriveTypes();
+  }, []);
+
+
+  const getFuelTypes = async () => {
+    try {
+      const res = await fetch("/api/fueltypes", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setFuelTypes(data);
+      setLoading(false);
+
+    } catch (err) {
+      console.log("[fueltypes_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getFuelTypes();
+  }, []);
+
+  const getStatuses = async () => {
+    try {
+      const res = await fetch("/api/statuses", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setStatuses(data);
+      setLoading(false);
+
+    } catch (err) {
+      console.log("[statuses_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getStatuses();
+  }, []);
+
+  const getTransmissions = async () => {
+    try {
+      const res = await fetch("/api/transmissions", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setTransmissions(data);
+      setLoading(false);
+
+    } catch (err) {
+      console.log("[transmissions_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getTransmissions();
+  }, []);
 
   return loading ? (
     <Loader />
@@ -206,10 +339,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
 
 
-<FormField
+        <FormField
               control={form.control}
               name="make"
-              aria-label="Enter Car Brand"
+              aria-label="Select A Car Brand"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Makes</FormLabel>
@@ -217,10 +350,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        {CarMakes.map((CarMakes) => (
+                        {makes && makes.map((makes) => (
                           <option className="overflow-visible bg-white"
-                            key={CarMakes.label}>
-                            {CarMakes.label}
+                            key={makes.title}>
+                            {makes.title}
                           </option>
                         ))}
                       </select>  
@@ -251,28 +384,31 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-          <FormField
+
+        <FormField
               control={form.control}
               name="condition"
-              aria-label="Enter Condition"
+              aria-label="Select A Condition"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Conditions</FormLabel>
                   <FormControl>
-                  <select className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        {Conditions.map((Conditions) => (
+                        {conditions && conditions.map((conditions) => (
                           <option className="overflow-visible bg-white"
-                            key={Conditions.key}>
-                            {Conditions.label}
+                            key={conditions.title}>
+                            {conditions.title}
                           </option>
                         ))}
-                      </select>       
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />   
+            /> 
 
 
             <FormField
@@ -393,105 +529,108 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             )}
 
 
-            <FormField
+<FormField
               control={form.control}
               name="categories"
-              aria-label="Select Category"
+              aria-label="Select A Category"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
-                  <FormControl >
-                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  {...field}           
-                  >
-                        {Categories.map((Categories) => (
-                          <option 
-                            className="overflow-visible bg-white"
-                            key={Categories.name}>
-                            {Categories.name}
-                            
+                  <FormControl>
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                       {...field}>
+                        {categories && categories.map((categories) => (
+                          <option className="overflow-visible bg-white"
+                            key={categories.title}>
+                            {categories.title}
                           </option>
                         ))}
-                        
-                        </select>     
-                    </FormControl>
-                    <FormMessage className="text-red-1" />
-                  </FormItem>
-                )}
-              />    
+                      </select>  
+       
+                  </FormControl>
+                  <FormMessage className="text-red-1" />
+                </FormItem>
+              )}
+            /> 
                         
                         
 
-            <FormField
+                        <FormField
               control={form.control}
               name="status"
-              aria-label="Select Status"
+              aria-label="Select A Status"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Status</FormLabel>
-                  <FormControl >
-                  <select className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  {...field}                 
-                  >
-                        {Statuses.map((Statuses) => (
+                  <FormLabel>Statuses</FormLabel>
+                  <FormControl>
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                       {...field}>
+                        {statuses && statuses.map((statuses) => (
                           <option className="overflow-visible bg-white"
-                             key={Statuses.key}>
-                            {Statuses.label}                            
+                            key={statuses.title}>
+                            {statuses.title}
                           </option>
                         ))}
-                        
-                      </select>     
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />        
+            />    
 
-            <FormField
+<FormField
               control={form.control}
               name="driveType"
-              aria-label="Enter Drive Type"
+              aria-label="Select A Drive Type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Drive Type</FormLabel>
+                  <FormLabel>Drive Types</FormLabel>
                   <FormControl>
-                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  {...field}>
-                        {driveTypes.map((driveTypes) => (
-                          <option className="overflow-visible bg-white"
-                            key={driveTypes.key}>
-                            {driveTypes.label}
+                  <select                    
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                       {...field}>
+                        {drivetypes && drivetypes.map((drivetypes) => (
+                          <option 
+                          className="overflow-visible bg-white"
+                            key={drivetypes.title}>
+                            {drivetypes.title}
                           </option>
                         ))}
-                      </select>       
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />   
+            />    
 
-            <FormField
+<FormField
               control={form.control}
               name="fuelType"
-              aria-label="Enter Fuel Type"
+              aria-label="Select A Fuel Type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fuel Type</FormLabel>
+                  <FormLabel>Fuel Types</FormLabel>
                   <FormControl>
-                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  {...field}>
-                        {fuelTypes.map((fuelTypes) => (
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                       {...field}>
+                        {fueltypes && fueltypes.map((fueltypes) => (
                           <option className="overflow-visible bg-white"
-                            key={fuelTypes.key}>
-                            {fuelTypes.label}
+                            key={fueltypes.title}>
+                            {fueltypes.title}
                           </option>
                         ))}
-                      </select>       
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />   
+            />     
 
             <FormField
               control={form.control}
@@ -513,28 +652,30 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
-            <FormField
+<FormField
               control={form.control}
               name="transmission"
-              aria-label="Enter Transmission Type"
+              aria-label="Select A Transmission"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Transmission</FormLabel>
+                  <FormLabel>Transmissions</FormLabel>
                   <FormControl>
-                  <select  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  {...field}>
-                        {transmissions.map((transmissions) => (
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                       {...field}>
+                        {transmissions && transmissions.map((transmissions) => (
                           <option className="overflow-visible bg-white"
-                            key={transmissions.key}>
-                            {transmissions.label}
+                            key={transmissions.title}>
+                            {transmissions.title}
                           </option>
                         ))}
-                      </select>       
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-1" />
                 </FormItem>
               )}
-            />   
+            />    
 
             <FormField
               control={form.control}
