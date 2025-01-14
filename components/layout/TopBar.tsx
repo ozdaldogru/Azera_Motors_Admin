@@ -47,7 +47,7 @@ const TopBar = () => {
             ))}
           </div>
         )}
-        <UserButton showName/>
+        <UserButton/>
       </div>
     </div>
   );

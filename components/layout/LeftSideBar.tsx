@@ -19,7 +19,7 @@ const LeftSideBar = () => {
           <Link
             href={link.url}
             key={link.label}
-            className={`flex gap-4 text-body-medium ${
+            className={`flex gap-4 text-body-medium hover:text-red-1 ${
               pathname === link.url ? "text-blue-1" : "text-grey-1"
             }`}
           >
