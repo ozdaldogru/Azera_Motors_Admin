@@ -1,4 +1,4 @@
-import { Archive ,  House ,} from "lucide-react";
+import { Dot ,  House ,} from "lucide-react";
 
 export const navLinks = [
   {
@@ -8,48 +8,48 @@ export const navLinks = [
   }, 
   {
     url: "/products",
-    icon: <Archive />,
-    label: "Add A New Car",
+    icon: <Dot />,
+    label: "Add/Edit Listing",
   },
   {
     url: "/categories",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Categories",
   },
   {
     url: "/conditions",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Conditions",
   },
   {
     url: "/drivetypes",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Drive Types",
   },
   {
     url: "/features",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Features",
   },
   {
     url: "/fueltypes",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Fuel Types",
   },
   {
     url: "/makes",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Makes",
   },
 
   {
     url: "/statuses",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Statuses",
   },
   {
     url: "/transmissions",
-    icon: <Archive />,
+    icon: <Dot />,
     label: "Transmissions",
   },
 ];
