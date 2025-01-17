@@ -10,7 +10,7 @@ export default  function Home() {
     <br />
     <br />
 <div className="justify-items-center w-100%">
-<Image src="/Azera Logo 01.png" alt="Azera Motor's Logo" width={1000} height={1000} style={{ width: 'auto', height: '1000px' }} priority={true} />
+<Image src="/Azera Logo 01.png" alt="Azera Motor's Logo" width={1000} height={900} style={{ width: 'auto', height: 'auto' }} priority={true} />
 
 </div>
 
