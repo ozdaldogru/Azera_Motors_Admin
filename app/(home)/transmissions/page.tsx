@@ -30,7 +30,7 @@ const Transmissions = () => {
 
   useEffect(() => {
     getTransmissions();
-  }, []);
+  }, );
 
   return loading ? (<Loader />) : (
     <div className="px-10 py-5">

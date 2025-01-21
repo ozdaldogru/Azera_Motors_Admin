@@ -25,7 +25,7 @@ const JoditEditor = dynamic(
 
 
 const formSchema = z.object({
-  title: z.string().min(2).max(200),
+  title: z.string().min(2),
   make: z.string(),
   price: z.coerce.number(),
   features: z.array(z.string()),
@@ -47,7 +47,7 @@ const formSchema = z.object({
   numberofowner: z.coerce.number(),
   vin: z.string(),
   history: z.string(),
-  description: z.string().min(10).max(50000).trim(),
+  description: z.string().min(10).trim(),
   media: z.array(z.string()),
 });
 
