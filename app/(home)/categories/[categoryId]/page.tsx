@@ -11,7 +11,7 @@ const CategoryDetails = (props: { params: Promise<{ categoryId: string }>}) => {
 
   const getCategoryDetails = async () => {
     try { 
-      const res = await fetch(`/api/categorys/${params.categoryId}`, {
+      const res = await fetch(`/api/categories/${params.categoryId}`, {
         method: "GET"
       })
       const data = await res.json()
