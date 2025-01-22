@@ -4,41 +4,39 @@ import { connectToDB } from "@/lib/mongoDB";
 import Transmission from "@/lib/models/Transmission";
 
 
-export const GET = async (req: NextRequest, { params }: { params: { transmissionId: string } }) => {
+export const GET = async (req: NextRequest, props: { params: Promise<{ transmissionID: string }> }) => {
+  const params = await props.params;
   try {
     await connectToDB();
 
-    const { transmissionId } = params;
-
-    if (!transmissionId) {
-      return new NextResponse(JSON.stringify({ message: "Transmission ID is required" }), { status: 400 });
-    }
-
-    const transmission = await Transmission.findById(transmissionId);
+    const transmission = await Transmission.findById(params.transmissionID);
 
     if (!transmission) {
-      return new NextResponse(JSON.stringify({ message: "Transmission not found" }), { status: 404 });
+      return new NextResponse(
+        JSON.stringify({ message: "Transmission not found" }),
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(transmission, { status: 200 });
   } catch (err) {
-    console.log("[transmissionId_GET]", err);
-    return new NextResponse(JSON.stringify({ message: "Internal error" }), { status: 500 });
+    console.log("[transmissionID_GET]", err);
+    return new NextResponse("Internal error", { status: 500 });
   }
 };
 
-export const POST = async (req: NextRequest, { params }: { params: { transmissionId: string } }) => {
+export const POST = async (req: NextRequest, props: { params: Promise<{ transmissionID: string }> }) => {
+  const params = await props.params;
   try {
-    const { transmissionId } = params;
-    const { userId } = await auth();
+    const  userId = await auth();
 
     if (!userId) {
-      return new NextResponse(JSON.stringify({ message: "Unauthorized" }), { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     await connectToDB();
 
-    let transmission = await Transmission.findById(params.transmissionId);
+    let transmission = await Transmission.findById(params.transmissionID);
 
     if (!transmission) {
       return new NextResponse("Transmission not found", { status: 404 });
@@ -51,21 +49,21 @@ export const POST = async (req: NextRequest, { params }: { params: { transmissio
     }
 
     transmission = await Transmission.findByIdAndUpdate(
-      params.transmissionId,
+      params.transmissionID,
       { title },
       { new: true }
     );
 
     await transmission.save();
 
-    return new NextResponse(JSON.stringify({ message: "Success" }), { status: 200 });
+    return NextResponse.json(transmission, { status: 200 });
   } catch (err) {
-    console.log("[transmissionId_POST]", err);
-    return new NextResponse(JSON.stringify({ message: "Internal error" }), { status: 500 });
+    console.log("[transmissionID_POST]", err);
+    return new NextResponse("Internal error", { status: 500 });
   }
 };
 
-export const DELETE = async (req: NextRequest, props: { params: Promise<{ transmissionId: string }> }) => {
+export const DELETE = async (req: NextRequest, props: { params: Promise<{ transmissionID: string }> }) => {
   const params = await props.params;
   try {
     const userId  = await auth();
@@ -76,11 +74,11 @@ export const DELETE = async (req: NextRequest, props: { params: Promise<{ transm
 
     await connectToDB();
 
-    await Transmission.findByIdAndDelete(params.transmissionId);
+    await Transmission.findByIdAndDelete(params.transmissionID);
    
     return new NextResponse("Transmission is deleted", { status: 200 });
   } catch (err) {
-    console.log("[transmissionId_DELETE]", err);
+    console.log("[transmissionID_DELETE]", err);
     return new NextResponse("Internal error", { status: 500 });
   }
 };

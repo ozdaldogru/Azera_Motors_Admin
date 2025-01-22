@@ -30,8 +30,8 @@ const Transmissions = () => {
 
   useEffect(() => {
     getTransmissions();
-  }, );
-
+  }, []);
+  
   return loading ? (<Loader />) : (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">

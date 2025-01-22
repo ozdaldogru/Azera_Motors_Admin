@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const driveType = new mongoose.Schema({
+const driveTypeSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -16,6 +16,6 @@ const driveType = new mongoose.Schema({
   }
 })
 
-const DriveType =mongoose.models.DriveType || mongoose.model("DriveType", driveType);
+const DriveType =mongoose.models.DriveType || mongoose.model("DriveType", driveTypeSchema);
 
 export default DriveType;
