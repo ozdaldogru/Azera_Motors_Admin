@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import Delete from "@/components/custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
 import Loader from "@/components/custom ui/Loader";
-import {IsLowMileage} from "@/components/Shared/lowmileage";
 import dynamic from 'next/dynamic'
 
 const JoditEditor = dynamic(
@@ -32,7 +31,6 @@ const formSchema = z.object({
   categories: z.string(),
   year: z.coerce.number(),
   mileage: z.coerce.number().min(1),
-  lowmileage: z.string(),
   driveType: z.string(),
   fuelType: z.string(),
   transmission: z.string(),
@@ -94,7 +92,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         description: "",
         categories: "",
         media: [],  
-        lowmileage: "",
         numberofowner: 1,
         vin: "",
         history: "",
@@ -412,31 +409,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-          <FormField
-              control={form.control}
-              name="lowmileage"
-              aria-label="Low Mileage Situation "
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Is Low Mileage?</FormLabel>
-                  <FormControl>
-                  <select className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
-                        {...field}>
-                        {IsLowMileage.map((IsLowMileage) => (
-                          <option className="overflow-visible bg-white"
-                            key={IsLowMileage.key}>
-                            {IsLowMileage.label}
-                          </option>
-                        ))}
-                      </select>       
-                  </FormControl>
-                  <FormMessage className="text-red-1" />
-                </FormItem>
-              )}
-            />  
 
-   
-   
           {features.length > 0 && (
               <FormField
                 control={form.control}

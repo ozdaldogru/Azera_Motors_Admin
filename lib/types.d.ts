@@ -44,7 +44,6 @@ type ProductType = {
   numberofowner: number;
   year: number;
   mileage: number;
-  lowmileage: string;
   driveType: string;
   fuelType: string;
   transmission: string;
