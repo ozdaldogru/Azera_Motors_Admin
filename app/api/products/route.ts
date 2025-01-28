@@ -7,7 +7,7 @@ import Feature from "@/lib/models/Feature";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const  {userId}  = await auth();
+    const {userId}  = await auth();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -16,19 +16,17 @@ export const POST = async (req: NextRequest) => {
     await connectToDB();
 
     const {
-      title,
+      model,
       make,
       price,
       features,
       status,
-      condition,
       numberofowner,
       year,
       mileage,
       lowmileage,
       driveType,
       fuelType,
-      consumption,
       transmission,
       engineSize,
       cylinder,
@@ -43,26 +41,24 @@ export const POST = async (req: NextRequest) => {
       
     } = await req.json();
 
-    if (!title || !description || !media || !price || !make) {
+    if (!model || !description || !media || !price || !make) {
       return new NextResponse("Not enough data to create a product", {
         status: 400,
       });
     }
 
     const newProduct = await Product.create({
-      title,
+      model,
       make,
       price,
       features,
       status,
-      condition,
       numberofowner,
       year,
       mileage,
       lowmileage,
       driveType,
       fuelType,
-      consumption,
       transmission,
       engineSize,
       cylinder,

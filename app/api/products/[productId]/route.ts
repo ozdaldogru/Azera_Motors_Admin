@@ -55,19 +55,17 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
     }
 
     const {
-      title,
+      model,
       make,
       price,
       features,
       status,
-      condition,
       numberofowner,
       year,
       mileage,
       lowmileage,
       driveType,
       fuelType,
-      consumption,
       transmission,
       engineSize,
       cylinder,
@@ -81,7 +79,7 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
       history,
     } = await req.json();
 
-    if (!title || !description || !media || !price || !make) {
+    if (!model || !description || !media || !price || !make) {
       return new NextResponse("Not enough data to create a new product", {
         status: 400,
       });
@@ -126,19 +124,17 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
     const updatedProduct = await Product.findByIdAndUpdate(
       product._id,
       {
-        title,
+        model,
         make,
         price,
         features,
         status,
-        condition,
         numberofowner,
         year,
         mileage,
         lowmileage,
         driveType,
         fuelType,
-        consumption,
         transmission,
         engineSize,
         cylinder,

@@ -6,22 +6,24 @@ import Delete from "../custom ui/Delete";
 import Link from "next/link";
 
 export const columns: ColumnDef<ProductType>[] = [
+
   {
-    accessorKey: "title",
-    header: "Title",
+    accessorKey: "make",
+    header: "Make",
     cell: ({ row }) => (
       <Link
         href={`/products/${row.original._id}`}
         className="hover:text-red-1"
       >
-        {row.original.title}
+        {row.original.make}
       </Link>
     ),
   },
   {
-    accessorKey: "make",
-    header: "Make",
+    accessorKey: "model",
+    header: "Model",
   },
+
   {
     accessorKey: "lowmileage",
     header: "Low Mileage?",
@@ -29,10 +31,6 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "price",
     header: "Price ($)",
-  },
-  {
-    accessorKey: "condition",
-    header: "Conditions",
   },
   {
     accessorKey: "year",
@@ -58,10 +56,6 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "fuelType",
     header: "Fuel Type",
-  },
-  {
-    accessorKey: "consumption",
-    header: "Consumption",
   },
   {
     accessorKey: "transmission",

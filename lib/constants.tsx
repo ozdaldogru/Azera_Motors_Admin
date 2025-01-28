@@ -17,11 +17,6 @@ export const navLinks = [
     label: "Categories",
   },
   {
-    url: "/conditions",
-    icon: <Dot />,
-    label: "Conditions",
-  },
-  {
     url: "/drivetypes",
     icon: <Dot />,
     label: "Drive Types",

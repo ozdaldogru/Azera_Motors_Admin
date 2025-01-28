@@ -9,9 +9,8 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ query: st
 
     const searchedProducts = await Product.find({
       $or: [
-        { title: { $regex: params.query, $options: "i" } },
+        { model: { $regex: params.query, $options: "i" } },
         { make: { $regex: params.query, $options: "i" } },
-        { condition: { $regex: params.query, $options: "i" } },
         { driveType: { $regex: params.query, $options: "i" } },
         { fuelType: { $regex: params.query, $options: "i" } },
         { transmission: { $regex: params.query, $options: "i" } },

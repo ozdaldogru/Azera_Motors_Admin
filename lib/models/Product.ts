@@ -2,18 +2,17 @@ import mongoose from "mongoose";
 
 
 const ProductSchema = new mongoose.Schema({
-  title: String,
+
   make: String,
+  model: String,
   price: { type: mongoose.Schema.Types.Decimal128, get: (v: mongoose.Schema.Types.Decimal128) => { return parseFloat(v.toString()) }},
   features: [{ type: mongoose.Schema.Types.ObjectId, ref: "Feature" }],
-  condition: String,
   numberofowner: Number,
   year: Number,
   mileage: Number,
   lowmileage: String,
   driveType: String,
   fuelType: String,
-  consumption: Number,
   transmission: String,
   engineSize: Number,
   cylinder: Number,

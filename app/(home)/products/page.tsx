@@ -46,7 +46,7 @@ const Products = () => {
         </Button>
       </div>
       <Separator className="bg-grey-1 my-4" />
-      <DataTable columns={columns} data={products} searchKey="title" />
+      <DataTable columns={columns} data={products} searchKey="make" />
     </div>
   );
 };

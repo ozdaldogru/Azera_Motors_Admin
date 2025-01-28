@@ -25,18 +25,16 @@ const JoditEditor = dynamic(
 
 
 const formSchema = z.object({
-  title: z.string().min(2),
+  model: z.string().min(1),
   make: z.string(),
   price: z.coerce.number(),
   features: z.array(z.string()),
   categories: z.string(),
-  condition: z.string(),
   year: z.coerce.number(),
   mileage: z.coerce.number().min(1),
   lowmileage: z.string(),
   driveType: z.string(),
   fuelType: z.string(),
-  consumption: z.coerce.number(),
   transmission: z.string(),
   engineSize: z.coerce.number(),
   cylinder: z.coerce.number(),
@@ -63,7 +61,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const [features, setFeatures] = useState<FeatureType[]>([]);
   const [makes, setMakes] = useState<MakeType[]>();
   const [categories, setCategories] = useState<CategoryType[]>();
-  const [conditions, setConditions] = useState<ConditionType[]>();
   const [drivetypes, setDriveTypes] = useState<DriveTypeType[]>();
   const [fueltypes, setFuelTypes] = useState<FuelTypeType[]>();
   const [statuses, setStatuses] = useState<StatusType[]>();
@@ -75,20 +72,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       ? {
           ...initialData,
           features: initialData.features.map((feature) => feature._id),
-         }
+        }
       : {
 
 
-        title: "",
+        model: "",
         make: "",
         price: 10000,
         features: [],
-        condition: "",
         year: 2010,
         mileage: 1,
         driveType: "",
         fuelType: "",
-        consumption: 0.1,
         transmission: "",
         engineSize: 1,
         cylinder: 1,
@@ -100,7 +95,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         categories: "",
         media: [],  
         lowmileage: "",
-        numberofowner: 0,
+        numberofowner: 1,
         vin: "",
         history: "",
         },
@@ -192,27 +187,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   useEffect(() => {
     getCategories();
   }, []);
-
-
-  const getConditions = async () => {
-    try {
-      const res = await fetch("/api/conditions", {
-        method: "GET",
-      });
-      const data = await res.json();
-      setConditions(data);
-      setLoading(false);
-
-    } catch (err) {
-      console.log("[conditions_GET]", err);
-      toast.error("Something went wrong! Please try again.");
-    }
-  };
-
-  useEffect(() => {
-    getConditions();
-  }, []);
-
 
   const getDriveTypes = async () => {
     try {
@@ -309,30 +283,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
 
-          <FormField
-            control={form.control}
-            name="title"
-            aria-label="Enter title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input
-                   type="text"
-                    placeholder="Title"
-                    {...field}
-                    onKeyDown={handleKeyPress}
-                  />
-                </FormControl>
-                <FormMessage className="text-red-1" />
-              </FormItem>
-            )}
-          />
-
-
-
-
-
         <FormField
               control={form.control}
               name="make"
@@ -357,6 +307,28 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             /> 
+            
+          <FormField
+            control={form.control}
+            name="model"
+            aria-label="Enter model"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Model</FormLabel>
+                <FormControl>
+                  <Input
+                   type="text"
+                    placeholder="Model"
+                    {...field}
+                    onKeyDown={handleKeyPress}
+                  />
+                </FormControl>
+                <FormMessage className="text-red-1" />
+              </FormItem>
+            )}
+          />
+
+
 
 
             <FormField
@@ -378,32 +350,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-
-        <FormField
-              control={form.control}
-              name="condition"
-              aria-label="Select A Condition"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Conditions</FormLabel>
-                  <FormControl>
-                  <select  
-                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                       {...field}>
-                        {conditions && conditions.map((conditions) => (
-                          <option className="overflow-visible bg-white"
-                            key={conditions.title}>
-                            {conditions.title}
-                          </option>
-                        ))}
-                      </select>  
-       
-                  </FormControl>
-                  <FormMessage className="text-red-1" />
-                </FormItem>
-              )}
-            /> 
-
 
             <FormField
               control={form.control}
@@ -626,27 +572,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />     
 
-            <FormField
-              control={form.control}
-              name="consumption"
-              aria-label="Enter Gas Consumption"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Consumption</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="consumption"
-                      {...field}
-                      onKeyDown={handleKeyPress}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-1" />
-                </FormItem>
-              )}
-            />
 
-<FormField
+        <FormField
               control={form.control}
               name="transmission"
               aria-label="Select A Transmission"
