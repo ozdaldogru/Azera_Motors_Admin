@@ -710,10 +710,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-
-
-
-                  <FormField
+             <FormField
                     control={form.control}
                     name="description"
                     aria-label="enter detailed description"

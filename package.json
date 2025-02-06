@@ -32,7 +32,6 @@
     "mongoose": "^8.8.2",
     "next": "^15.1.5",
     "next-cloudinary": "^6.16.0",
-    "npm": "^11.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.53.2",
