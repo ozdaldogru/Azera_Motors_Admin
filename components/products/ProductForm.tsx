@@ -16,6 +16,15 @@ import Delete from "@/components/custom ui/Delete";
 import MultiSelectFeature from "../custom ui/MultiSelectFeature";
 import Loader from "@/components/custom ui/Loader";
 import dynamic from 'next/dynamic'
+import { CldUploadWidget } from 'next-cloudinary';
+import { Plus } from 'lucide-react';
+
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
+interface PdfUploadProps {
+  onUpload: (url: string) => void;
+}
+
 
 const JoditEditor = dynamic(
   () => import('jodit-react'),
@@ -63,6 +72,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const [fueltypes, setFuelTypes] = useState<FuelTypeType[]>();
   const [statuses, setStatuses] = useState<StatusType[]>();
   const [transmissions, setTransmissions] = useState<TransmissionType[]>();
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -97,6 +107,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         history: "",
         },
   });
+
+  const handleUpload = (result: any) => {
+    const url = result.info.secure_url;
+    setPdfUrl(url);
+  };
 
   const handleKeyPress = ( e: React.KeyboardEvent<HTMLInputElement>| React.KeyboardEvent<HTMLTextAreaElement>) => { 
     if (e.key === "Enter") {
@@ -691,6 +706,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
+      <CldUploadWidget uploadPreset={uploadPreset} onUpload={handleUpload} options={{ resourceType: 'raw' }}>
+        {({ open }) => {
+          return (
+            <Button type="button" onClick={() => open()} className="bg-grey-1 text-white">
+              <Plus className="h-4 w-4 mr-2" />
+              Upload PDF
+            </Button>
+          );
+        }}
+      </CldUploadWidget>
+
+      {pdfUrl && (
+        <div className="mt-4">
+            {pdfUrl}
+
+        </div>
+      )}
+
           <FormField
               control={form.control}
               name="history"
@@ -710,7 +743,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-             <FormField
+
+
+
+                  <FormField
                     control={form.control}
                     name="description"
                     aria-label="enter detailed description"
@@ -718,10 +754,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <JoditEditor
-                           
-                            {...field}
-                            
+                          <JoditEditor                           
+                            {...field}                            
                           />
                         </FormControl>
                         <FormMessage className="text-red-1" />
