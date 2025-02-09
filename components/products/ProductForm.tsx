@@ -108,10 +108,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         },
   });
 
-  const handleUpload = (result: any) => {
-    const url = result.info.secure_url;
-    setPdfUrl(url);
-  };
 
   const handleKeyPress = ( e: React.KeyboardEvent<HTMLInputElement>| React.KeyboardEvent<HTMLTextAreaElement>) => { 
     if (e.key === "Enter") {
@@ -282,6 +278,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     setPdfUrl(url);
     toast.success("PDF uploaded successfully!");
   }
+
+  
   return loading ? (
     <Loader />
   ) : (
