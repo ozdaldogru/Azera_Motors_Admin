@@ -277,6 +277,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     getTransmissions();
   }, []);
 
+  function onSuccess(results: any) {
+    const url = results.info.secure_url;
+    setPdfUrl(url);
+    toast.success("PDF uploaded successfully!");
+  }
   return loading ? (
     <Loader />
   ) : (
@@ -706,7 +711,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
-      <CldUploadWidget uploadPreset={uploadPreset} onUpload={handleUpload} options={{ resourceType: 'raw' }}>
+      <CldUploadWidget uploadPreset={uploadPreset} onSuccess={onSuccess} options={{ resourceType: 'raw' }}>
         {({ open }) => {
           return (
             <Button type="button" onClick={() => open()} className="bg-grey-1 text-white">
