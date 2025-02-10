@@ -774,7 +774,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             aria-label="select images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value}
@@ -795,14 +795,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     
           <div className="flex gap-10">
          
-            <Button type="submit" className="bg-blue-1 text-white" aria-label="click submit button">
+            <Button type="submit" 
+              className="bg-blue-1 text-white" 
+              aria-label="click submit button">
               Submit
             </Button>
             <Button
-            aria-label="click discard button"
+              aria-label="click discard button"
               type="button"
               onClick={() => router.push("/products")}
-              className="bg-blue-1 text-white"
+              className="bg-red-1 text-white"
             >
               Discard
             </Button>

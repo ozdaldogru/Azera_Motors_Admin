@@ -23,12 +23,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center gap-4">
+      <div className="mb-4 flex flex-wrap items-center gap-4 border border-grey-1 p-4 rounded-lg">
         {value.map((url) => (
-          <div key={url} className="relative w-[200px] h-[200px]">
+          <div key={url} className="border border-black p-4 rounded-lg relative w-[200px] h-[250px]">
             <div className="absolute top-0 right-0 z-10">
 
-                <Trash2 color="#e01f1f" className="h-4 w-4" onClick={() => onRemove(url)}/>
+                <Trash2 color="#e01f1f" className="h-6 w-6" onClick={() => onRemove(url)}/>
 
             </div>
             <Image
