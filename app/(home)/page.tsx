@@ -7,21 +7,12 @@ export default  function Home() {
   return (
 
     <>
-    <br />
-    <br />
-<div className="justify-items-center w-100%">
-<Image src="/logo.gif" alt="Azera Motor's Logo" width={1000} height={500} style={{ width: 'auto', height: 'auto' }} priority={true} />
+      <div className="bg-[#a0a1a3] justify-items-center w-full h-full">
+        <br />
+        <br />
+        <Image src="/Azera Logo 01.png" alt="Azera Motor's Logo" width={200} height={50} style={{ width: 'auto', height: 'auto' }} priority={true} />
 
-</div>
-
-<br />
-<br />
-
-
-
-
-
-   
+      </div> 
     </>
 
 
