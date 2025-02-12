@@ -37,7 +37,7 @@ const Products = () => {
       <div className="flex items-center justify-between">
         <p className="text-heading2-bold">Cars</p>
         <Button
-          className="bg-blue-1 text-white"
+          className="bg-[#2b4db8] text-white"
           onClick={() => router.push("/products/new")}
         >
           <Plus className="h-4 w-4 mr-2" />

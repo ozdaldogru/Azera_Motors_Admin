@@ -712,7 +712,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       <CldUploadWidget uploadPreset={uploadPreset} onSuccess={onSuccess} options={{ resourceType: 'raw' }}>
         {({ open }) => {
           return (
-            <Button type="button" onClick={() => open()} className="bg-grey-1 text-white">
+            <Button type="button" onClick={() => open()} className="bg-[#7f8c8d] text-white">
               <Plus className="h-4 w-4 mr-2" />
               Upload PDF
             </Button>
@@ -796,7 +796,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           <div className="flex gap-10">
          
             <Button type="submit" 
-              className="bg-blue-1 text-white" 
+              className="bg-[#186a3b] text-white" 
               aria-label="click submit button">
               Submit
             </Button>
@@ -804,7 +804,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               aria-label="click discard button"
               type="button"
               onClick={() => router.push("/products")}
-              className="bg-red-1 text-white"
+              className="bg-[#cb4335] text-white"
             >
               Discard
             </Button>

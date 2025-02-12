@@ -36,7 +36,7 @@ const Makes = () => {
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
         <p className="text-heading2-bold">Makes</p>
-        <Button className="bg-blue-1 text-white" onClick={() => router.push("/makes/new")}>
+        <Button className="bg-[#2b4db8] text-white" onClick={() => router.push("/makes/new")}>
           <Plus className="h-4 w-4 mr-2" />
           Create Makes
         </Button>

@@ -90,13 +90,13 @@ const FeatureForm: React.FC<FeatureFormProps> = ({ initialData }) => {
             )}
           />
           <div className="flex gap-10">
-            <Button type="submit" className="bg-blue-1 text-white">
+          <Button type="submit"  className="bg-[#186a3b] text-white" >
               Submit
             </Button>
             <Button
               type="button"
               onClick={() => router.push("/features")}
-              className="bg-blue-1 text-white"
+               className="bg-[#cb4335] text-white"
             >
               Discard
             </Button>
