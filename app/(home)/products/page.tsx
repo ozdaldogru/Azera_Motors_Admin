@@ -35,7 +35,7 @@ const Products = () => {
   return loading ? <Loader /> : (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
-        <p className="text-heading2-bold">Cars</p>
+        <p className="text-[35px]">Cars</p>
         <Button
           className="bg-[#2b4db8] text-white"
           onClick={() => router.push("/products/new")}

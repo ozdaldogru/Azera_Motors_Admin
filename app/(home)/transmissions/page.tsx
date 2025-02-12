@@ -35,7 +35,7 @@ const Transmissions = () => {
   return loading ? (<Loader />) : (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
-        <p className="text-heading2-bold">Transmissions</p>
+        <p className="text-[35px]">Transmissions</p>
         <Button className="bg-[#2b4db8] text-white" onClick={() => router.push("/transmissions/new")}>
           <Plus className="h-4 w-4 mr-2" />
           Create Transmission

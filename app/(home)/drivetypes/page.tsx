@@ -35,7 +35,7 @@ const DriveTypes = () => {
   return loading ? (<Loader />) : (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
-        <p className="text-heading2-bold">Drive Types</p>
+        <p className="text-[35px]">Drive Types</p>
         <Button className="bg-[#2b4db8] text-white" onClick={() => router.push("/drivetypes/new")}>
           <Plus className="h-4 w-4 mr-2" />
           Create DriveType
