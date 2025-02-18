@@ -14,11 +14,23 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This project uses next/font to automatically optimize and load Inter, a custom Google Font.
+
+## Technologies Used
+
+Next.js: A React framework for production.
+React: A JavaScript library for building user interfaces.
+Tailwind CSS: A utility-first CSS framework for rapid UI development.
+Firebase: A platform developed by Google for creating mobile and web applications.
+Cloudinary: A cloud-based service that provides an end-to-end image and video management solution.
+React Hook Form: A performant, flexible and extensible forms with easy-to-use validation.
+Zod: A TypeScript-first schema declaration and validation library.
+Clerk: Authentication and user management for modern applications.
+Radix UI: A set of accessible, unstyled UI components for building high-quality design systems and web apps.
 
 ## Learn More
 
