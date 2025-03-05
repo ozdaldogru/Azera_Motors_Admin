@@ -13,11 +13,14 @@ import ImageUpload from "@/components/custom ui/ImageUpload";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "@/components/custom ui/Delete";
-import MultiSelectFeature from "../custom ui/MultiSelectFeature";
 import Loader from "@/components/custom ui/Loader";
 import dynamic from 'next/dynamic'
 import { CldUploadWidget } from 'next-cloudinary';
 import { Plus } from 'lucide-react';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+const animatedComponents = makeAnimated();
 
 const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
@@ -433,36 +436,31 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
-          {features.length > 0 && (
-              <FormField
-                control={form.control}
-                name="features"
-                aria-label="Select Features"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Features</FormLabel>
-                    <FormControl>
-                      <MultiSelectFeature 
-                        placeholder="Features"
-                        features={features}
-                        value={field.value}
-                        onChange={(_id) =>
-                          field.onChange([...field.value, _id])
-                        }
-                        onRemove={(idToRemove) =>
-                          field.onChange([
-                            ...field.value.filter(
-                              (featureId) => featureId !== idToRemove
-                            ),
-                          ])
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-1" />
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name="features"
+              aria-label="Select Features"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Features</FormLabel>
+                  <FormControl>
+                    <Select
+                       {...field}
+                       closeMenuOnSelect={false}
+                       components={animatedComponents}
+                       isMulti
+                       options={features.map((feature) => ({ value: feature._id, label: feature.title })) as any}
+                       onChange={(selectedOptions) => {
+                       const values = selectedOptions.map((option) => option.value);
+                       field.onChange(values);
+                      }}
+                      value={features.filter((feature) => field.value.includes(feature._id)).map((feature) => ({ value: feature._id, label: feature.title }))}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-1" />
+                </FormItem>
+              )}
+            />
 
 
         <FormField
@@ -474,7 +472,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Categories</FormLabel>
                   <FormControl>
                   <select  
-                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
                         {categories && categories.map((categories) => (
                           <option className="overflow-visible bg-white"
