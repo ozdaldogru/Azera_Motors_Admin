@@ -1,15 +1,10 @@
 "use client";
 
-import * as React from "react";
-import { Command, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import * as React from "react"
+import { Command,CommandGroup,CommandInput,CommandItem,} from "@/components/ui/command";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { X } from "lucide-react";
-
-interface FeatureType {
-  _id: string;
-  title: string;
-}
 
 interface MultiSelectProps {
   placeholder: string;
@@ -39,19 +34,15 @@ const MultiSelectFeature: React.FC<MultiSelectProps> = ({
     ) as FeatureType[];
   }
 
-  const selectTables = features.filter((feature) => !selected.includes(feature));
+  const selectTables = features.filter((feature) => !selected.includes(feature)); 
 
   return (
     <Command className="overflow-visible bg-white">
-      <div className="flex flex-wrap border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+      <div className="flex flex-wrap border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
         {selected.map((feature) => (
           <Badge key={feature._id}>
             {feature.title}
-            <button
-              type="button"
-              className="ml-1 hover:text-red-1"
-              onClick={() => onRemove(feature._id)}
-            >
+            <button id="image upload button"type="button" className="ml-1 hover:text-red-1" onClick={() => onRemove(feature._id)}>
               <X className="h-3 w-3" />
             </button>
           </Badge>
@@ -66,9 +57,9 @@ const MultiSelectFeature: React.FC<MultiSelectProps> = ({
         />
       </div>
 
-      <div className="relative">
+      <div className="relative mt-2">
         {open && (
-          <CommandGroup>
+          <CommandGroup >
             {selectTables.map((feature) => (
               <CommandItem
                 key={feature._id}
@@ -77,7 +68,7 @@ const MultiSelectFeature: React.FC<MultiSelectProps> = ({
                   onChange(feature._id);
                   setInputValue("");
                 }}
-                className="overflow-visible bg-white"
+                
               >
                 {feature.title}
               </CommandItem>
