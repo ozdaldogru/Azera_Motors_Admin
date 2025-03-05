@@ -292,7 +292,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       ) : (
         <p className="text-heading2-bold">Create Product</p>
       )}
-      <Separator className="bg-grey-1 mt-4 mb-7" />
+      <Separator className="bg-gray-300 mt-4 mb-7" />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -330,7 +330,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Model</FormLabel>
-                <FormControl>
+                <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                   <Input
                    type="text"
                     placeholder="Model"
@@ -353,7 +354,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Price ($)</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
                       placeholder="Price"
@@ -373,7 +375,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Year</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
                       placeholder="Year"
@@ -394,7 +397,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Number Of Owner</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
                       placeholder="Enter Number Of Owner(s)"
@@ -415,7 +419,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Mileage</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
                       placeholder="Mileage"
@@ -460,7 +465,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             )}
 
 
-<FormField
+        <FormField
               control={form.control}
               name="categories"
               aria-label="Select A Category"
@@ -596,8 +601,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Engine Size</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
+                     
                     type="number"
                       placeholder="Engine Size"
                       {...field}
@@ -616,7 +623,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cylinder</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                     type="number"
                       placeholder="Cylinder"
@@ -636,7 +644,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Color</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input 
                     type="text"
                       placeholder="Color"
@@ -656,7 +665,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Interior Color</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="text"
                       placeholder="Interior Color"
@@ -676,7 +686,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Number of the Doors</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="number"
                       placeholder="Number of the Doors"
@@ -696,7 +707,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>VIN</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="text"
                       placeholder="VIN Number"
@@ -734,7 +746,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Car History</FormLabel>
-                  <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="text"
                       placeholder="Car's History Link"
@@ -775,7 +788,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Images</FormLabel>
-                <FormControl>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                   <ImageUpload
                     value={field.value}
                     onChange={(url) => field.onChange([...field.value, url])}

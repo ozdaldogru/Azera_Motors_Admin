@@ -44,7 +44,7 @@ const Products = () => {
           Create A Car
         </Button>
       </div>
-      <Separator className="bg-grey-1 my-4" />
+      <Separator className="bg-gray-300 my-4" />
       <DataTable columns={columns} data={products} searchKey="make" />
     </div>
   );

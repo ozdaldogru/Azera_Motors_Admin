@@ -36,12 +36,12 @@ const FuelTypes = () => {
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
         <p className="text-[35px]">Fuel Types</p>
-        <Button className="text-[heading2-bold]" onClick={() => router.push("/fueltypes/new")}>
+        <Button className="bg-[#2b4db8] text-white" onClick={() => router.push("/fueltypes/new")}>
           <Plus className="h-4 w-4 mr-2" />
           Create FuelType
         </Button>
       </div>
-      <Separator className="bg-grey-1 my-4" />
+      <Separator className="bg-gray-300 my-4" />
       <DataTable columns={columns} data={fueltypes} searchKey="title" />
     </div>
   );
