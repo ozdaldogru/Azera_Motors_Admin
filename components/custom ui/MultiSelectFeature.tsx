@@ -38,7 +38,7 @@ const MultiSelectFeature: React.FC<MultiSelectProps> = ({
 
   return (
     <Command className="overflow-visible bg-white">
-      <div className="flex flex-wrap border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+      <div className="flex flex-wrap border rounded-md border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
         {selected.map((feature) => (
           <Badge key={feature._id}>
             {feature.title}
@@ -68,7 +68,7 @@ const MultiSelectFeature: React.FC<MultiSelectProps> = ({
                   onChange(feature._id);
                   setInputValue("");
                 }}
-                
+                className="overflow-visible bg-white hover:bg-grey-2 cursor-pointer"
               >
                 {feature.title}
               </CommandItem>
