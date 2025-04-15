@@ -312,6 +312,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
+                        <option value="">Select A Make</option>
                         {makes && makes.map((makes) => (
                           <option className="overflow-visible bg-white"
                             key={makes.title}>
@@ -474,6 +475,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  
                       className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
+                        <option value="">Select A Category</option>
                         {categories && categories.map((categories) => (
                           <option className="overflow-visible bg-white"
                             key={categories.title}>
@@ -501,6 +503,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
+                        <option value="">Select A Status</option>
                         {statuses && statuses.map((statuses) => (
                           <option className="overflow-visible bg-white"
                             key={statuses.title}>
@@ -526,6 +529,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select                    
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
+                        <option value="">Select A Drive Type</option>
                         {drivetypes && drivetypes.map((drivetypes) => (
                           <option 
                           className="overflow-visible bg-white"
@@ -552,6 +556,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
+                        <option value="">Select A Fuel Type</option>
                         {fueltypes && fueltypes.map((fueltypes) => (
                           <option className="overflow-visible bg-white"
                             key={fueltypes.title}>
@@ -578,6 +583,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <select  
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
+                        <option value="">Select A Transmission</option>
                         {transmissions && transmissions.map((transmissions) => (
                           <option className="overflow-visible bg-white"
                             key={transmissions.title}>
