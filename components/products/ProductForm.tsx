@@ -450,6 +450,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                        closeMenuOnSelect={false}
                        components={animatedComponents}
                        isMulti
+                       placeholder="Select Features - Multiple Selection Allowed"
                        options={features.map((feature) => ({ value: feature._id, label: feature.title })) as any}
                        onChange={(selectedOptions) => {
                        const values = selectedOptions.map((option) => option.value);
