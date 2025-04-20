@@ -36,26 +36,26 @@ const JoditEditor = dynamic(
 
 
 const formSchema = z.object({
-  model: z.string().min(1),
-  make: z.string(),
-  price: z.coerce.number(),
-  features: z.array(z.string()),
-  categories: z.string(),
-  year: z.coerce.number(),
-  mileage: z.coerce.number().min(1),
-  driveType: z.string(),
-  fuelType: z.string(),
-  transmission: z.string(),
-  engineSize: z.coerce.number(),
-  cylinder: z.coerce.number(),
-  color: z.string(),
-  interiorColor: z.string(),
-  door: z.coerce.number().min(2),
-  status: z.string(),
-  numberofowner: z.coerce.number(),
+  model: z.string().min(1, "***Model is required***"),
+  make: z.string().min(1, "***Make is required***"),
+  price: z.coerce.number().min(1, "***Price is required***"),
+  features: z.array(z.string()).min(1, "***At least one feature is required***"),
+  categories: z.string().min(1, "***Category is required***"),
+  year: z.coerce.number().min(1900, "***Year is required***"),
+  mileage: z.coerce.number().min(1, "***Mileage is required***"),
+  driveType: z.string().min(1, "***Drive type is required***"),
+  fuelType: z.string().min(1, "***Fuel type is required***"),
+  transmission: z.string().min(1, "***Transmission is required***"),
+  engineSize: z.coerce.number().min(1, "***Engine size is required***"),
+  cylinder: z.coerce.number().min(1, "***Cylinder is required***"),
+  color: z.string().min(1, "***Color is required***"),
+  interiorColor: z.string().min(1, "***Interior color is required***"),
+  door: z.coerce.number().min(2, "***Number of doors is required***"),
+  status: z.string().min(1, "***Status is required***"),
+  numberofowner: z.coerce.number().min(1, "***Number of owners is required***"),
   vin: z.string(),
   history: z.string(),
-  description: z.string().min(10).trim(),
+  description: z.string().min(10, "***Description must be at least 10 characters***"),
   media: z.array(z.string()),
 });
 
@@ -322,7 +322,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </select>  
        
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             /> 
@@ -343,7 +343,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </FormControl>
-                <FormMessage className="text-red-1" />
+                <FormMessage className="text-red-500 text-[15px]" />
               </FormItem>
             )}
           />
@@ -367,7 +367,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -388,7 +388,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -410,7 +410,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -432,7 +432,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -459,7 +459,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       value={features.filter((feature) => field.value.includes(feature._id)).map((feature) => ({ value: feature._id, label: feature.title }))}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -486,7 +486,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </select>  
        
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             /> 
@@ -514,7 +514,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </select>  
        
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />    
@@ -541,7 +541,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </select>  
        
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />    
@@ -567,7 +567,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </select>  
        
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />     
@@ -594,7 +594,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       </select>  
        
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />    
@@ -616,7 +616,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -637,7 +637,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -658,7 +658,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -679,7 +679,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -700,7 +700,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -721,7 +721,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -760,7 +760,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-1" />
+                  <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />
@@ -779,7 +779,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                             {...field}                            
                           />
                         </FormControl>
-                        <FormMessage className="text-red-1" />
+                        <FormMessage className="text-red-500 text-[15px]" />
                       </FormItem>
                     )}
                   />
@@ -805,7 +805,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     }
                   />
                 </FormControl>
-                <FormMessage className="text-red-1" />
+                <FormMessage className="text-red-500 text-[15px]" />
               </FormItem>
             )}
           />
