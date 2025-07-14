@@ -81,6 +81,15 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Categories",
   },
   {
+    accessorKey: "totalCost",
+    header: "Total Cost ($)",
+ 
+  },
+  {
+    accessorKey: "soldPrice",
+    header: "Sold Price ($)",
+  },
+  {
     id: "actions",
     cell: ({ row }) => <Delete item="product" id={row.original._id} />,
   },

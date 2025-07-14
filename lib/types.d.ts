@@ -58,6 +58,8 @@ type ProductType = {
   description: string;
   media: [string];
   categories: string;
+  totalCost: number;
+  soldPrice: number;
   createdAt: Date;
   updatedAt: Date;
 }

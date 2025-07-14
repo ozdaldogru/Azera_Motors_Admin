@@ -37,6 +37,8 @@ export const POST = async (req: NextRequest) => {
       categories,
       vin,
       history,
+      totalCost,
+      soldPrice,
       
     } = await req.json();
 
@@ -68,6 +70,7 @@ export const POST = async (req: NextRequest) => {
       categories,
       vin,
       history,
+      
     });
 
     await newProduct.save();

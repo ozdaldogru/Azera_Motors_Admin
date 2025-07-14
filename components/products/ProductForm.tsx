@@ -57,6 +57,8 @@ const formSchema = z.object({
   history: z.string(),
   description: z.string().min(10, "***Description must be at least 10 characters***"),
   media: z.array(z.string()),
+  totalCost: z.coerce.number(),
+  soldPrice: z.coerce.number(),
 });
 
 
@@ -85,29 +87,29 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           features: initialData.features.map((feature) => feature._id),
         }
       : {
-
-
-        model: "",
-        make: "",
-        price: 10000,
-        features: [],
-        year: 2010,
-        mileage: 1,
-        driveType: "",
-        fuelType: "",
-        transmission: "",
-        engineSize: 1,
-        cylinder: 1,
-        color: "",
-        interiorColor: "",
-        door: 2,
-        status: "",
-        description: "",
-        categories: "",
-        media: [],  
-        numberofowner: 1,
-        vin: "",
-        history: "",
+          model: "",
+          make: "",
+          price: 0,
+          features: [],
+          year: 1900,
+          mileage: 0,
+          driveType: "",
+          fuelType: "",
+          transmission: "",
+          engineSize: 0,
+          cylinder: 0,
+          color: "",
+          interiorColor: "",
+          door: 2,
+          status: "",
+          description: "",
+          categories: "",
+          media: [],
+          numberofowner: 1,
+          vin: "",
+          history: "",
+          totalCost: 0,
+          soldPrice: 0,
         },
   });
 
@@ -304,7 +306,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         <FormField
               control={form.control}
               name="make"
-              aria-label="Select A Car Brand"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Makes</FormLabel>
@@ -327,26 +328,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             /> 
             
-          <FormField
-            control={form.control}
-            name="model"
-            aria-label="Enter model"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Model</FormLabel>
-                <FormControl
-                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                  <Input
-                   type="text"
-                    placeholder="Model"
-                    {...field}
-                    onKeyDown={handleKeyPress}
-                  />
-                </FormControl>
-                <FormMessage className="text-red-500 text-[15px]" />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="model"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Model</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Enter model"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500 text-[15px]" />
+                </FormItem>
+              )}
+            />
 
 
 
@@ -354,7 +352,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="price"
-              aria-label="Enter Price"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Price ($)</FormLabel>
@@ -362,7 +359,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
-                      placeholder="Price"
+                      placeholder="Enter Price"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -375,7 +372,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="year"
-              aria-label="Enter Manufacturing Year"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Year</FormLabel>
@@ -383,7 +379,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
-                      placeholder="Year"
+                      placeholder="Enter Manufacturing Year"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -397,7 +393,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="numberofowner"
-              aria-label="Enter Number Of Owner(s)"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Number Of Owner</FormLabel>
@@ -419,7 +414,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="mileage"
-              aria-label="Enter Mileage"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Mileage</FormLabel>
@@ -427,7 +421,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                       type="number"
-                      placeholder="Mileage"
+                      placeholder="Enter Mileage"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -440,7 +434,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="features"
-              aria-label="Select Features"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Features</FormLabel>
@@ -468,7 +461,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         <FormField
               control={form.control}
               name="categories"
-              aria-label="Select A Category"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
@@ -496,7 +488,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                         <FormField
               control={form.control}
               name="status"
-              aria-label="Select A Status"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Statuses</FormLabel>
@@ -522,7 +513,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 <FormField
               control={form.control}
               name="driveType"
-              aria-label="Select A Drive Type"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Drive Types</FormLabel>
@@ -549,7 +539,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 <FormField
               control={form.control}
               name="fuelType"
-              aria-label="Select A Fuel Type"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Fuel Types</FormLabel>
@@ -576,7 +565,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         <FormField
               control={form.control}
               name="transmission"
-              aria-label="Select A Transmission"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Transmissions</FormLabel>
@@ -602,7 +590,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="engineSize"
-              aria-label="enter engine size"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Engine Size</FormLabel>
@@ -611,7 +598,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <Input
                      
                     type="number"
-                      placeholder="Engine Size"
+                      placeholder="Enter Engine Size"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -624,7 +611,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="cylinder"
-              aria-label="enter cylinder"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cylinder</FormLabel>
@@ -632,7 +618,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                     type="number"
-                      placeholder="Cylinder"
+                      placeholder="Enter Cylinder"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -645,7 +631,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="color"
-              aria-label="enter exterior color"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Color</FormLabel>
@@ -653,7 +638,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input 
                     type="text"
-                      placeholder="Color"
+                      placeholder="Enter Exterior Color"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -666,7 +651,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="interiorColor"
-              aria-label="enter interior color"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Interior Color</FormLabel>
@@ -674,7 +658,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="text"
-                      placeholder="Interior Color"
+                      placeholder="Enter Interior Color"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -687,7 +671,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <FormField
               control={form.control}
               name="door"
-              aria-label="enter number of the doors"
+
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Number of the Doors</FormLabel>
@@ -695,7 +679,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="number"
-                      placeholder="Number of the Doors"
+                      placeholder="Enter Number of the Doors"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -708,7 +692,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 <FormField
               control={form.control}
               name="vin"
-              aria-label="enter vin number"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>VIN</FormLabel>
@@ -716,7 +699,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <Input
                      type="text"
-                      placeholder="VIN Number"
+                      placeholder="Enter VIN Number"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -747,7 +730,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           <FormField
               control={form.control}
               name="history"
-              aria-label="enter history link"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Car History</FormLabel>
@@ -765,12 +747,50 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               )}
             />
 
+          <FormField
+              control={form.control}
+              name="totalCost"
+               render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Total Cost ($)</FormLabel>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <Input
+                      type="number"
+                      placeholder="Enter Total Cost"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500 text-[15px]" />
+                </FormItem>
+              )}
+            />
+
+          <FormField
+              control={form.control}
+              name="soldPrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sold Price ($)</FormLabel>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <Input
+                      type="number"
+                      placeholder="Enter Sold Price"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500 text-[15px]" />
+                </FormItem>
+              )}
+            />
 
 
                   <FormField
                     control={form.control}
                     name="description"
-                    aria-label="enter detailed description"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Description</FormLabel>
@@ -789,7 +809,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         <FormField
             control={form.control}
             name="media"
-            aria-label="select images"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Images</FormLabel>
