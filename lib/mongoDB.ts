@@ -14,7 +14,7 @@ export const connectToDB = async () => {
     return;
   }
 
-  await mongoose.connect(process.env.MONGODB_URI!, {
+  await mongoose.connect(process.env.MONGODB_URL!, {
     dbName: "Azera_Motor_admin",
   });
 
