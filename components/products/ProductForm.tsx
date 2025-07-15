@@ -59,6 +59,23 @@ const formSchema = z.object({
   media: z.array(z.string()),
   totalCost: z.coerce.number(),
   soldPrice: z.coerce.number(),
+}).superRefine((data, ctx) => {
+  if (data.status === "Sold") {
+    if (!data.totalCost || data.totalCost <= 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["totalCost"],
+        message: "***Total Cost is required when status is Sold***",
+      });
+    }
+    if (!data.soldPrice || data.soldPrice <= 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["soldPrice"],
+        message: "***Sold Price is required when status is Sold***",
+      });
+    }
+  }
 });
 
 
@@ -79,39 +96,49 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const [transmissions, setTransmissions] = useState<TransmissionType[]>();
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialData
-      ? {
-          ...initialData,
-          features: initialData.features.map((feature) => feature._id),
-        }
-      : {
-          model: "",
-          make: "",
-          price: 0,
-          features: [],
-          year: 1900,
-          mileage: 0,
-          driveType: "",
-          fuelType: "",
-          transmission: "",
-          engineSize: 0,
-          cylinder: 0,
-          color: "",
-          interiorColor: "",
-          door: 2,
-          status: "",
-          description: "",
-          categories: "",
-          media: [],
-          numberofowner: 1,
-          vin: "",
-          history: "",
-          totalCost: 0,
-          soldPrice: 0,
-        },
-  });
+const form = useForm<z.infer<typeof formSchema>>({
+  resolver: zodResolver(formSchema),
+  defaultValues: initialData
+    ? {
+        ...initialData,
+        features: initialData.features?.map((feature) => feature._id) || [],
+        price: initialData.price ?? 0,
+        year: initialData.year ?? 1900,
+        mileage: initialData.mileage ?? 0,
+        engineSize: initialData.engineSize ?? 0,
+        cylinder: initialData.cylinder ?? 0,
+        door: initialData.door ?? 2,
+        numberofowner: initialData.numberofowner ?? 1,
+        totalCost: initialData.totalCost ?? 0,
+        soldPrice: initialData.soldPrice ?? 0,
+        // ...repeat for all number fields
+      }
+    : {
+        model: "",
+        make: "",
+        price: 0,
+        features: [],
+        year: 1900,
+        mileage: 0,
+        driveType: "",
+        fuelType: "",
+        transmission: "",
+        engineSize: 0,
+        cylinder: 0,
+        color: "",
+        interiorColor: "",
+        door: 2,
+        status: "",
+        description: "",
+        categories: "",
+        media: [],
+        numberofowner: 1,
+        vin: "",
+        history: "",
+        totalCost: 0,
+        soldPrice: 0,
+      },
+});
 
 
   const handleKeyPress = ( e: React.KeyboardEvent<HTMLInputElement>| React.KeyboardEvent<HTMLTextAreaElement>) => { 

@@ -1,23 +1,23 @@
+
 import mongoose from "mongoose";
 
-let isConnected: boolean = false;
+let isConnected = false;
 
-export const connectToDB = async (): Promise<void> => {
-  mongoose.set("strictQuery", true)
-
+export const connectToDB = async () => {
   if (isConnected) {
-    console.log("MongoDB is already connected");
+    // Prevent multiple connections in dev/hot-reload/serverless
     return;
   }
 
-  try {
-    await mongoose.connect(process.env.MONGODB_URL || "", {
-      dbName: "Azera_Motor_admin"
-    })
-
+  if (mongoose.connections[0].readyState) {
     isConnected = true;
-    console.log("MongoDB is connected");
-  } catch (err) {
-    console.log(err)
+    return;
   }
-}
+
+  await mongoose.connect(process.env.MONGODB_URI!, {
+    dbName: "Azera_Motor_admin",
+  });
+
+  isConnected = true;
+};
+
