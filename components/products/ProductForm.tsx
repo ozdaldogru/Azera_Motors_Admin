@@ -379,7 +379,7 @@ const form = useForm<z.infer<typeof formSchema>>({
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
 
-                        <FormField
+         <FormField
               control={form.control}
               name="price"
               render={({ field }) => (
@@ -392,6 +392,7 @@ const form = useForm<z.infer<typeof formSchema>>({
                       placeholder="Enter Price"
                       {...field}
                       onKeyDown={handleKeyPress}
+                      
                     />
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
