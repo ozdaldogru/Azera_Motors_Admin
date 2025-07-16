@@ -443,7 +443,9 @@ const form = useForm<z.infer<typeof formSchema>>({
           </div>
 
 
-
+          <div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
             <FormField
               control={form.control}
               name="year"
@@ -505,6 +507,8 @@ const form = useForm<z.infer<typeof formSchema>>({
                 </FormItem>
               )}
             />
+
+            </div>
 
             <FormField
               control={form.control}
