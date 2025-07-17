@@ -666,7 +666,11 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             />    
 
-            <FormField
+
+          <div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+                      <FormField
               control={form.control}
               name="engineSize"
               render={({ field }) => (
@@ -709,6 +713,28 @@ const form = useForm<z.infer<typeof formSchema>>({
 
             <FormField
               control={form.control}
+              name="door"
+
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of the Doors</FormLabel>
+                  <FormControl
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <Input
+                     type="number"
+                      placeholder="Enter Number of the Doors"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500 text-[15px]" />
+                </FormItem>
+              )}
+            />
+
+        </div>
+            <FormField
+              control={form.control}
               name="color"
               render={({ field }) => (
                 <FormItem>
@@ -747,28 +773,9 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="door"
 
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Number of the Doors</FormLabel>
-                  <FormControl
-                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <Input
-                     type="number"
-                      placeholder="Enter Number of the Doors"
-                      {...field}
-                      onKeyDown={handleKeyPress}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500 text-[15px]" />
-                </FormItem>
-              )}
-            />
 
-<FormField
+        <FormField
               control={form.control}
               name="vin"
               render={({ field }) => (
