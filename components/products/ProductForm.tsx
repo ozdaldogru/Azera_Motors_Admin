@@ -59,6 +59,7 @@ const formSchema = z.object({
   media: z.array(z.string()),
   totalCost: z.coerce.number(),
   soldPrice: z.coerce.number(),
+  soldDate: z.string().optional(),
 }).superRefine((data, ctx) => {
   if (data.status === "Sold") {
     if (!data.totalCost || data.totalCost <= 0) {
@@ -75,10 +76,46 @@ const formSchema = z.object({
         message: "***Sold Price is required when status is Sold***",
       });
     }
+    if (data.status === "Sold" && !data.soldDate) {
+  ctx.addIssue({
+    code: z.ZodIssueCode.custom,
+    path: ["soldDate"],
+    message: "***Sold Date is required when status is Sold***",
+  });
+}
   }
 });
 
 
+
+interface ProductType {
+  // Add all other properties as per your usage, e.g.:
+  _id: string;
+  model: string;
+  make: string;
+  price: number;
+  features: FeatureType[];
+  categories: string;
+  year: number;
+  mileage: number;
+  driveType: string;
+  fuelType: string;
+  transmission: string;
+  engineSize: number;
+  cylinder: number;
+  color: string;
+  interiorColor: string;
+  door: number;
+  status: string;
+  numberofowner: number;
+  vin: string;
+  history: string;
+  description: string;
+  media: string[];
+  totalCost: number;
+  soldPrice: number;
+  soldDate?: string; // <-- Add this line
+}
 
 interface ProductFormProps {
   initialData?: ProductType | null; //Must have "?" to make it optional
@@ -111,7 +148,7 @@ const form = useForm<z.infer<typeof formSchema>>({
         numberofowner: initialData.numberofowner ?? 1,
         totalCost: initialData.totalCost ?? 0,
         soldPrice: initialData.soldPrice ?? 0,
-        // ...repeat for all number fields
+        soldDate: initialData.soldDate || "",
       }
     : {
         model: "",
@@ -562,9 +599,10 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             /> 
                         
-                        
-
-                        <FormField
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+                   <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
@@ -588,8 +626,36 @@ const form = useForm<z.infer<typeof formSchema>>({
                 </FormItem>
               )}
             />    
+            
+             {form.watch("status") === "Sold" && (
+                    <FormField
+                      control={form.control}
+                      name="soldDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Sold Date</FormLabel>
+                          <FormControl
+                            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          >
+                            <Input
+                              type="date"
+                              placeholder="Select Sold Date"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-red-500 text-[15px]" />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+          
+          
+        </div>                
 
-<FormField
+
+
+
+          <FormField
               control={form.control}
               name="driveType"
               render={({ field }) => (

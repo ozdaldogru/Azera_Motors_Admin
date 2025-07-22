@@ -60,6 +60,7 @@ type ProductType = {
   categories: string;
   totalCost: number;
   soldPrice: number;
+  soldDate: string;
   createdAt: Date;
   updatedAt: Date;
 }

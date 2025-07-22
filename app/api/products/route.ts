@@ -39,6 +39,7 @@ export const POST = async (req: NextRequest) => {
       history,
       totalCost,
       soldPrice,
+      soldDate,
       
     } = await req.json();
 
@@ -70,6 +71,9 @@ export const POST = async (req: NextRequest) => {
       categories,
       vin,
       history,
+      totalCost,
+      soldPrice,
+      soldDate,
       
     });
 

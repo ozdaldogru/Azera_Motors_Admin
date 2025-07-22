@@ -26,6 +26,7 @@ const ProductSchema = new mongoose.Schema({
   categories: String, 
   totalCost: Number,
   soldPrice: Number,
+  soldDate: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 }, { toJSON: { getters: true } });
