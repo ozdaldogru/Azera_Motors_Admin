@@ -367,6 +367,9 @@ const form = useForm<z.infer<typeof formSchema>>({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
 
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
         <FormField
               control={form.control}
               name="make"
@@ -410,6 +413,32 @@ const form = useForm<z.infer<typeof formSchema>>({
                 </FormItem>
               )}
             />
+
+           <FormField
+              control={form.control}
+              name="categories"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categories</FormLabel>
+                  <FormControl>
+                  <select  
+                      className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                       {...field}>
+                        <option value="">Select A Category</option>
+                        {categories && categories.map((categories) => (
+                          <option className="overflow-visible bg-white"
+                            key={categories.title}>
+                            {categories.title}
+                          </option>
+                        ))}
+                      </select>  
+       
+                  </FormControl>
+                  <FormMessage className="text-red-500 text-[15px]" />
+                </FormItem>
+              )}
+            /> 
+        </div>
 
 
           <div 
@@ -574,35 +603,12 @@ const form = useForm<z.infer<typeof formSchema>>({
             />
 
 
-        <FormField
-              control={form.control}
-              name="categories"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categories</FormLabel>
-                  <FormControl>
-                  <select  
-                      className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                       {...field}>
-                        <option value="">Select A Category</option>
-                        {categories && categories.map((categories) => (
-                          <option className="overflow-visible bg-white"
-                            key={categories.title}>
-                            {categories.title}
-                          </option>
-                        ))}
-                      </select>  
-       
-                  </FormControl>
-                  <FormMessage className="text-red-500 text-[15px]" />
-                </FormItem>
-              )}
-            /> 
+
                         
         <div
           className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-                   <FormField
+          <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
@@ -655,6 +661,9 @@ const form = useForm<z.infer<typeof formSchema>>({
 
 
 
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
           <FormField
               control={form.control}
               name="driveType"
@@ -681,7 +690,7 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             />    
 
-<FormField
+          <FormField
               control={form.control}
               name="fuelType"
               render={({ field }) => (
@@ -730,7 +739,9 @@ const form = useForm<z.infer<typeof formSchema>>({
                   <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
-            />    
+            />   
+
+        </div>
 
 
           <div 
@@ -799,7 +810,13 @@ const form = useForm<z.infer<typeof formSchema>>({
             />
 
         </div>
-            <FormField
+
+
+      <div
+      className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+         <FormField
               control={form.control}
               name="color"
               render={({ field }) => (
@@ -839,9 +856,7 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             />
 
-
-
-        <FormField
+            <FormField
               control={form.control}
               name="vin"
               render={({ field }) => (
@@ -860,6 +875,12 @@ const form = useForm<z.infer<typeof formSchema>>({
                 </FormItem>
               )}
             />
+
+      </div>
+
+
+
+
 
       <CldUploadWidget uploadPreset={uploadPreset} onSuccess={onSuccess} options={{ resourceType: 'raw' }}>
         {({ open }) => {
