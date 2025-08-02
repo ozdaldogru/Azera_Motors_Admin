@@ -9,26 +9,27 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/custom ui/DataTable";
 import { columns } from "@/components/products/ProductColumns";
 
+// Make sure ProductType matches your product data structure
+// type ProductType = { ... };
+
 const Products = () => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<ProductType[]>([]);
-
-  const getProducts = async () => {
-    try {
-      const res = await fetch("/api/products", {
-        method: "GET",
-      });
-      const data = await res.json();
-      setProducts(data);
-      setLoading(false);
-    } catch (err) {
-      console.log("[products_GET]", err);
-    }
-  };
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await fetch("/api/products", { method: "GET" });
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.log("[products_GET]", err);
+      } finally {
+        setLoading(false); // Always set loading to false
+      }
+    };
     getProducts();
   }, []);
 
@@ -45,30 +46,31 @@ const Products = () => {
         </Button>
       </div>
       <Separator className="bg-gray-300 my-4" />
+
       <DataTable
-  columns={columns}
-  data={products}
-  searchKey={[
-    "model",
-    "year",
-    "categories",
-    "status",
-    "driveType",
-    "fuelType",
-    "transmission",
-    "price",
-    "mileage",
-    "features",
-    "engineSize",
-    "cylinder",
-    "color",
-    "interiorColor",
-    "door",
-    "totalCost",
-    "soldPrice",
-    "soldDate"
-  ]}
-/>
+        columns={columns}
+        data={products}
+        searchKey={[
+          "model",
+          "year",
+          "categories",
+          "status",
+          "driveType",
+          "fuelType",
+          "transmission",
+          "price",
+          "mileage",
+          "features",
+          "engineSize",
+          "cylinder",
+          "color",
+          "interiorColor",
+          "door",
+          "totalCost",
+          "soldPrice",
+          "soldDate"
+        ]}
+      />
     </div>
   );
 };

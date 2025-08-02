@@ -24,15 +24,18 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string[] | string;
+  pageSize?: number;
 }
 
 export function DataTable<TData extends Record<string, any>, TValue>({
   columns,
   data,
   searchKey,
+  pageSize = 10,
 }: DataTableProps<TData, TValue>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
 
   // Debounce search input
   useEffect(() => {
@@ -41,40 +44,55 @@ export function DataTable<TData extends Record<string, any>, TValue>({
   }, [searchTerm]);
 
   // Memoize filtered data for performance
-const filteredData = useMemo(() => {
-  if (!debouncedSearchTerm) return data;
-  const keys = Array.isArray(searchKey) ? searchKey : [searchKey];
-  const search = debouncedSearchTerm.toLowerCase().trim();
-  return data.filter((item) =>
-    keys.some((key) => {
-      const value = item[key];
-      if (value === undefined || value === null) return false;
-      if (Array.isArray(value)) {
+  const filteredData = useMemo(() => {
+    if (!debouncedSearchTerm) return data;
+    const keys = Array.isArray(searchKey) ? searchKey : [searchKey];
+    const search = debouncedSearchTerm.toLowerCase().trim();
+    return data.filter((item) =>
+      keys.some((key) => {
+        let value = item[key];
+        if (value === undefined || value === null) return false;
+        // Handle nested objects (e.g., { status: { title: "Sold" } })
+        if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+          value = value.title ?? value.name ?? JSON.stringify(value);
+        }
+        if (Array.isArray(value)) {
+          return value
+            .join(", ")
+            .toLowerCase()
+            .trim()
+            .includes(search);
+        }
         return value
-          .join(", ")
+          .toString()
           .toLowerCase()
           .trim()
           .includes(search);
-      }
-      return value
-        .toString()
-        .toLowerCase()
-        .trim()
-        .includes(search);
-    })
-  );
-}, [data, debouncedSearchTerm, searchKey]);
+      })
+    );
+  }, [data, debouncedSearchTerm, searchKey]);
 
   const table = useReactTable({
     data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: currentPageSize,
+      },
+    },
   });
+
+  // Update pageSize when changed
+  useEffect(() => {
+    table.setPageSize(currentPageSize);
+  }, [currentPageSize, table]);
 
   return (
     <div className="py-5">
-      <div className="flex items-center py-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 sm:grid-cols-2flex space-around">
+       <div className="flex items-center py-4">
         <Input
           placeholder="Search..."
           value={searchTerm}
@@ -82,6 +100,21 @@ const filteredData = useMemo(() => {
           className="max-w-sm"
         />
       </div>
+      {/* Page size selector inside the table */}
+      <div className="flex items-center mb-4">
+        <span className="mr-2">Items per page:</span>
+        <select
+          value={currentPageSize}
+          onChange={e => setCurrentPageSize(Number(e.target.value))}
+          className="border rounded px-2 py-1"
+        >
+          {[10, 20, 50, 100].map(size => (
+            <option key={size} value={size}>{size}</option>
+          ))}
+        </select>
+       </div>
+      </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader className="bg-slate-950 text-white text-[20px]">
