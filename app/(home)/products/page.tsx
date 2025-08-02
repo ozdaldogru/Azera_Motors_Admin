@@ -45,7 +45,30 @@ const Products = () => {
         </Button>
       </div>
       <Separator className="bg-gray-300 my-4" />
-      <DataTable columns={columns} data={products} searchKey="make" />
+      <DataTable
+  columns={columns}
+  data={products}
+  searchKey={[
+    "model",
+    "year",
+    "categories",
+    "status",
+    "driveType",
+    "fuelType",
+    "transmission",
+    "price",
+    "mileage",
+    "features",
+    "engineSize",
+    "cylinder",
+    "color",
+    "interiorColor",
+    "door",
+    "totalCost",
+    "soldPrice",
+    "soldDate"
+  ]}
+/>
     </div>
   );
 };
