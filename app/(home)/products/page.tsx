@@ -51,6 +51,7 @@ const Products = () => {
         columns={columns}
         data={products}
         searchKey={[
+          "make",
           "model",
           "year",
           "categories",

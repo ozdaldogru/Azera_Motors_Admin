@@ -36,11 +36,6 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Mileage",
   },
   {
-    accessorKey: "features",
-    header: "Features",
-    cell: ({ row }) => row.original.features.map((feature) => feature.title).join(", "),
-  },
-  {
     accessorKey: "status",
     header: "Status",
   },

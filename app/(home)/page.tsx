@@ -1,21 +1,168 @@
-"use client"
+"use client";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export default  function Home() {
-  
+type SourceMediumRow = {
+  sourceMedium: string;
+  counts: { [date: string]: number };
+};
+
+type EventRow = {
+  eventName: string;
+  counts: { [date: string]: number };
+};
+
+export default function Home() {
+  // Table 1: Session Manual Source
+  const [dates, setDates] = useState<string[]>([]);
+  const [rows, setRows] = useState<SourceMediumRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Table 2: Event Name
+  const [eventDates, setEventDates] = useState<string[]>([]);
+  const [eventRows, setEventRows] = useState<EventRow[]>([]);
+  const [eventLoading, setEventLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/analytics")
+      .then(res => res.json())
+      .then(data => {
+        setDates(data.dates || []);
+        setRows(data.rows || []);
+        setLoading(false);
+      });
+
+    fetch("/api/analytics?eventTable=true")
+      .then(res => res.json())
+      .then(data => {
+        setEventDates(data.dates || []);
+        setEventRows(data.rows || []);
+        setEventLoading(false);
+      });
+  }, []);
+
+  // Table 1 totals
+  const totals = dates.map(date =>
+    rows.reduce((sum, row) => sum + (row.counts[date] ?? 0), 0)
+  );
+  const rowTotals = rows.map(row =>
+    dates.reduce((sum, date) => sum + (row.counts[date] ?? 0), 0)
+  );
+  const grandTotal = totals.reduce((sum, t) => sum + t, 0);
+
+  // Table 2 totals
+  const eventTotals = eventDates.map(date =>
+    eventRows.reduce((sum, row) => sum + (row.counts[date] ?? 0), 0)
+  );
+  const eventRowTotals = eventRows.map(row =>
+    eventDates.reduce((sum, date) => sum + (row.counts[date] ?? 0), 0)
+  );
+  const eventGrandTotal = eventTotals.reduce((sum, t) => sum + t, 0);
 
   return (
-
-    <>
-      <div className="bg-[#a0a1a3] justify-items-center w-full h-full">
-        <br />
-        <br />
-        <Image src="/Azera Logo 01.png" alt="Azera Motor's Logo" width={200} height={50} style={{ width: 'auto', height: 'auto' }} priority={true} />
-
-      </div> 
-    </>
-
-
-    
+    <div className="bg-[#a0a1a3] w-full min-h-screen flex flex-col items-center justify-center px-2">
+      <Image
+        src="/Azera Logo 01.png"
+        alt="Azera Motor's Logo"
+        width={120}
+        height={24}
+        style={{ width: 'auto', height: 'auto' }}
+        priority={true}
+        className="mt-4 mb-2"
+      />
+      <h1 className="mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 text-center">
+        Azera Motors Admin Dashboard
+      </h1>
+      {/* Table 1 */}
+      <div className="mt-4 text-gray-700 w-full max-w-4xl">
+        <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-center">
+          User Source (Last 7 Days)
+        </h2>
+        <div className="overflow-x-auto w-full">
+          {loading ? (
+            <p>Loading analytics data...</p>
+          ) : rows.length ? (
+            <table className="min-w-[400px] max-w-full w-full border border-gray-300 rounded text-xs sm:text-sm md:text-base mx-auto">
+              <thead>
+                <tr>
+                  <th className="border px-2 py-1 bg-gray-100 sticky left-0 z-10">Session Source / Medium</th>
+                  {dates.map(date => (
+                    <th key={date} className="border px-2 py-1 bg-gray-100">{date}</th>
+                  ))}
+                  <th className="border px-2 py-1 bg-gray-100">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row, idx) => (
+                  <tr key={idx}>
+                    <td className="border px-2 py-1 bg-white sticky left-0 z-10">{row.sourceMedium}</td>
+                    {dates.map(date => (
+                      <td key={date} className="border px-2 py-1 text-center">
+                        {row.counts[date] ?? 0}
+                      </td>
+                    ))}
+                    <td className="border px-2 py-1 font-bold text-center">{rowTotals[idx]}</td>
+                  </tr>
+                ))}
+                <tr className="font-bold bg-gray-200">
+                  <td className="border px-2 py-1 sticky left-0 z-10 bg-gray-200">Total</td>
+                  {totals.map((total, idx) => (
+                    <td key={dates[idx]} className="border px-2 py-1 text-center">{total}</td>
+                  ))}
+                  <td className="border px-2 py-1 text-center">{grandTotal}</td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <p>No data found.</p>
+          )}
+        </div>
+      </div>
+      {/* Table 2 */}
+      <div className="mt-8 text-gray-700 w-full max-w-4xl">
+        <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-center">
+          User Interactions (Last 7 Days)
+        </h2>
+        <div className="overflow-x-auto w-full">
+          {eventLoading ? (
+            <p>Loading event analytics data...</p>
+          ) : eventRows.length ? (
+            <table className="min-w-[400px] max-w-full w-full border border-gray-300 rounded text-xs sm:text-sm md:text-base mx-auto">
+              <thead>
+                <tr>
+                  <th className="border px-2 py-1 bg-gray-100 sticky left-0 z-10">Event Name</th>
+                  {eventDates.map(date => (
+                    <th key={date} className="border px-2 py-1 bg-gray-100">{date}</th>
+                  ))}
+                  <th className="border px-2 py-1 bg-gray-100">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {eventRows.map((row, idx) => (
+                  <tr key={idx}>
+                    <td className="border px-2 py-1 bg-white sticky left-0 z-10">{row.eventName}</td>
+                    {eventDates.map(date => (
+                      <td key={date} className="border px-2 py-1 text-center">
+                        {row.counts[date] ?? 0}
+                      </td>
+                    ))}
+                    <td className="border px-2 py-1 font-bold text-center">{eventRowTotals[idx]}</td>
+                  </tr>
+                ))}
+                <tr className="font-bold bg-gray-200">
+                  <td className="border px-2 py-1 sticky left-0 z-10 bg-gray-200">Total</td>
+                  {eventTotals.map((total, idx) => (
+                    <td key={eventDates[idx]} className="border px-2 py-1 text-center">{total}</td>
+                  ))}
+                  <td className="border px-2 py-1 text-center">{eventGrandTotal}</td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <p>No event data found.</p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
