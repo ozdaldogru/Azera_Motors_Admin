@@ -1,9 +1,9 @@
 import "../globals.css";
 import * as React from "react";
+import { ThemeProvider } from "@/lib/ThemeProvider"; // <-- import your provider
 import LeftSideBar from "@/components/layout/LeftSideBar";
 import TopBar from "@/components/layout/TopBar";
 import { ToasterProvider } from "@/lib/ToasterProvider";
-import { ThemeProvider } from '@/lib/ThemeProvider';
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Azera Motors admin",
   description: "Admin dashboard to manage Azera Motors",
   icons: {
-    icon: '/favicon.ico', // /public path
+    icon: '/favicon.ico',
   },
 };
 
