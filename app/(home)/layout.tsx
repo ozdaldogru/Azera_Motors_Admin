@@ -3,6 +3,7 @@ import * as React from "react";
 import LeftSideBar from "@/components/layout/LeftSideBar";
 import TopBar from "@/components/layout/TopBar";
 import { ToasterProvider } from "@/lib/ToasterProvider";
+import { ThemeProvider } from '@/lib/ThemeProvider';
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -26,14 +27,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <ToasterProvider />
-          <div className="flex max-lg:flex-col text-black-1 bg-color-grey-1">
-
-            <LeftSideBar />
-            <TopBar />
-
-          <div className="flex-1">{children}</div>
-          </div>
+          <ThemeProvider>
+            <ToasterProvider />
+            <div className="flex max-lg:flex-col text-black-1 bg-color-grey-1">
+              <LeftSideBar />
+              <TopBar />
+              <div className="flex-1">{children}</div>
+            </div>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

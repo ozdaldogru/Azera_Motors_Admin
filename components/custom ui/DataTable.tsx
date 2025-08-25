@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTheme } from '@/lib/ThemeProvider';
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -89,30 +90,31 @@ export function DataTable<TData extends Record<string, any>, TValue>({
     table.setPageSize(currentPageSize);
   }, [currentPageSize, table]);
 
+  const { theme } = useTheme();
   return (
     <div className="py-5">
       <div className="grid grid-cols-2 md:grid-cols-2 gap-6 sm:grid-cols-2flex space-around">
-       <div className="flex items-center py-4">
-        <Input
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          className="max-w-sm"
-        />
-      </div>
-      {/* Page size selector inside the table */}
-      <div className="flex items-center mb-4">
-        <span className="mr-2">Items per page:</span>
-        <select
-          value={currentPageSize}
-          onChange={e => setCurrentPageSize(Number(e.target.value))}
-          className="border rounded px-2 py-1"
-        >
-          {[10, 20, 50, 100].map(size => (
-            <option key={size} value={size}>{size}</option>
-          ))}
-        </select>
-       </div>
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+        {/* Page size selector inside the table */}
+        <div className="flex items-center mb-4">
+          <span className={`mr-2 ${theme === 'dark' ? 'text-white' : ''}`}>Items per page:</span>
+          <select
+            value={currentPageSize}
+            onChange={e => setCurrentPageSize(Number(e.target.value))}
+            className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-black text-white border-gray-700' : ''}`}
+          >
+            {[10, 20, 50, 100].map(size => (
+              <option key={size} value={size}>{size}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="rounded-md border">

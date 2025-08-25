@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/custom ui/DataTable";
 import { columns } from "@/components/products/ProductColumns";
+import { useTheme } from '@/lib/ThemeProvider';
 
 // Make sure ProductType matches your product data structure
 // type ProductType = { ... };
@@ -33,45 +34,48 @@ const Products = () => {
     getProducts();
   }, []);
 
+  const { theme } = useTheme();
   return loading ? <Loader /> : (
-    <div className="px-10 py-5">
+    <div className={`h-screen px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
       <div className="flex items-center justify-between">
-        <p className="text-[35px]">Cars</p>
+        <p className={`text-[35px] font-bold ${theme === 'dark' ? 'text-white' : ''}`}>Cars</p>
         <Button
-          className="bg-[#2b4db8] text-white"
+          className={`bg-[#2b4db8] text-white ${theme === 'dark' ? 'bg-yellow-700 text-white' : ''}`}
           onClick={() => router.push("/products/new")}
         >
           <Plus className="h-4 w-4 mr-2" />
           Create A Car
         </Button>
       </div>
-      <Separator className="bg-gray-300 my-4" />
+      <Separator className={`${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'} my-4`} />
 
-      <DataTable
-        columns={columns}
-        data={products}
-        searchKey={[
-          "make",
-          "model",
-          "year",
-          "categories",
-          "status",
-          "driveType",
-          "fuelType",
-          "transmission",
-          "price",
-          "mileage",
-          "features",
-          "engineSize",
-          "cylinder",
-          "color",
-          "interiorColor",
-          "door",
-          "totalCost",
-          "soldPrice",
-          "soldDate"
-        ]}
-      />
+      <div className={theme === 'dark' ? 'text-white' : ''}>
+        <DataTable
+          columns={columns}
+          data={products}
+          searchKey={[
+            "make",
+            "model",
+            "year",
+            "categories",
+            "status",
+            "driveType",
+            "fuelType",
+            "transmission",
+            "price",
+            "mileage",
+            "features",
+            "engineSize",
+            "cylinder",
+            "color",
+            "interiorColor",
+            "door",
+            "totalCost",
+            "soldPrice",
+            "soldDate"
+          ]}
+        />
+      </div>
     </div>
   );
 };

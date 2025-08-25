@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useTheme } from '@/lib/ThemeProvider';
+
 
 type SourceMediumRow = {
   sourceMedium: string;
@@ -13,6 +15,7 @@ type EventRow = {
 };
 
 export default function Home() {
+  const { theme } = useTheme();
   // Table 1: Session Manual Source
   const [dates, setDates] = useState<string[]>([]);
   const [rows, setRows] = useState<SourceMediumRow[]>([]);
@@ -60,56 +63,58 @@ export default function Home() {
   const eventGrandTotal = eventTotals.reduce((sum, t) => sum + t, 0);
 
   return (
-    <div className="bg-[#a0a1a3] w-full min-h-screen flex flex-col items-center justify-center px-2">
-      <Image
-        src="/Azera Logo 01.png"
-        alt="Azera Motor's Logo"
-        width={120}
-        height={24}
-        style={{ width: 'auto', height: 'auto' }}
-        priority={true}
-        className="mt-4 mb-2"
-      />
-      <h1 className="mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 text-center">
+    <div className={`w-full min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
+      <div className="flex w-full max-w-4xl justify-center items-center mt-4 mb-2">
+        <Image
+          src="/Azera Logo 01.png"
+          alt="Azera Motor's Logo"
+          width={120}
+          height={24}
+          style={{ width: 'auto', height: 'auto' }}
+          priority={true}
+          className=""
+        />
+      </div>
+      <h1 className={`mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
         Azera Motors Admin Dashboard
       </h1>
       {/* Table 1 */}
-      <div className="mt-4 text-gray-700 w-full max-w-4xl">
-        <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-center">
+      <div className={`mt-4 w-full max-w-4xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-bold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Source (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full">
           {loading ? (
             <p>Loading analytics data...</p>
           ) : rows.length ? (
-            <table className="min-w-[400px] max-w-full w-full border border-gray-300 rounded text-xs sm:text-sm md:text-base mx-auto">
+            <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
               <thead>
                 <tr>
-                  <th className="border px-2 py-1 bg-gray-100 sticky left-0 z-10">Session Source / Medium</th>
+                  <th className={`border px-2 py-1 sticky left-0 z-10 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Session Source / Medium</th>
                   {dates.map(date => (
-                    <th key={date} className="border px-2 py-1 bg-gray-100">{date}</th>
+                    <th key={date} className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>{date}</th>
                   ))}
-                  <th className="border px-2 py-1 bg-gray-100">Total</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((row, idx) => (
                   <tr key={idx}>
-                    <td className="border px-2 py-1 bg-white sticky left-0 z-10">{row.sourceMedium}</td>
+                    <td className={`border px-2 py-1 sticky left-0 z-10 ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>{row.sourceMedium}</td>
                     {dates.map(date => (
-                      <td key={date} className="border px-2 py-1 text-center">
+                      <td key={date} className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
                         {row.counts[date] ?? 0}
                       </td>
                     ))}
-                    <td className="border px-2 py-1 font-bold text-center">{rowTotals[idx]}</td>
+                    <td className={`border px-2 py-1 font-bold text-center ${theme === 'dark' ? 'bg-gray-900 text-yellow-300 border-gray-700' : ''}`}>{rowTotals[idx]}</td>
                   </tr>
                 ))}
-                <tr className="font-bold bg-gray-200">
-                  <td className="border px-2 py-1 sticky left-0 z-10 bg-gray-200">Total</td>
+                <tr className={`font-bold ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                  <td className={`border px-2 py-1 sticky left-0 z-10 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-200 border-gray-300'}`}>Total</td>
                   {totals.map((total, idx) => (
-                    <td key={dates[idx]} className="border px-2 py-1 text-center">{total}</td>
+                    <td key={dates[idx]} className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-800 text-yellow-300 border-gray-700' : ''}`}>{total}</td>
                   ))}
-                  <td className="border px-2 py-1 text-center">{grandTotal}</td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-800 text-yellow-300 border-gray-700' : ''}`}>{grandTotal}</td>
                 </tr>
               </tbody>
             </table>
@@ -119,42 +124,42 @@ export default function Home() {
         </div>
       </div>
       {/* Table 2 */}
-      <div className="mt-8 text-gray-700 w-full max-w-4xl">
-        <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-center">
+      <div className={`mt-8 w-full max-w-4xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Interactions (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full">
           {eventLoading ? (
             <p>Loading event analytics data...</p>
           ) : eventRows.length ? (
-            <table className="min-w-[400px] max-w-full w-full border border-gray-300 rounded text-xs sm:text-sm md:text-base mx-auto">
+            <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
               <thead>
                 <tr>
-                  <th className="border px-2 py-1 bg-gray-100 sticky left-0 z-10">Event Name</th>
+                  <th className={`border px-2 py-1 sticky left-0 z-10 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Event Name</th>
                   {eventDates.map(date => (
-                    <th key={date} className="border px-2 py-1 bg-gray-100">{date}</th>
+                    <th key={date} className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>{date}</th>
                   ))}
-                  <th className="border px-2 py-1 bg-gray-100">Total</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total</th>
                 </tr>
               </thead>
               <tbody>
                 {eventRows.map((row, idx) => (
                   <tr key={idx}>
-                    <td className="border px-2 py-1 bg-white sticky left-0 z-10">{row.eventName}</td>
+                    <td className={`border px-2 py-1 sticky left-0 z-10 ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>{row.eventName}</td>
                     {eventDates.map(date => (
-                      <td key={date} className="border px-2 py-1 text-center">
+                      <td key={date} className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
                         {row.counts[date] ?? 0}
                       </td>
                     ))}
-                    <td className="border px-2 py-1 font-bold text-center">{eventRowTotals[idx]}</td>
+                    <td className={`border px-2 py-1 font-bold text-center ${theme === 'dark' ? 'bg-gray-900 text-yellow-300 border-gray-700' : ''}`}>{eventRowTotals[idx]}</td>
                   </tr>
                 ))}
-                <tr className="font-bold bg-gray-200">
-                  <td className="border px-2 py-1 sticky left-0 z-10 bg-gray-200">Total</td>
+                <tr className={`font-bold ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                  <td className={`border px-2 py-1 sticky left-0 z-10 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-200 border-gray-300'}`}>Total</td>
                   {eventTotals.map((total, idx) => (
-                    <td key={eventDates[idx]} className="border px-2 py-1 text-center">{total}</td>
+                    <td key={eventDates[idx]} className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-800 text-yellow-300 border-gray-700' : ''}`}>{total}</td>
                   ))}
-                  <td className="border px-2 py-1 text-center">{eventGrandTotal}</td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-800 text-yellow-300 border-gray-700' : ''}`}>{eventGrandTotal}</td>
                 </tr>
               </tbody>
             </table>
