@@ -5,11 +5,11 @@ import Transmission from "@/lib/models/Transmission";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { transmissionId: string } }
+  context: { params: { transmissionId: string } }
 ) => {
   try {
     await connectToDB();
-    const transmission = await Transmission.findById(params.transmissionId);
+    const transmission = await Transmission.findById(context.params.transmissionId);
 
     if (!transmission) {
       return new NextResponse(
@@ -27,7 +27,7 @@ export const GET = async (
 
 export const POST = async (
   req: NextRequest,
-  { params }: { params: { transmissionId: string } }
+  context: { params: { transmissionId: string } }
 ) => {
   try {
     const userId = await auth();
@@ -38,7 +38,7 @@ export const POST = async (
 
     await connectToDB();
 
-    let transmission = await Transmission.findById(params.transmissionId);
+    let transmission = await Transmission.findById(context.params.transmissionId);
 
     if (!transmission) {
       return new NextResponse("Transmission not found", { status: 404 });
@@ -51,7 +51,7 @@ export const POST = async (
     }
 
     transmission = await Transmission.findByIdAndUpdate(
-      params.transmissionId,
+      context.params.transmissionId,
       { title },
       { new: true }
     );
@@ -67,7 +67,7 @@ export const POST = async (
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { transmissionId: string } }
+  context: { params: { transmissionId: string } }
 ) => {
   try {
     const userId = await auth();
@@ -78,7 +78,7 @@ export const DELETE = async (
 
     await connectToDB();
 
-    await Transmission.findByIdAndDelete(params.transmissionId);
+    await Transmission.findByIdAndDelete(context.params.transmissionId);
 
     return new NextResponse("Transmission is deleted", { status: 200 });
   } catch (err) {
