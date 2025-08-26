@@ -12,18 +12,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 
-
 const formSchema = z.object({
   title: z.string().min(2).max(50),
 });
 
 interface FeatureFormProps {
-  initialData?: FeatureType | null; //Must have "?" to make it optional
+  initialData?: FeatureType | null;
 }
 
 const FeatureForm: React.FC<FeatureFormProps> = ({ initialData }) => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -64,7 +62,7 @@ const FeatureForm: React.FC<FeatureFormProps> = ({ initialData }) => {
   };
 
   return (
-    <div className="p-10">
+    <div className="h-screen p-10 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-lg">
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-heading2-bold">Edit Feature</p>
@@ -73,7 +71,7 @@ const FeatureForm: React.FC<FeatureFormProps> = ({ initialData }) => {
       ) : (
         <p className="text-heading2-bold">Create Feature</p>
       )}
-      <Separator className="bg-gray-300 mt-4 mb-7" />
+      <Separator className="bg-gray-300 dark:bg-gray-700 mt-4 mb-7" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -83,20 +81,25 @@ const FeatureForm: React.FC<FeatureFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Title" {...field} onKeyDown={handleKeyPress} />
+                  <Input
+                    placeholder="Title"
+                    {...field}
+                    onKeyDown={handleKeyPress}
+                    className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex gap-10">
-          <Button type="submit"  className="bg-[#186a3b] text-white" >
+            <Button type="submit" className="bg-[#186a3b] dark:bg-green-700 text-white">
               Submit
             </Button>
             <Button
               type="button"
               onClick={() => router.push("/features")}
-               className="bg-[#cb4335] text-white"
+              className="bg-[#cb4335] dark:bg-red-700 text-white"
             >
               Discard
             </Button>
