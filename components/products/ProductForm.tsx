@@ -386,7 +386,7 @@ const form = useForm<z.infer<typeof formSchema>>({
   return loading ? (
     <Loader />
   ) : (
-    <div className="h-screen p-10 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-lg">
+    <div className="h-fit p-10 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-lg">
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-heading2-bold">Edit Product</p>

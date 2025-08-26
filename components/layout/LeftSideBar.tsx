@@ -31,7 +31,7 @@ const LeftSideBar = () => {
 
       <div className={`flex flex-col gap-4 text-body-medium items-center ${theme === 'dark' ? 'text-gray-200' : ''}`}>
         <div className="flex flex-row items-center gap-2">
-          <p>{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</p>
+          <p>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</p>
           <button
             aria-label="Toggle dark mode"
             onClick={toggleTheme}
