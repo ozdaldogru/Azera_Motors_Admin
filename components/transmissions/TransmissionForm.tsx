@@ -14,11 +14,11 @@ import Delete from "../custom ui/Delete";
 
 
 const formSchema = z.object({
-  title: z.string().min(2).max(500),
+  title: z.string().min(2).max(50),
 });
 
 interface TransmissionFormProps {
-  initialData?: TransmissionType | null; //Must have "?" to Transmission it optional
+  initialData?: TransmissionType | null; //Must have "?" to make it optional
 }
 
 const TransmissionForm: React.FC<TransmissionFormProps> = ({ initialData }) => {
@@ -96,7 +96,7 @@ const TransmissionForm: React.FC<TransmissionFormProps> = ({ initialData }) => {
             <Button
               type="button"
               onClick={() => router.push("/transmissions")}
-              className="bg-[#cb4335] text-white"
+               className="bg-[#cb4335] text-white"
             >
               Discard
             </Button>

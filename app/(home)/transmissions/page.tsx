@@ -38,7 +38,7 @@ const Transmissions = () => {
     <div className={`h-screen px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
       <div className="flex items-center justify-between">
         <p className={`text-[35px] font-bold ${theme === 'dark' ? 'text-white' : ''}`}>Transmissions</p>
-        <Button className={`bg-[#2b4db8] text-white ${theme === 'dark' ? 'bg-yellow-700 text-white' : ''}`} onClick={() => router.push("/transmissions/new")}> 
+        <Button className={`bg-[#2b4db8] text-white ${theme === 'dark' ? 'bg-yellow-700 text-white' : ''}`} onClick={() => router.push("/transmissions/new")}>
           <Plus className="h-4 w-4 mr-2" />
           Create Transmission
         </Button>
