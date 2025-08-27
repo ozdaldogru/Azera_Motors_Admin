@@ -15,7 +15,7 @@ const Products = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<ProductType[]>([]);
- 
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -34,7 +34,7 @@ const Products = () => {
 
   const { theme } = useTheme();
   return loading ? <Loader /> : (
-    <div className={`h-fit px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
+    <div className={`h-full px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
       <div className="flex items-center justify-between">
         <p className={`text-[35px] font-bold ${theme === 'dark' ? 'text-white' : ''}`}>Cars</p>
         <Button
