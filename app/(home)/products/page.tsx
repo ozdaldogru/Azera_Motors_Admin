@@ -10,14 +10,12 @@ import { DataTable } from "@/components/custom ui/DataTable";
 import { columns } from "@/components/products/ProductColumns";
 import { useTheme } from '@/lib/ThemeProvider';
 
-// Make sure ProductType matches your product data structure
-// type ProductType = { ... };
 
 const Products = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [pageSize, setPageSize] = useState(10);
+ 
 
   useEffect(() => {
     const getProducts = async () => {
@@ -36,7 +34,7 @@ const Products = () => {
 
   const { theme } = useTheme();
   return loading ? <Loader /> : (
-    <div className={`h-screen px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
+    <div className={`h-fit px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
       <div className="flex items-center justify-between">
         <p className={`text-[35px] font-bold ${theme === 'dark' ? 'text-white' : ''}`}>Cars</p>
         <Button

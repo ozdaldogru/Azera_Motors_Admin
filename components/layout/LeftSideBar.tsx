@@ -12,7 +12,7 @@ const LeftSideBar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className={`h-screen left-0 top-0 sticky p-10 flex flex-col gap-16 shadow-xl max-lg:hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
+    <div className={`h-dvh left-0 top-0 sticky p-10 flex flex-col gap-16 shadow-xl max-lg:hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
       <div className="flex items-center justify-between">
         <Image src="/logo.png" alt="logo" width={"100"} height={"0"} style={{ width: '100%', height: 'auto' }} priority={true}/>
       </div>
