@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { connectToDB } from "@/lib/mongoDB";
 import DriveType from "@/lib/models/DriveType";
 
@@ -28,12 +27,6 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ drivetype
 export const POST = async (req: NextRequest, props: { params: Promise<{ drivetypeId: string }> }) => {
   const params = await props.params;
   try {
-    const  userId = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     let drivetype = await DriveType.findById(params.drivetypeId);
@@ -66,12 +59,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ drivetyp
 export const DELETE = async (req: NextRequest, props: { params: Promise<{ drivetypeId: string }> }) => {
   const params = await props.params;
   try {
-    const userId  = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     await DriveType.findByIdAndDelete(params.drivetypeId);

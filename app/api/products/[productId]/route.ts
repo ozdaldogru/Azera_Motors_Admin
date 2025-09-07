@@ -1,7 +1,6 @@
 import Feature from "@/lib/models/Feature";
 import Product from "@/lib/models/Product";
 import { connectToDB } from "@/lib/mongoDB";
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, props: { params: Promise<{ productId: string }> }) => {
@@ -10,9 +9,7 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ productId
     await connectToDB();
 
     const product = await Product.findById(params.productId)
-    .populate({ path: "features", model: Feature  })
-   
-    ;
+      .populate({ path: "features", model: Feature });
 
     if (!product) {
       return new NextResponse(
@@ -37,12 +34,6 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ productId
 export const POST = async (req: NextRequest, props: { params: Promise<{ productId: string }> }) => {
   const params = await props.params;
   try {
-    const { userId } = await auth()
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     const product = await Product.findById(params.productId);
@@ -91,35 +82,22 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
       (featureId: string) => !product.features.includes(featureId)
     );
 
-
-    // included in new data, but not included in the previous data
-
-
     const removedFeatures = product.features.filter(
-      (featureId: string) => !product.features.includes(featureId)
+      (featureId: string) => !features.includes(featureId)
     );
-
-
-    // included in previous data, but not included in the new data
 
     // Update Features
     await Promise.all([
-      // Update added features with this product
       ...addedFeatures.map((featureId: string) =>
         Feature.findByIdAndUpdate(featureId, {
           $push: { products: product._id },
         })
       ),
-
-
-
-      // Update removed Features without this product
       ...removedFeatures.map((featureId: string) =>
         Feature.findByIdAndUpdate(featureId, {
           $pull: { products: product._id },
         })
       ),
-
     ]);
 
     // Update product
@@ -152,10 +130,7 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
         soldDate,
       },
       { new: true }
-    ).populate({ path: "features", model: Feature })
- 
-    
-    ;
+    ).populate({ path: "features", model: Feature });
 
     await updatedProduct.save();
 
@@ -169,12 +144,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ productI
 export const DELETE = async (req: NextRequest, props: { params: Promise<{ productId: string }> }) => {
   const params = await props.params;
   try {
-    const { userId } = await auth()
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     const product = await Product.findById(params.productId);
@@ -196,8 +165,6 @@ export const DELETE = async (req: NextRequest, props: { params: Promise<{ produc
         })
       )
     );
-
-
 
     return new NextResponse(JSON.stringify({ message: "Product deleted" }), {
       status: 200,

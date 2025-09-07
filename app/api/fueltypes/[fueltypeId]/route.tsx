@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { connectToDB } from "@/lib/mongoDB";
 import FuelType from "@/lib/models/FuelType";
 
@@ -28,12 +27,6 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ fueltypeI
 export const POST = async (req: NextRequest, props: { params: Promise<{ fueltypeId: string }> }) => {
   const params = await props.params;
   try {
-    const  userId = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     let fueltype = await FuelType.findById(params.fueltypeId);
@@ -66,12 +59,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ fueltype
 export const DELETE = async (req: NextRequest, props: { params: Promise<{ fueltypeId: string }> }) => {
   const params = await props.params;
   try {
-    const userId  = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     await FuelType.findByIdAndDelete(params.fueltypeId);

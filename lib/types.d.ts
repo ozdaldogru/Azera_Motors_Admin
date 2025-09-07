@@ -79,4 +79,13 @@ type TransmissionType = {
   updatedAt: Date;
 }
 
+type UserType = {
+  _id: string;
+  username: string;
+  email: string;
+  password: string; // hashed password
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 

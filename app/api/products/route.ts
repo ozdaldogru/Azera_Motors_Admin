@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/mongoDB";
 import Product from "@/lib/models/Product";
@@ -7,12 +6,6 @@ import Feature from "@/lib/models/Feature";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const {userId}  = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     const {
@@ -104,9 +97,7 @@ export const GET = async (req: NextRequest) => {
 
     const products = await Product.find()
       .sort({ createdAt: "desc" })
-      .populate({ path: "features", model: Feature })
-  
-      
+      .populate({ path: "features", model: Feature });
 
     return NextResponse.json(products, { status: 200 });
   } catch (err) {

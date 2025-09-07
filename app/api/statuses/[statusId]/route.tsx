@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { connectToDB } from "@/lib/mongoDB";
 import Status from "@/lib/models/Status";
 
@@ -28,12 +27,6 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ statusId:
 export const POST = async (req: NextRequest, props: { params: Promise<{ statusId: string }> }) => {
   const params = await props.params;
   try {
-    const  userId = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     let status = await Status.findById(params.statusId);
@@ -66,12 +59,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ statusId
 export const DELETE = async (req: NextRequest, props: { params: Promise<{ statusId: string }> }) => {
   const params = await props.params;
   try {
-    const userId  = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     await Status.findByIdAndDelete(params.statusId);

@@ -29,7 +29,6 @@ Firebase: A platform developed by Google for creating mobile and web application
 Cloudinary: A cloud-based service that provides an end-to-end image and video management solution.
 React Hook Form: A performant, flexible and extensible forms with easy-to-use validation.
 Zod: A TypeScript-first schema declaration and validation library.
-Clerk: Authentication and user management for modern applications.
 Radix UI: A set of accessible, unstyled UI components for building high-quality design systems and web apps.
 
 ## Learn More

@@ -1,55 +1,45 @@
 import { connectToDB } from "@/lib/mongoDB";
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import FuelType from "@/lib/models/FuelType";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const { userId } = await auth()
+    await connectToDB();
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 403 })
-    }
+    const { title } = await req.json();
 
-    await connectToDB()
-
-    const { title } = await req.json()
-
-    const existingFuelType = await FuelType.findOne({ title })
+    const existingFuelType = await FuelType.findOne({ title });
 
     if (existingFuelType) {
-      return new NextResponse("FuelType is already exists", { status: 400 })
+      return new NextResponse("FuelType is already exists", { status: 400 });
     }
 
-    if (!title ) {
-      return new NextResponse("Title is required", { status: 400 })
+    if (!title) {
+      return new NextResponse("Title is required", { status: 400 });
     }
 
-    const newFuelType = await FuelType.create({
-      title,
- 
-    })
+    const newFuelType = await FuelType.create({ title });
 
-    await newFuelType.save()
+    await newFuelType.save();
 
-    return NextResponse.json(newFuelType, { status: 200 })
+    return NextResponse.json(newFuelType, { status: 200 });
   } catch (err) {
-    console.log("[fueltypes_POST]", err)
-    return new NextResponse("Internal Server Error", { status: 500 })
+    console.log("[fueltypes_POST]", err);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
-}
+};
 
 export const GET = async (req: NextRequest) => {
   try {
-    await connectToDB()
+    await connectToDB();
 
-    const fueltypes = await FuelType.find().sort({ createdAt: "desc" })
+    const fueltypes = await FuelType.find().sort({ createdAt: "desc" });
 
-    return NextResponse.json(fueltypes, { status: 200 })
+    return NextResponse.json(fueltypes, { status: 200 });
   } catch (err) {
-    console.log("[fueltypes_GET]", err)
-    return new NextResponse("Internal Server Error", { status: 500 })
+    console.log("[fueltypes_GET]", err);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
-}
+};
 
 export const dynamic = "force-dynamic";

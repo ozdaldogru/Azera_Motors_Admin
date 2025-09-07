@@ -1,12 +1,10 @@
 "use client"
 
-import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
-
 import { navLinks } from "@/lib/constants";
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { useTheme } from '@/lib/ThemeProvider';
@@ -17,7 +15,7 @@ const TopBar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-  <div className={`sticky top-0 z-20 w-full flex justify-between items-center px-8 py-4 shadow-xl lg:hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
+    <div className={`sticky top-0 z-20 w-full flex justify-between items-center px-8 py-4 shadow-xl lg:hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
       <Image src="/logo.png" alt="logo" width={150} height={70} />
 
       <div className="flex gap-8 max-md:hidden">
@@ -33,7 +31,6 @@ const TopBar = () => {
       </div>
 
       <div className="relative flex gap-4 items-center">
-
         <Menu
           className="cursor-pointer md:hidden"
           onClick={() => setDropdownMenu(!dropdownMenu)}

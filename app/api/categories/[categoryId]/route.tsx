@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { connectToDB } from "@/lib/mongoDB";
 import Category from "@/lib/models/Category";
 
@@ -28,18 +27,12 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ categoryI
 export const POST = async (req: NextRequest, props: { params: Promise<{ categoryId: string }> }) => {
   const params = await props.params;
   try {
-    const  userId = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     let category = await Category.findById(params.categoryId);
 
     if (!category) {
-      return new NextResponse("category not found", { status: 404 });
+      return new NextResponse("Category not found", { status: 404 });
     }
 
     const { title } = await req.json();
@@ -66,12 +59,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ category
 export const DELETE = async (req: NextRequest, props: { params: Promise<{ categoryId: string }> }) => {
   const params = await props.params;
   try {
-    const userId  = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     await Category.findByIdAndDelete(params.categoryId);

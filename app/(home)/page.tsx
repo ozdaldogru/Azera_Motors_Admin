@@ -64,11 +64,11 @@ export default function Home() {
 
   return (
     <div className={`w-full min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
-      <div className="flex w-full max-w-4xl justify-center items-center mt-4 mb-2">
+      <div className="flex w-full max-w-4xl justify-center items-center mt-4 mb-2 py-4">
         <Image
           src="/Azera Logo 01.png"
           alt="Azera Motor's Logo"
-          width={120}
+          width={150}
           height={24}
           style={{ width: 'auto', height: 'auto' }}
           priority={true}
@@ -79,11 +79,11 @@ export default function Home() {
         Azera Motors Admin Dashboard
       </h1>
       {/* Table 1 */}
-      <div className={`mt-4 w-full max-w-4xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+      <div className={`mt-4 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
         <h2 className={`text-base sm:text-lg md:text-xl font-bold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Source (Last 7 Days)
         </h2>
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full py-2">
           {loading ? (
             <p>Loading analytics data...</p>
           ) : rows.length ? (
@@ -124,11 +124,11 @@ export default function Home() {
         </div>
       </div>
       {/* Table 2 */}
-      <div className={`mt-8 w-full max-w-4xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+      <div className={`mt-8 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
         <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Interactions (Last 7 Days)
         </h2>
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full py-2">
           {eventLoading ? (
             <p>Loading event analytics data...</p>
           ) : eventRows.length ? (

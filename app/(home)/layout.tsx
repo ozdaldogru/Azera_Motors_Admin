@@ -1,10 +1,10 @@
 import "../globals.css";
 import * as React from "react";
-import { ThemeProvider } from "@/lib/ThemeProvider"; // <-- import your provider
+import { ThemeProvider } from "@/lib/ThemeProvider";
 import LeftSideBar from "@/components/layout/LeftSideBar";
 import TopBar from "@/components/layout/TopBar";
 import { ToasterProvider } from "@/lib/ToasterProvider";
-import { ClerkProvider } from "@clerk/nextjs";
+import { SessionProvider } from "next-auth/react"; // <-- use NextAuth provider
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider>
@@ -37,6 +37,6 @@ export default function RootLayout({
           </ThemeProvider>
         </body>
       </html>
-    </ClerkProvider>
+  
   );
 }

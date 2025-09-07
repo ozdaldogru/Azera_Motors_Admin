@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { connectToDB } from "@/lib/mongoDB";
 import Transmission from "@/lib/models/Transmission";
 
@@ -28,12 +27,6 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ transmiss
 export const POST = async (req: NextRequest, props: { params: Promise<{ transmissionId: string }> }) => {
   const params = await props.params;
   try {
-    const  userId = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     let transmission = await Transmission.findById(params.transmissionId);
@@ -66,12 +59,6 @@ export const POST = async (req: NextRequest, props: { params: Promise<{ transmis
 export const DELETE = async (req: NextRequest, props: { params: Promise<{ transmissionId: string }> }) => {
   const params = await props.params;
   try {
-    const userId  = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     await connectToDB();
 
     await Transmission.findByIdAndDelete(params.transmissionId);
