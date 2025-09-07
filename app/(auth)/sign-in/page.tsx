@@ -59,7 +59,7 @@ export default function LoginPage() {
           href="/sign-up"
           className="text-center text-blue-600 dark:text-yellow-300 hover:underline"
         >
-          Don't have an account? Sign Up
+          Don&apos;t have an account? Sign Up
         </a>
         {error && <p className="text-red-500 text-center">{error}</p>}
       </form>
