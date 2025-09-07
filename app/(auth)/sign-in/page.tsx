@@ -48,6 +48,7 @@ export default function LoginPage() {
           onChange={e => setPassword(e.target.value)}
           className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100"
           required
+          autoComplete="current-password"
         />
         <button
           type="submit"
