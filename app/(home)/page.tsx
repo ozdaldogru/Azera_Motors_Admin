@@ -82,17 +82,6 @@ export default function Home() {
 
   return (
     <div className={`w-full min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
-      <div className="flex w-full max-w-4xl justify-center items-center mt-4 mb-2 py-4">
-        <Image
-          src="/AzeraLogo.png"
-          alt="Azera Motor's Logo"
-          width={120}
-          height={24}
-          style={{ width: 'auto', height: 'auto' }}
-          priority={true}
-          className=""
-        />
-      </div>
       <h1 className={`mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
         Azera Motors Admin Dashboard
       </h1>
