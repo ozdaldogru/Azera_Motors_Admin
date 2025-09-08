@@ -95,6 +95,48 @@ export default function Home() {
       <h1 className={`mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
         Azera Motors Admin Dashboard
       </h1>
+
+      {/* Sales Summary */}
+      <div className={`mt-8 w-full max-w-6xl py-${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+          Sales Summary (All Time)
+        </h2>
+        <div className="overflow-x-auto w-full py-2">
+          {salesLoading ? (
+            <p>Loading sales data...</p>
+          ) : salesSummary ? (
+            <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
+              <thead>
+                <tr>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Cost ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold Price ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Profit ($)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalSold.toLocaleString()}
+                  </td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
+                  </td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalSoldPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
+                  </td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <p>No sales data found.</p>
+          )}
+        </div>
+      </div>
+
       {/* Table 1 */}
       <div className={`mt-4 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
         <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
@@ -185,46 +227,7 @@ export default function Home() {
           )}
         </div>
       </div>
-      {/* Sales Summary */}
-      <div className={`mt-8 w-full max-w-6xl py-${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
-          Sales Summary (All Time)
-        </h2>
-        <div className="overflow-x-auto w-full py-2">
-          {salesLoading ? (
-            <p>Loading sales data...</p>
-          ) : salesSummary ? (
-            <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
-              <thead>
-                <tr>
-                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold ($)</th>
-                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Cost ($)</th>
-                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold Price ($)</th>
-                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Profit ($)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
-                    {salesSummary.totalSold.toLocaleString()}
-                  </td>
-                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
-                    {salesSummary.totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
-                  </td>
-                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
-                    {salesSummary.totalSoldPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
-                  </td>
-                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
-                    {salesSummary.totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <p>No sales data found.</p>
-          )}
-        </div>
-      </div>
+
 
     </div>
   );
