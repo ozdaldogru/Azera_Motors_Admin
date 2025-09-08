@@ -32,12 +32,38 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  session: {
+    strategy: "jwt", // Enable JWT sessions
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET, // Use your JWT_SECRET from .env
+  },
   pages: {
     signIn: "/sign-in",
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       return true;
+    },
+    async jwt({ token, user }) {
+      // Optionally add custom fields to the token
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Optionally add custom fields to the session
+      if (token) {
+        if (!session.user) {
+          session.user = {} as any;
+        }
+        // Ensure session.user is defined before assigning properties
+        (session.user as any).id = token.id;
+        (session.user as any).email = token.email;
+      }
+      return session;
     },
   },
 };

@@ -16,7 +16,7 @@ const TopBar = () => {
 
   return (
     <div className={`sticky top-0 z-20 w-full flex justify-between items-center px-8 py-4 shadow-xl lg:hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
-      <Image src="/logo.png" alt="logo" width={150} height={70} />
+      <Image src="/logo.svg" alt="logo" width={150} height={70} />
 
       <div className="flex gap-8 max-md:hidden">
         {navLinks.map((link) => (
