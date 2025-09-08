@@ -34,9 +34,12 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt", // Enable JWT sessions
+    maxAge: 60 * 60, // 1 hour in seconds
+    updateAge: 60 * 5, // Optional: update session every 5 minutes
   },
   jwt: {
     secret: process.env.JWT_SECRET, // Use your JWT_SECRET from .env
+    maxAge: 60 * 60, // 1 hour in seconds
   },
   pages: {
     signIn: "/sign-in",
