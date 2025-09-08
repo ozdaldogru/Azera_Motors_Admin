@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from '@/lib/ThemeProvider';
+import Image from "next/image";
 
 
 type SourceMediumRow = {
@@ -82,12 +83,21 @@ export default function Home() {
 
   return (
     <div className={`w-full min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
+      {/* Azera Logo */}
+      <Image
+        src="/AzeraLogo.svg"
+        alt="Azera Motors Logo"
+        width={160}
+        height={80}
+        className="mb-2"
+        priority
+      />
       <h1 className={`mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
         Azera Motors Admin Dashboard
       </h1>
       {/* Table 1 */}
       <div className={`mt-4 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-xl font-bold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Source (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full py-2">
@@ -132,7 +142,7 @@ export default function Home() {
       </div>
       {/* Table 2 */}
       <div className={`mt-8 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-2xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Interactions (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full py-2">
