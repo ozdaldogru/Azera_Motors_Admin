@@ -108,7 +108,7 @@ export default function Home() {
             <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
               <thead>
                 <tr>
-                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold </th>
                   <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Cost ($)</th>
                   <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold Price ($)</th>
                   <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Profit ($)</th>
