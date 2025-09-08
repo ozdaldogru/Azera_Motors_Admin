@@ -14,6 +14,13 @@ type EventRow = {
   counts: { [date: string]: number };
 };
 
+type SalesSummary = {
+  totalSold: number;
+  totalCost: number;
+  totalSoldPrice: number;
+  totalProfit: number;
+};
+
 export default function Home() {
   const { theme } = useTheme();
   // Table 1: Session Manual Source
@@ -25,6 +32,10 @@ export default function Home() {
   const [eventDates, setEventDates] = useState<string[]>([]);
   const [eventRows, setEventRows] = useState<EventRow[]>([]);
   const [eventLoading, setEventLoading] = useState(true);
+
+  // Sales Summary
+  const [salesSummary, setSalesSummary] = useState<SalesSummary | null>(null);
+  const [salesLoading, setSalesLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/analytics")
@@ -41,6 +52,13 @@ export default function Home() {
         setEventDates(data.dates || []);
         setEventRows(data.rows || []);
         setEventLoading(false);
+      });
+
+    fetch("/api/products/sales-summary")
+      .then(res => res.json())
+      .then(data => {
+        setSalesSummary(data);
+        setSalesLoading(false);
       });
   }, []);
 
@@ -66,9 +84,9 @@ export default function Home() {
     <div className={`w-full min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
       <div className="flex w-full max-w-4xl justify-center items-center mt-4 mb-2 py-4">
         <Image
-          src="/Azera Logo 01.png"
+          src="/AzeraLogo.png"
           alt="Azera Motor's Logo"
-          width={150}
+          width={120}
           height={24}
           style={{ width: 'auto', height: 'auto' }}
           priority={true}
@@ -125,7 +143,7 @@ export default function Home() {
       </div>
       {/* Table 2 */}
       <div className={`mt-8 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+        <h2 className={`text-base sm:text-lg md:text-2xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
           User Interactions (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full py-2">
@@ -168,6 +186,47 @@ export default function Home() {
           )}
         </div>
       </div>
+      {/* Sales Summary */}
+      <div className={`mt-8 w-full max-w-6xl py-${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+          Sales Summary (All Time)
+        </h2>
+        <div className="overflow-x-auto w-full py-2">
+          {salesLoading ? (
+            <p>Loading sales data...</p>
+          ) : salesSummary ? (
+            <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
+              <thead>
+                <tr>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Cost ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Sold Price ($)</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Profit ($)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalSold.toLocaleString()}
+                  </td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
+                  </td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalSoldPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
+                  </td>
+                  <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>
+                    {salesSummary.totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <p>No sales data found.</p>
+          )}
+        </div>
+      </div>
+
     </div>
   );
 }
