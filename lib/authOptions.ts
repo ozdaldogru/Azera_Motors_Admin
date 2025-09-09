@@ -5,6 +5,18 @@ import { connectToDB } from "@/lib/mongoDB";
 import User from "@/lib/models/User";
 import bcrypt from "bcryptjs";
 
+import { DefaultSession } from "next-auth";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id?: string;
+      name?: string | null;
+      email?: string | null;
+    };
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -33,13 +45,9 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt", // Enable JWT sessions
-    maxAge: 60 * 60, // 1 hour in seconds
-    updateAge: 60 * 5, // Optional: update session every 5 minutes
-  },
-  jwt: {
-    secret: process.env.JWT_SECRET, // Use your JWT_SECRET from .env
-    maxAge: 60 * 60, // 1 hour in seconds
+    strategy: "jwt",
+    maxAge: 60 * 1, // 1 hour in seconds
+    updateAge: 60 * 1,
   },
   pages: {
     signIn: "/sign-in",
@@ -48,23 +56,11 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile, email, credentials }) {
       return true;
     },
-    async jwt({ token, user }) {
-      // Optionally add custom fields to the token
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-      }
-      return token;
-    },
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       // Optionally add custom fields to the session
-      if (token) {
-        if (!session.user) {
-          session.user = {} as any;
-        }
-        // Ensure session.user is defined before assigning properties
-        (session.user as any).id = token.id;
-        (session.user as any).email = token.email;
+      if (user && session.user) {
+        session.user.id = user.id;
+        session.user.email = user.email;
       }
       return session;
     },

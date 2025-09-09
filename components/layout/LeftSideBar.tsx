@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { navLinks } from "@/lib/constants";
 import { useTheme } from '@/lib/ThemeProvider';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { signOut } from "next-auth/react";
 
 const LeftSideBar = () => {
   const pathname = usePathname();
@@ -44,7 +45,12 @@ const LeftSideBar = () => {
             )}
           </button>
         </div>
-       
+        <button
+          onClick={() => signOut({ callbackUrl: "/sign-in" })}
+          className="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded transition-colors"
+        >
+          Log Out
+        </button>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/lib/ThemeProvider";
 import LeftSideBar from "@/components/layout/LeftSideBar";
 import TopBar from "@/components/layout/TopBar";
 import { ToasterProvider } from "@/lib/ToasterProvider";
-import { SessionProvider } from "next-auth/react"; // <-- use NextAuth provider
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 

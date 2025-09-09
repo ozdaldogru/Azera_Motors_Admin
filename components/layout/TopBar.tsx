@@ -8,6 +8,7 @@ import { Menu } from "lucide-react";
 import { navLinks } from "@/lib/constants";
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { useTheme } from '@/lib/ThemeProvider';
+import { signOut } from "next-auth/react";
 
 const TopBar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
@@ -59,6 +60,12 @@ const TopBar = () => {
           ) : (
             <MoonIcon className="w-5 h-5 text-white" />
           )}
+        </button>
+        <button
+          onClick={() => signOut({ callbackUrl: "/sign-in" })}
+          className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded transition-colors"
+        >
+          Log Out
         </button>
       </div>
     </div>
