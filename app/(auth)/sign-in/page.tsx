@@ -74,6 +74,12 @@ export default function LoginPage() {
         >
           Don&apos;t have an account? Sign Up
         </a>
+        <a
+          href="/forgot-password"
+          className="text-center text-blue-600 dark:text-yellow-300 hover:underline mt-2"
+        >
+          Forgot Password?
+        </a>
         {error && <p className="text-red-500 text-center">{error}</p>}
       </form>
     </div>
