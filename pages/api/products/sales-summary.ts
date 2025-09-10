@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const totalSoldPrice = soldCars.reduce((sum, car) => sum + (car.soldPrice || 0), 0);
     const totalProfit = totalSoldPrice - totalCost;
 
+    res.setHeader("Cache-Control", "no-store"); // Disable caching
     return res.status(200).json({
       totalSold,
       totalCost,
