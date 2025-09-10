@@ -1,3 +1,4 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectToDB } from "@/lib/mongoDB";
@@ -32,4 +33,8 @@ export const POST = async (req: NextRequest) => {
     console.log("[signup_POST]", err);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
-};
+}
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.status(200).json({ message: "Signup endpoint" });
+}

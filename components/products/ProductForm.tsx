@@ -379,7 +379,7 @@ const form = useForm<z.infer<typeof formSchema>>({
     }),
     placeholder: (provided: any) => ({
       ...provided,
-      color: document.documentElement.classList.contains("dark") ? "#000" : "#000",
+      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
     }),
   };
 
@@ -981,8 +981,14 @@ const form = useForm<z.infer<typeof formSchema>>({
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <JoditEditor                           
-                            {...field}                            
+                          <JoditEditor
+                            value={field.value}
+                            onChange={field.onChange}
+                            config={{
+                              theme: document.documentElement.classList.contains("dark") ? "dark" : "default",
+                              readonly: false,
+                              height: 300,
+                            }}
                           />
                         </FormControl>
                         <FormMessage className="text-red-500 text-[15px]" />
