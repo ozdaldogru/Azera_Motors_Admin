@@ -1,6 +1,7 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export async function GET(request: Request) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const propertyId = process.env.GA_PROPERTY_ID;
     const analyticsDataClient = new BetaAnalyticsDataClient({
@@ -10,7 +11,7 @@ export async function GET(request: Request) {
       },
     });
 
-    const url = new URL(request.url);
+    const url = new URL(req.url ?? '', `http://${req.headers.host}`);
     const eventTable = url.searchParams.get("eventTable");
 
     if (eventTable) {
@@ -53,10 +54,8 @@ export async function GET(request: Request) {
         }, {} as { [date: string]: number }),
       }));
 
-      return new Response(JSON.stringify({ dates, rows }), {
-        headers: { "Content-Type": "application/json" },
-        status: 200,
-      });
+      res.setHeader("Cache-Control", "no-store"); // Disable caching
+      return res.status(200).json({ dates, rows });
     }
 
     // Session Source/Medium Table: sessions by sessionSource/sessionMedium and date
@@ -101,15 +100,12 @@ export async function GET(request: Request) {
       }, {} as { [date: string]: number }),
     }));
 
-    return new Response(JSON.stringify({ dates, rows }), {
-      headers: { "Content-Type": "application/json" },
-      status: 200,
-    });
+    res.setHeader("Cache-Control", "no-store"); // Disable caching
+    return res.status(200).json({ dates, rows });
   } catch (error) {
     console.error('Error fetching analytics data:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch analytics data' }), {
-      headers: { "Content-Type": "application/json" },
-      status: 500,
-    });
+    res.status(500).json({ error: 'Failed to fetch analytics data' });
+  } finally {
+    res.setHeader("Cache-Control", "no-store");
   }
 }

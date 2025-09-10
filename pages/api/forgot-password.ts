@@ -5,21 +5,17 @@ import { connectToDB } from "@/lib/mongoDB";
 import nodemailer from "nodemailer";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-// Configure nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
-  secure: false, // true for port 465, false for 587
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectToDB();
 
   if (req.method === "POST") {
@@ -28,7 +24,9 @@ export default async function handler(
     // 1. Request password reset (send email)
     if (email && !token && !newPassword) {
       const user = await User.findOne({ email });
-      if (!user) return res.status(404).json({ error: "User not found" });
+      if (!user || !user.email) {
+        return res.status(404).json({ error: "User not found" });
+      }
 
       const resetToken = crypto.randomBytes(32).toString("hex");
       user.resetPasswordToken = resetToken;
