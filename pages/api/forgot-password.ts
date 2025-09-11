@@ -95,3 +95,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
+// Client-side fetch request example
+fetch("/api/forgot-password", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: "user@example.com" })
+});
