@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             subject: "Password Reset Request",
             html: `
               <p>You requested a password reset.</p>
-              <p>Click <a href="http://localhost:3000/reset-password?token=${resetToken}">here</a> to reset your password.</p>
+              <p>Click <a href="https://azera-motors-admin.vercel.app/reset-password?token=${resetToken}">here</a> to reset your password.</p>
               <p>This link will expire in 1 hour.</p>
             `,
           });
