@@ -5,9 +5,7 @@ import { connectToDB } from "../../lib/mongoDB";
 import nodemailer from "nodemailer";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import type { Transporter } from "nodemailer";
-
-let transporter: Transporter | undefined;
+let transporter: nodemailer.Transporter;
 try {
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
