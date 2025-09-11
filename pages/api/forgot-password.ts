@@ -1,11 +1,13 @@
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
-import User from "@/lib/models/User";
-import { connectToDB } from "@/lib/mongoDB";
+import User from "../../lib/models/User";
+import { connectToDB } from "../../lib/mongoDB";
 import nodemailer from "nodemailer";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-let transporter;
+import type { Transporter } from "nodemailer";
+
+let transporter: Transporter | undefined;
 try {
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -41,7 +43,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await user.save();
 
         try {
-          await transporter.sendMail({
+            interface SendMailOptions {
+            from: string;
+            to: string;
+            subject: string;
+            html: string;
+            }
+
+          if (!transporter) {
+            console.error("Transporter is undefined");
+            return res.status(500).json({ error: "Email service not available" });
+          }
+          await transporter.sendMail(<SendMailOptions>{
             from: `"Azera Motors" <${process.env.SMTP_USER}>`,
             to: user.email,
             subject: "Password Reset Request",
