@@ -15,56 +15,70 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+console.log("SMTP_HOST:", process.env.SMTP_HOST);
+console.log("SMTP_PORT:", process.env.SMTP_PORT);
+console.log("SMTP_USER:", process.env.SMTP_USER);
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  if (req.method === "POST") {
-    const { email, token, newPassword } = req.body;
+    if (req.method === "POST") {
+      const { email, token, newPassword } = req.body;
 
-    // 1. Request password reset (send email)
-    if (email && !token && !newPassword) {
-      const user = await User.findOne({ email });
-      if (!user || !user.email) {
-        return res.status(404).json({ error: "User not found" });
+      // 1. Request password reset (send email)
+      if (email && !token && !newPassword) {
+        const user = await User.findOne({ email });
+        if (!user || !user.email) {
+          return res.status(404).json({ error: "User not found" });
+        }
+
+        const resetToken = crypto.randomBytes(32).toString("hex");
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+
+        try {
+          await transporter.sendMail({
+            from: `"Azera Motors" <${process.env.SMTP_USER}>`,
+            to: user.email,
+            subject: "Password Reset Request",
+            html: `
+              <p>You requested a password reset.</p>
+              <p>Click <a href="http://localhost:3000/reset-password?token=${resetToken}">here</a> to reset your password.</p>
+              <p>This link will expire in 1 hour.</p>
+            `,
+          });
+        } catch (mailErr) {
+          console.error("Nodemailer error:", mailErr);
+          return res.status(500).json({ error: "Email sending failed" });
+        }
+
+        return res.status(200).json({ message: "Recovery email sent" });
       }
 
-      const resetToken = crypto.randomBytes(32).toString("hex");
-      user.resetPasswordToken = resetToken;
-      user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-      await user.save();
+      // 2. Handle password reset (with token)
+      if (token && newPassword) {
+        const user = await User.findOne({
+          resetPasswordToken: token,
+          resetPasswordExpires: { $gt: Date.now() },
+        });
+        if (!user) return res.status(400).json({ error: "Invalid or expired token" });
 
-      await transporter.sendMail({
-        from: `"Azera Motors" <${process.env.SMTP_USER}>`,
-        to: user.email,
-        subject: "Password Reset Request",
-        html: `
-          <p>You requested a password reset.</p>
-          <p>Click <a href="http://localhost:3000/reset-password?token=${resetToken}">here</a> to reset your password.</p>
-          <p>This link will expire in 1 hour.</p>
-        `,
-      });
+        user.password = await bcrypt.hash(newPassword, 10);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
 
-      return res.status(200).json({ message: "Recovery email sent" });
+        return res.status(200).json({ message: "Password updated" });
+      }
+
+      return res.status(400).json({ error: "Invalid request" });
     }
 
-    // 2. Handle password reset (with token)
-    if (token && newPassword) {
-      const user = await User.findOne({
-        resetPasswordToken: token,
-        resetPasswordExpires: { $gt: Date.now() },
-      });
-      if (!user) return res.status(400).json({ error: "Invalid or expired token" });
-
-      user.password = await bcrypt.hash(newPassword, 10);
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
-      await user.save();
-
-      return res.status(200).json({ message: "Password updated" });
-    }
-
-    return res.status(400).json({ error: "Invalid request" });
+    return res.status(405).json({ error: "Method not allowed" });
+  } catch (err) {
+    console.error("[forgot-password_POST]", err);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-
-  return res.status(405).json({ error: "Method not allowed" });
 }
