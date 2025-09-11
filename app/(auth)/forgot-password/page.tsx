@@ -11,13 +11,15 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setMessage("");
     try {
-      const res = await fetch("/api/forgot-password", {
+      let r = await fetch("/api/forgot-password", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json();
-      if (res.ok) {
+      const data = await r.json();
+      if (r.ok) {
         setMessage("Recovery email sent! Check your inbox.");
       } else {
         setMessage(data.error || "Email not found or error occurred.");
