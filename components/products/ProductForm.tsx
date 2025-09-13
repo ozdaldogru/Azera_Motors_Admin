@@ -348,45 +348,11 @@ const form = useForm<z.infer<typeof formSchema>>({
     toast.success("PDF uploaded successfully!");
   }
 
-  const selectStyles = {
-    option: (provided: any, state: any) => ({
-      ...provided,
-      backgroundColor: document.documentElement.classList.contains("dark")
-        ? state.isFocused
-          ? "#222" // focused option in dark mode
-          : "#000" // default option in dark mode
-        : state.isFocused
-        ? "#e2e8f0" // focused option in light mode
-        : "#fff",   // default option in light mode
-      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
-    }),
-    singleValue: (provided: any) => ({
-      ...provided,
-      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
-    }),
-    multiValue: (provided: any) => ({
-      ...provided,
-      backgroundColor: document.documentElement.classList.contains("dark") ? "#000" : "#e2e8f0",
-      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
-    }),
-    multiValueLabel: (provided: any) => ({
-      ...provided,
-      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
-    }),
-    input: (provided: any) => ({
-      ...provided,
-      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
-    }),
-    placeholder: (provided: any) => ({
-      ...provided,
-      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
-    }),
-  };
-
+  
   return loading ? (
     <Loader />
   ) : (
-    <div className="h-fit p-10 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-lg">
+    <div className="p-10">
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-heading2-bold">Edit Product</p>
@@ -395,7 +361,7 @@ const form = useForm<z.infer<typeof formSchema>>({
       ) : (
         <p className="text-heading2-bold">Create Product</p>
       )}
-      <Separator className="bg-gray-300 dark:bg-gray-700 mt-4 mb-7" />
+      <Separator className="bg-gray-300 mt-4 mb-7" />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -411,19 +377,14 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormItem>
                   <FormLabel>Makes</FormLabel>
                   <FormControl>
-                  <select
-                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white text-black dark:bg-gray-900  dark:text-white"
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        <option value="" className="bg-white text-black dark:bg-black dark:text-white">
-                        Select A Make
-                        </option>
-                        {makes && makes.map((make) => (
-                          <option
-                            className="overflow-visible bg-white text-black dark:bg-black dark:text-white"
-                            key={make.title}
-                            value={make.title}
-                          >
-                            {make.title}
+                        <option value="">Select A Make</option>
+                        {makes && makes.map((makes) => (
+                          <option className="overflow-visible bg-white"
+                            key={makes.title}>
+                            {makes.title}
                           </option>
                         ))}
                       </select>  
@@ -460,22 +421,18 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
                   <FormControl>
-                  <select
-                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white text-black dark:bg-gray-900  dark:text-white"
+                  <select  
+                      className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        <option value="" className="bg-white text-black dark:bg-black dark:text-white">
-                        Select A Category
-                        </option>
-                        {categories && categories.map((category) => (
-                          <option
-                            className="overflow-visible bg-white text-black dark:bg-black dark:text-white"
-                            key={category.title}
-                            value={category.title}
-                          >
-                            {category.title}
+                        <option value="">Select A Category</option>
+                        {categories && categories.map((categories) => (
+                          <option className="overflow-visible bg-white"
+                            key={categories.title}>
+                            {categories.title}
                           </option>
                         ))}
-                      </select>         
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
@@ -632,13 +589,12 @@ const form = useForm<z.infer<typeof formSchema>>({
                        components={animatedComponents}
                        isMulti
                        placeholder="Select Features - Multiple Selection Allowed"
-                       options={features.map((feature) => ({ value: feature._id, label: feature.title }))}
+                       options={features.map((feature) => ({ value: feature._id, label: feature.title })) as any}
                        onChange={(selectedOptions) => {
-                        const values = selectedOptions.map((option) => option.value);
-                        field.onChange(values);
+                       const values = selectedOptions.map((option) => option.value);
+                       field.onChange(values);
                       }}
                       value={features.filter((feature) => field.value.includes(feature._id)).map((feature) => ({ value: feature._id, label: feature.title }))}
-                      styles={selectStyles}
                     />
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
@@ -659,22 +615,18 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormItem>
                   <FormLabel>Statuses</FormLabel>
                   <FormControl>
-                  <select
-                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white text-black dark:bg-gray-900 dark:text-white"
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        <option value="" className="bg-white text-black dark:bg-black dark:text-white">
-                        Select A Status
-                        </option>
-                        {statuses && statuses.map((status) => (
-                          <option
-                            className="overflow-visible bg-white text-black dark:bg-black dark:text-white"
-                            key={status.title}
-                            value={status.title}
-                          >
-                            {status.title}
+                        <option value="">Select A Status</option>
+                        {statuses && statuses.map((statuses) => (
+                          <option className="overflow-visible bg-white"
+                            key={statuses.title}>
+                            {statuses.title}
                           </option>
                         ))}
                       </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
@@ -719,22 +671,19 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormItem>
                   <FormLabel>Drive Types</FormLabel>
                   <FormControl>
-                  <select
-                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white text-black dark:bg-gray-900 dark:text-white"
+                  <select                    
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        <option value="" className="bg-white text-black dark:bg-black dark:text-white">
-                        Select A Drive Type
-                        </option>
-                        {drivetypes && drivetypes.map((driveType) => (
-                          <option
-                            className="overflow-visible bg-white text-black dark:bg-black dark:text-white"
-                            key={driveType.title}
-                            value={driveType.title}
-                          >
-                            {driveType.title}
+                        <option value="">Select A Drive Type</option>
+                        {drivetypes && drivetypes.map((drivetypes) => (
+                          <option 
+                          className="overflow-visible bg-white"
+                            key={drivetypes.title}>
+                            {drivetypes.title}
                           </option>
                         ))}
-                      </select>         
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
@@ -748,27 +697,24 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormItem>
                   <FormLabel>Fuel Types</FormLabel>
                   <FormControl>
-                  <select
-                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white text-black dark:bg-gray-900 dark:text-white"
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        <option value="" className="bg-white text-black dark:bg-black dark:text-white">
-                        Select A Fuel Type
-                        </option>
-                        {fueltypes && fueltypes.map((fuelType) => (
-                          <option
-                            className="overflow-visible bg-white text-black dark:bg-black dark:text-white"
-                            key={fuelType.title}
-                            value={fuelType.title}
-                          >
-                            {fuelType.title}
+                        <option value="">Select A Fuel Type</option>
+                        {fueltypes && fueltypes.map((fueltypes) => (
+                          <option className="overflow-visible bg-white"
+                            key={fueltypes.title}>
+                            {fueltypes.title}
                           </option>
                         ))}
-                      </select>         
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
               )}
             />     
+
 
         <FormField
               control={form.control}
@@ -777,22 +723,18 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormItem>
                   <FormLabel>Transmissions</FormLabel>
                   <FormControl>
-                    <select
-                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white text-black dark:bg-gray-900 dark:text-white"
+                  <select  
+                  className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                        {...field}>
-                        <option value="" className="bg-white text-black dark:bg-black dark:text-white">
-                        Select A Transmission
-                        </option>
-                        {transmissions && transmissions.map((transmission) => (
-                          <option
-                            className="overflow-visible bg-white text-black dark:bg-black dark:text-white"
-                            key={transmission.title}
-                            value={transmission.title}
-                          >
-                            {transmission.title}
+                        <option value="">Select A Transmission</option>
+                        {transmissions && transmissions.map((transmissions) => (
+                          <option className="overflow-visible bg-white"
+                            key={transmissions.title}>
+                            {transmissions.title}
                           </option>
                         ))}
-                      </select>         
+                      </select>  
+       
                   </FormControl>
                   <FormMessage className="text-red-500 text-[15px]" />
                 </FormItem>
@@ -936,6 +878,10 @@ const form = useForm<z.infer<typeof formSchema>>({
 
       </div>
 
+
+
+
+
       <CldUploadWidget uploadPreset={uploadPreset} onSuccess={onSuccess} options={{ resourceType: 'raw' }}>
         {({ open }) => {
           return (
@@ -981,14 +927,8 @@ const form = useForm<z.infer<typeof formSchema>>({
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <JoditEditor
-                            value={field.value}
-                            onChange={field.onChange}
-                            config={{
-                              theme: document.documentElement.classList.contains("dark") ? "dark" : "default",
-                              readonly: false,
-                              height: 300,
-                            }}
+                          <JoditEditor                           
+                            {...field}                            
                           />
                         </FormControl>
                         <FormMessage className="text-red-500 text-[15px]" />
@@ -1026,7 +966,7 @@ const form = useForm<z.infer<typeof formSchema>>({
           <div className="flex gap-10">
          
             <Button type="submit" 
-              className="bg-[#186a3b] dark:bg-green-700 text-white" 
+              className="bg-[#186a3b] text-white" 
               aria-label="click submit button">
               Submit
             </Button>
@@ -1034,7 +974,7 @@ const form = useForm<z.infer<typeof formSchema>>({
               aria-label="click discard button"
               type="button"
               onClick={() => router.push("/products")}
-              className="bg-[#cb4335] dark:bg-red-700 text-white"
+              className="bg-[#cb4335] text-white"
             >
               Discard
             </Button>

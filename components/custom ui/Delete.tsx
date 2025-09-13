@@ -15,6 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface DeleteProps {
   item: string;
@@ -23,31 +24,46 @@ interface DeleteProps {
 
 const Delete: React.FC<DeleteProps> = ({ item, id }) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  // Map item to correct API and redirect path
+  let itemType = item;
+  if (item === "product") itemType = "products";
+  else if (item === "feature") itemType = "features";
+  else if (item === "category") itemType = "categories";
+  else if (item === "make") itemType = "makes";
+  else if (item === "drivetype") itemType = "drivetypes";
+  else if (item === "fueltype") itemType = "fueltypes";
+  else if (item === "transmission") itemType = "transmissions";
+  else if (item === "status") itemType = "statuses";
 
   const onDelete = async () => {
     try {
-      setLoading(true)
-      const itemType = item === "product" ? "products" : "features"
+      setLoading(true);
       const res = await fetch(`/api/${itemType}/${id}`, {
         method: "DELETE",
-      })
+      });
+
+      setLoading(false);
 
       if (res.ok) {
-        setLoading(false)
-        window.location.href = (`/${itemType}`)
-        toast.success(`${item} deleted`)
+        toast.success(`${item} deleted`);
+        router.replace(`/${itemType}`);
+        window.location.reload(); 
+      } else {
+        toast.error("Failed to delete item");
       }
     } catch (err) {
-      console.log(err)
-      toast.error("Something went wrong! Please try again.")
+      setLoading(false);
+      console.log(err);
+      toast.error("Something went wrong! Please try again.");
     }
-  }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger>
- 
-          <Trash2 color="#e01f1f" className="h-6 w-6 color" />
-
+        <Trash2 color="#e01f1f" className="h-6 w-6 color" />
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white text-grey-1">
         <AlertDialogHeader>
@@ -58,7 +74,9 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 text-white" onClick={onDelete}>Delete</AlertDialogAction>
+          <AlertDialogAction className="bg-red-500 text-white" onClick={onDelete} disabled={loading}>
+            {loading ? "Deleting..." : "Delete"}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
