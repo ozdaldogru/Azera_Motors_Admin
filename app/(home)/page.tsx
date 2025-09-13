@@ -39,23 +39,27 @@ export default function Home() {
   const [salesLoading, setSalesLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/analytics")
+    fetch("/api/analytics-google?sourceMediumTable=true")
       .then(res => res.json())
       .then(data => {
-        setDates(data.dates || []);
-        setRows(data.rows || []);
+        setDates(Array.isArray(data.dates) ? data.dates : []);
+        setRows(Array.isArray(data.rows) ? data.rows : []);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
 
-    fetch("/api/analytics?eventTable=true")
+    fetch("/api/analytics-google?eventTable=true")
       .then(res => res.json())
       .then(data => {
-        setEventDates(data.dates || []);
-        setEventRows(data.rows || []);
+        setEventDates(Array.isArray(data.dates) ? data.dates : []);
+        setEventRows(Array.isArray(data.rows) ? data.rows : []);
         setEventLoading(false);
-      });
+      })
+      .catch(() => setEventLoading(false));
+  }, []);
 
-    fetch("/api/products/sales-summary")
+  useEffect(() => {
+    fetch("/api/analytics.sales-summary")
       .then(res => res.json())
       .then(data => {
         setSalesSummary(data);
