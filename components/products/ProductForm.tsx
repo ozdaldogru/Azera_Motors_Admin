@@ -38,27 +38,27 @@ const JoditEditor = dynamic(
 const formSchema = z.object({
   model: z.string().min(1, "***Model is required***"),
   make: z.string().min(1, "***Make is required***"),
-  price: z.number().min(1, "***Price is required***"),
+  price: z.coerce.number().min(1, "***Price is required***"),
   features: z.array(z.string()).min(1, "***At least one feature is required***"),
   categories: z.string().min(1, "***Category is required***"),
-  year: z.number().min(1900, "***Year is required***"),
-  mileage: z.number().min(1, "***Mileage is required***"),
+  year: z.coerce.number().min(1900, "***Year is required***"),
+  mileage: z.coerce.number().min(1, "***Mileage is required***"),
   driveType: z.string().min(1, "***Drive type is required***"),
   fuelType: z.string().min(1, "***Fuel type is required***"),
   transmission: z.string().min(1, "***Transmission is required***"),
-  engineSize: z.number().min(1, "***Engine size is required***"),
-  cylinder: z.number().min(1, "***Cylinder is required***"),
+  engineSize: z.coerce.number().min(1, "***Engine size is required***"),
+  cylinder: z.coerce.number().min(1, "***Cylinder is required***"),
   color: z.string().min(1, "***Color is required***"),
   interiorColor: z.string().min(1, "***Interior color is required***"),
-  door: z.number().min(2, "***Number of doors is required***"),
+  door: z.coerce.number().min(2, "***Number of doors is required***"),
   status: z.string().min(1, "***Status is required***"),
-  numberofowner: z.number().min(1, "***Number of owners is required***"),
+  numberofowner: z.coerce.number().min(1, "***Number of owners is required***"),
   vin: z.string(),
   history: z.string(),
   description: z.string().min(10, "***Description must be at least 10 characters***"),
   media: z.array(z.string()),
-  totalCost: z.number(),
-  soldPrice: z.number(),
+  totalCost: z.coerce.number(),
+  soldPrice: z.coerce.number(),
   soldDate: z.string().optional(),
 }).superRefine((data, ctx) => {
   if (data.status === "Sold") {
@@ -404,7 +404,7 @@ const form = useForm<z.infer<typeof formSchema>>({
                   <FormControl
                   className=" border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                     <Input
-                      type="text"
+                      type="number"
                       placeholder="Enter model"
                       {...field}
                     />
