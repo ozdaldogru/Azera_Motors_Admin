@@ -42,16 +42,24 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
 
-      <CldUploadWidget uploadPreset= {uploadPreset} onUpload={onUpload}>
-        {({ open }) => {
-          return (
-            <Button type="button" onClick={() => open()} className="bg-[#7f8c8d] text-white">
-              <Plus className="h-4 w-4 mr-2" />
-              Upload Image
-            </Button>
-          );
-        }}
-      </CldUploadWidget>
+          <CldUploadWidget
+              uploadPreset={uploadPreset}
+              options={{ multiple: true }}
+              onSuccess={(result: any) => {
+                if (Array.isArray(result.info)) {
+                  result.info.forEach((img: any) => onChange(img.secure_url));
+                } else {
+                  onChange(result.info.secure_url);
+                }
+              }}
+            >
+              {({ open }) => (
+                <Button type="button" onClick={() => open()} className="bg-[#7f8c8d] text-white">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Upload Image
+                </Button>
+              )}
+          </CldUploadWidget>
     </div>
   );
 };
