@@ -86,7 +86,7 @@ export default function Home() {
   const eventGrandTotal = eventTotals.reduce((sum, t) => sum + t, 0);
 
   return (
-    <div className={`w-full min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
+    <div className={`w-dpv min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
       {/* Azera Logo */}
       <Image
         src="/AzeraLogo.svg"
