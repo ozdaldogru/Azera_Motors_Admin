@@ -1,65 +1,81 @@
 import { CldUploadWidget } from "next-cloudinary";
-import { Plus, Trash2 } from "lucide-react";
-import * as React from "react"
+import { Plus } from "lucide-react";
+import * as React from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 
 interface ImageUploadProps {
   value: string[];
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
   onRemove: (value: string) => void;
 }
 
-const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   onChange,
   onRemove,
   value,
 }) => {
-  const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
-  };
+  // Local state to collect all images
+  const [images, setImages] = React.useState<string[]>(value ?? []);
+
+  React.useEffect(() => {
+    setImages(value ?? []);
+  }, [value]);
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center gap-4 border border-grey-1 p-4 rounded-lg">
-        {value.map((url) => (
-          <div key={url} className="border border-black p-4 rounded-lg relative w-[200px] h-[250px]">
-            <div className="absolute top-0 right-0 z-10">
-
-                <Trash2 color="#e01f1f" className="h-6 w-6" onClick={() => onRemove(url)}/>
-
-            </div>
+      <CldUploadWidget
+        uploadPreset={uploadPreset}
+        options={{ multiple: true }}
+        onSuccess={(result: any) => {
+          const urls = Array.isArray(result.info)
+            ? result.info.map((img: any) => img.secure_url)
+            : [result.info.secure_url];
+          setImages((prev) => {
+            const uniqueUrls = Array.from(new Set([...prev, ...urls]));
+            onChange(uniqueUrls);
+            return uniqueUrls;
+          });
+        }}
+      >
+        {({ open }) => (
+          <Button
+            type="button"
+            onClick={() => open()}
+            className="bg-[#7f8c8d] text-white"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Upload Image
+          </Button>
+        )}
+      </CldUploadWidget>
+      <div className="flex flex-wrap gap-2 mt-2">
+        {images.filter(Boolean).map((url) => (
+          <div key={url} className="relative flex flex-col items-center">
             <Image
               src={url}
-              sizes="100vw, 50vw,33vw "
-              alt="features"
-              className="object-cover rounded-lg"
-              fill
+              alt="uploaded"
+              className="w-24 h-24 object-cover rounded"
+              width={96}
+              height={96}
             />
+            <button
+              type="button"
+              onClick={() => {
+                const filtered = images.filter((image) => image !== url);
+                setImages(filtered);
+                onRemove(url);
+                onChange(filtered);
+              }}
+              className="absolute top-0 right-0 bg-red-600 text-white rounded-full px-2"
+            >
+              ×
+            </button>
           </div>
         ))}
       </div>
-
-          <CldUploadWidget
-              uploadPreset={uploadPreset}
-              options={{ multiple: true }}
-              onSuccess={(result: any) => {
-                if (Array.isArray(result.info)) {
-                  result.info.forEach((img: any) => onChange(img.secure_url));
-                } else {
-                  onChange(result.info.secure_url);
-                }
-              }}
-            >
-              {({ open }) => (
-                <Button type="button" onClick={() => open()} className="bg-[#7f8c8d] text-white">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Upload Image
-                </Button>
-              )}
-          </CldUploadWidget>
     </div>
   );
 };
