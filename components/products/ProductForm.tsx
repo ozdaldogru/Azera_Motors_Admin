@@ -946,17 +946,17 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormLabel>Images</FormLabel>
                   <FormControl
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <ImageUpload
-                              value={field.value}
-                              onChange={(url) =>
-                                field.onChange((prev: string[]) =>
-                                  prev.includes(url) ? prev : [...prev, url]
-                                )
-                              }
-                              onRemove={(url) =>
-                                field.onChange((prev: string[]) => prev.filter((image) => image !== url))
-                              }
-                            />
+                        <ImageUpload
+                          value={field.value}
+                          onChange={(url) => {
+                            if (!field.value.includes(url)) {
+                              field.onChange([...field.value, url]);
+                            }
+                          }}
+                          onRemove={(url) =>
+                            field.onChange(field.value.filter((image) => image !== url))
+                          }
+                        />
                 </FormControl>
                 <FormMessage className="text-red-500 text-[15px]" />
               </FormItem>
