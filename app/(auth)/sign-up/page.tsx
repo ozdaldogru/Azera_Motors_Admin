@@ -1,3 +1,4 @@
+
 "use client";
 export default function SignUpPage() {
   return (
@@ -20,9 +21,13 @@ export default function SignUpPage() {
   );
 }
 
-/*"use client";
+
+
+/*
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -31,6 +36,7 @@ export default function SignUpPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,14 +85,24 @@ export default function SignUpPage() {
           className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100"
           required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100"
-          required
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100 w-full pr-10"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(v => !v)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
+        </div>
         <button
           type="submit"
           className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors"

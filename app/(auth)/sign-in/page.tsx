@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,16 +47,26 @@ export default function LoginPage() {
           required
           disabled={loading}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100"
-          required
-          autoComplete="current-password"
-          disabled={loading}
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100 w-full pr-10"
+            required
+            autoComplete="current-password"
+            disabled={loading}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(v => !v)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
+        </div>
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center"
