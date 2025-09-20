@@ -342,11 +342,12 @@ const form = useForm<z.infer<typeof formSchema>>({
     getTransmissions();
   }, []);
 
-  function onSuccess(results: any) {
-    const url = results.info.secure_url;
-    setPdfUrl(url);
-    toast.success("PDF uploaded successfully!");
-  }
+function onSuccess(results: any) {
+  const url = results.info.secure_url;
+  setPdfUrl(url);
+  form.setValue("history", url); // <-- Set Car History field
+  toast.success("PDF uploaded successfully!");
+}
 
   
   return loading ? (
@@ -893,25 +894,20 @@ const form = useForm<z.infer<typeof formSchema>>({
         }}
       </CldUploadWidget>
 
-      {pdfUrl && (
-        <div className="mt-4">
-            {pdfUrl}
-
-        </div>
-      )}
-
-          <FormField
+        <FormField
               control={form.control}
               name="history"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Car History</FormLabel>
                   <FormControl
-                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  >
                     <Input
-                     type="text"
+                      type="text"
                       placeholder="Car's History Link"
                       {...field}
+                      readOnly // <-- Optional: make it read-only
                       onKeyDown={handleKeyPress}
                     />
                   </FormControl>
@@ -938,7 +934,7 @@ const form = useForm<z.infer<typeof formSchema>>({
 
 
 
-        <FormField
+          <FormField
             control={form.control}
             name="media"
             render={({ field }) => (
@@ -946,16 +942,16 @@ const form = useForm<z.infer<typeof formSchema>>({
                 <FormLabel>Images</FormLabel>
                   <FormControl
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-<ImageUpload
-  value={field.value}
-  onChange={(urls) => field.onChange(urls)}
-  onRemove={(url) => field.onChange(field.value.filter((image) => image !== url))}
-/>
-                </FormControl>
-                <FormMessage className="text-red-500 text-[15px]" />
-              </FormItem>
-            )}
-          />
+                      <ImageUpload
+                        value={field.value}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) => field.onChange(field.value.filter((image) => image !== url))}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500 text-[15px]" />
+                 </FormItem>
+                  )}
+              />
      
 
     
