@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
   make: String,
   model: String,
   price: { type: mongoose.Schema.Types.Decimal128, get: (v: mongoose.Schema.Types.Decimal128) => { return parseFloat(v.toString()) }},
-  features: [{ type: mongoose.Schema.Types.ObjectId, ref: "Feature" }],
+  features: [String],
   numberofowner: Number,
   year: Number,
   mileage: Number,

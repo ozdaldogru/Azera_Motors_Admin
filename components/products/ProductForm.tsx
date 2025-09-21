@@ -124,7 +124,7 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [features, setFeatures] = useState<FeatureType[]>([]);
+  const [features, setFeatures] = useState<{ _id: string; title: string }[]>([]);
   const [makes, setMakes] = useState<MakeType[]>();
   const [categories, setCategories] = useState<CategoryType[]>();
   const [drivetypes, setDriveTypes] = useState<DriveTypeType[]>();
@@ -222,9 +222,11 @@ const form = useForm<z.infer<typeof formSchema>>({
     }
   };
 
-  useEffect(() => {
-    getFeatures();
-  }, []);
+useEffect(() => {
+  fetch("/api/features")
+    .then(res => res.json())
+    .then(data => setFeatures(data));
+}, []);
 
   const getMakes = async () => {
     try {

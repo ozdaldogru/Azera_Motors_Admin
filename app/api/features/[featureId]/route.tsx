@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions"; // Update path if needed
 import { connectToDB } from "@/lib/mongoDB";
 import Feature from "@/lib/models/Feature";
-import Product from "@/lib/models/Product";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -18,7 +17,8 @@ export const GET = async (req: NextRequest, props: { params: Promise<{ featureId
   try {
     await connectToDB();
 
-    const feature = await Feature.findById(params.featureId).populate({ path: "products", model: Product });
+    // Just find the feature, no population
+    const feature = await Feature.findById(params.featureId);
 
     if (!feature) {
       return new NextResponse(
@@ -81,13 +81,9 @@ export const DELETE = async (req: NextRequest, props: { params: Promise<{ featur
 
     await connectToDB();
 
+    // Just delete the feature, do not update products
     await Feature.findByIdAndDelete(params.featureId);
 
-    await Product.updateMany(
-      { features: params.featureId },
-      { $pull: { features: params.featureId } }
-    );
-    
     return new NextResponse("Feature is deleted", { status: 200 });
   } catch (err) {
     console.log("[featureId_DELETE]", err);

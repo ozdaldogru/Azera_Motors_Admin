@@ -6,12 +6,6 @@ const featureSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  products: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-    }
-  ],
   createdAt: {
     type: Date,
     default: Date.now,

@@ -35,7 +35,7 @@ const Categories = () => {
 
   const { theme } = useTheme();
   return loading ? (<Loader />) : (
-    <div className={`h-dvh px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
+    <div className={`h-full px-10 py-5 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
       <div className="flex items-center justify-between">
         <p className={`text-heading2-bold font-bold ${theme === 'dark' ? 'text-white' : ''}`}>Categories</p>
         <Button className={`bg-[#2b4db8] text-white ${theme === 'dark' ? 'bg-yellow-700 text-white' : ''}`} onClick={() => router.push("/categories/new")}> 

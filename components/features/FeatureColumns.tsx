@@ -18,11 +18,6 @@ export const columns: ColumnDef<FeatureType>[] = [
     ),
   },
   {
-    accessorKey: "products",
-    header: "Products",
-    cell: ({ row }) => <p>{row.original.products.length}</p>,
-  },
-  {
     id: "actions",
     cell: ({ row }) => <Delete item="feature" id={row.original._id} />,
   },
