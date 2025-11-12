@@ -8,7 +8,7 @@ import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 
@@ -23,6 +23,27 @@ interface MakeFormProps {
 const MakeForm: React.FC<MakeFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  // NEW: existing makes for duplicate check
+  const [existingMakes, setExistingMakes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadMakes = async () => {
+      try {
+        const res = await fetch("/api/makes");
+        if (!res.ok) return;
+        const data = await res.json();
+        // accept array of objects or strings
+        const titles = Array.isArray(data)
+          ? data.map((m: any) => (typeof m === "string" ? m : m.title || m.name || "")).filter(Boolean)
+          : [];
+        setExistingMakes(titles.map((t: string) => t.toLowerCase()));
+      } catch (err) {
+        console.log("[makes_fetch]", err);
+      }
+    };
+    loadMakes();
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,23 +62,45 @@ const MakeForm: React.FC<MakeFormProps> = ({ initialData }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      const title = values.title.trim();
+      if (!title) {
+        toast.error("Title is required");
+        return;
+      }
+
+      const titleLower = title.toLowerCase();
+
+      // If creating new make, block duplicates.
+      // If editing, allow same title if unchanged, but block if changing to an existing one.
+      const isDuplicate = existingMakes.includes(titleLower) && (!initialData || initialData.title.toLowerCase() !== titleLower);
+
+      if (isDuplicate) {
+        toast.error("Make already exists");
+        return;
+      }
+
       setLoading(true);
       const url = initialData
         ? `/api/makes/${initialData._id}`
         : "/api/makes";
       const res = await fetch(url, {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify({ title }),
       });
       if (res.ok) {
         setLoading(false);
         toast.success(`Make ${initialData ? "updated" : "created"}`);
-        window.location.href = "/makes";
+        // refresh list page
         router.push("/makes");
+      } else {
+        const text = await res.text().catch(() => "Request failed");
+        toast.error(text || "Something went wrong! Please try again.");
+        setLoading(false);
       }
     } catch (err) {
       console.log("[makes_POST]", err);
       toast.error("Something went wrong! Please try again.");
+      setLoading(false);
     }
   };
 
@@ -93,7 +136,7 @@ const MakeForm: React.FC<MakeFormProps> = ({ initialData }) => {
             )}
           />
           <div className="flex gap-10">
-            <Button type="submit" className="bg-[#186a3b] dark:bg-green-700 text-white">
+            <Button type="submit" className="bg-[#186a3b] dark:bg-green-700 text-white" disabled={loading}>
               Submit
             </Button>
             <Button
