@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useCallback } from "react";
 import Loader from "@/components/custom ui/Loader"
 import StatusForm from "@/components/statuses/StatusForm"
 
@@ -9,7 +9,7 @@ const StatusDetails = (props: { params: Promise<{ statusId: string }>}) => {
   const [loading, setLoading] = useState(true)
   const [StatusDetails, setStatusDetails] = useState<StatusType | null>(null)
 
-  const getStatusDetails = async () => {
+  const getStatusDetails = useCallback(async () => {
     try { 
       const res = await fetch(`/api/statuses/${params.statusId}`, {
         method: "GET"
@@ -20,11 +20,11 @@ const StatusDetails = (props: { params: Promise<{ statusId: string }>}) => {
     } catch (err) {
       console.log("[statusId_GET]", err)
     }
-  }
+  }, [params.statusId])
 
   useEffect(() => {
     getStatusDetails()
-  })
+  }, [getStatusDetails])
 
   return loading ? <Loader /> : (
     <StatusForm initialData={StatusDetails}/>

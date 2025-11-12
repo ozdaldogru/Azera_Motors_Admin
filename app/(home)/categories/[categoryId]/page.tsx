@@ -1,15 +1,16 @@
 "use client"
 
-import { useEffect, useState, use } from "react";
-import Loader from "@/components/custom ui/Loader"
-import CategoryForm from "@/components/categories/CategoryForm"
+import * as React from "react";
+import Loader from '@/components/custom ui/Loader'
+import CategoryForm from '@/components/categories/CategoryForm' // Adjust import as needed
+import { useEffect, useState, use, useCallback } from 'react';
 
 const CategoryDetails = (props: { params: Promise<{ categoryId: string }>}) => {
   const params = use(props.params);
   const [loading, setLoading] = useState(true)
-  const [CategoryDetails, setCategoryDetails] = useState<CategoryType | null>(null)
+  const [categoryDetails, setCategoryDetails] = useState<CategoryType | null>(null) // Adjust type
 
-  const getCategoryDetails = async () => {
+  const getCategoryDetails = useCallback(async () => {
     try { 
       const res = await fetch(`/api/categories/${params.categoryId}`, {
         method: "GET"
@@ -20,15 +21,15 @@ const CategoryDetails = (props: { params: Promise<{ categoryId: string }>}) => {
     } catch (err) {
       console.log("[categoryId_GET]", err)
     }
-  }
+  }, [params.categoryId]) // <-- Add dependencies for useCallback
 
   useEffect(() => {
     getCategoryDetails()
-  })
+  }, [getCategoryDetails]) // <-- Include getCategoryDetails in deps
 
   return loading ? <Loader /> : (
-    <CategoryForm initialData={CategoryDetails}/>
+    <CategoryForm initialData={categoryDetails} />
   )
 }
 
-export default CategoryDetails;
+export default CategoryDetails

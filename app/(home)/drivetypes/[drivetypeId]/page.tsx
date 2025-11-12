@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useCallback } from "react";
 import Loader from "@/components/custom ui/Loader"
 import DriveTypeForm from "@/components/drivetypes/DriveTypeForm"
 
@@ -9,7 +9,7 @@ const DriveTypeDetails = (props: { params: Promise<{ drivetypeId: string }>}) =>
   const [loading, setLoading] = useState(true)
   const [DriveTypeDetails, setDriveTypeDetails] = useState<DriveTypeType | null>(null)
 
-  const getDriveTypeDetails = async () => {
+  const getDriveTypeDetails = useCallback(async () => {
     try { 
       const res = await fetch(`/api/drivetypes/${params.drivetypeId}`, {
         method: "GET"
@@ -20,11 +20,11 @@ const DriveTypeDetails = (props: { params: Promise<{ drivetypeId: string }>}) =>
     } catch (err) {
       console.log("[drivetypeId_GET]", err)
     }
-  }
+  }, [params.drivetypeId])
 
   useEffect(() => {
     getDriveTypeDetails()
-  })
+  }, [getDriveTypeDetails])
 
   return loading ? <Loader /> : (
     <DriveTypeForm initialData={DriveTypeDetails}/>

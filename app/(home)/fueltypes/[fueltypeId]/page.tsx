@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useCallback } from "react";
 import Loader from "@/components/custom ui/Loader"
 import FuelTypeForm from "@/components/fueltypes/FuelTypeForm"
 
@@ -9,7 +9,7 @@ const FuelTypeDetails = (props: { params: Promise<{ fueltypeId: string }>}) => {
   const [loading, setLoading] = useState(true)
   const [FuelTypeDetails, setFuelTypeDetails] = useState<FuelTypeType | null>(null)
 
-  const getFuelTypeDetails = async () => {
+  const getFuelTypeDetails = useCallback(async () => {
     try { 
       const res = await fetch(`/api/fueltypes/${params.fueltypeId}`, {
         method: "GET"
@@ -20,11 +20,11 @@ const FuelTypeDetails = (props: { params: Promise<{ fueltypeId: string }>}) => {
     } catch (err) {
       console.log("[fueltypeId_GET]", err)
     }
-  }
+  }, [params.fueltypeId])
 
   useEffect(() => {
     getFuelTypeDetails()
-  })
+  }, [getFuelTypeDetails])
 
   return loading ? <Loader /> : (
     <FuelTypeForm initialData={FuelTypeDetails}/>

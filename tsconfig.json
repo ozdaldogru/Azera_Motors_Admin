@@ -29,11 +29,18 @@
     "target": "ES2017"
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "components/Shared/features.js",
+    "components/Shared/features2.js",
+    "components/Shared/features2.jsx",
+    "components/Shared/features3.jsx",
+    "components/products/ProductForm.tsx",
+    "components/products/ProductForm.tsx",
+    "next-env.d.ts",
+    "pages/api/search/[query].ts",
     ".next/types/**/*.ts"
-, "components/Shared/features3.jsx", "components/Shared/features2.jsx", "components/Shared/features2.js", "components/Shared/features.js", "components/products/ProductForm.tsx", "components/products/ProductForm.tsx", "pages/api/search/[query].ts"  ],
+  ],
   "exclude": [
     "node_modules"
   ]

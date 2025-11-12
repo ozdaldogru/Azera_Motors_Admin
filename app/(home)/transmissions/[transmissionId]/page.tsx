@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useCallback } from "react";
 import Loader from "@/components/custom ui/Loader"
 import TransmissionForm from "@/components/transmissions/TransmissionForm"
 
@@ -9,7 +9,7 @@ const TransmissionDetails = (props: { params: Promise<{ transmissionId: string }
   const [loading, setLoading] = useState(true)
   const [TransmissionDetails, setTransmissionDetails] = useState<TransmissionType | null>(null)
 
-  const getTransmissionDetails = async () => {
+  const getTransmissionDetails = useCallback(async () => {
     try { 
       const res = await fetch(`/api/transmissions/${params.transmissionId}`, {
         method: "GET"
@@ -20,11 +20,11 @@ const TransmissionDetails = (props: { params: Promise<{ transmissionId: string }
     } catch (err) {
       console.log("[transmissionId_GET]", err)
     }
-  }
+  }, [params.transmissionId])
 
   useEffect(() => {
     getTransmissionDetails()
-  })
+  }, [getTransmissionDetails])
 
   return loading ? <Loader /> : (
     <TransmissionForm initialData={TransmissionDetails}/>
