@@ -9,6 +9,8 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   flexRender,
 } from "@tanstack/react-table";
 import {
@@ -20,11 +22,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "../ui/input";
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"; // For sort icons
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchKey: string[] | string;
+  searchKey: string | string[];
   pageSize?: number;
 }
 
@@ -37,6 +40,7 @@ export function DataTable<TData extends Record<string, any>, TValue>({
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   // Debounce search input
   useEffect(() => {
@@ -75,11 +79,15 @@ export function DataTable<TData extends Record<string, any>, TValue>({
 
   const table = useReactTable({
     data: filteredData,
-    columns,
+    columns, // Use original columns order
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: {
+    getSortedRowModel: getSortedRowModel(), // Enable row sorting
+    onSortingChange: setSorting,
+    state: {
+      sorting,
       pagination: {
+        pageIndex: 0,
         pageSize: currentPageSize,
       },
     },
@@ -122,11 +130,30 @@ export function DataTable<TData extends Record<string, any>, TValue>({
           <TableHeader className="bg-slate-950 text-white text-[20px]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const canSort = header.column.getCanSort();
+                  return (
+                    <TableHead key={header.id}>
+                      {canSort ? (
+                        <Button
+                          variant="ghost"
+                          onClick={header.column.getToggleSortingHandler()}
+                          className="h-auto p-0 font-bold text-white hover:bg-transparent"
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {{
+                            asc: <ArrowUp className="ml-2 h-4 w-4" />,
+                            desc: <ArrowDown className="ml-2 h-4 w-4" />,
+                          }[header.column.getIsSorted() as string] ?? (
+                            <ArrowUpDown className="ml-2 h-4 w-4" />
+                          )}
+                        </Button>
+                      ) : (
+                        flexRender(header.column.columnDef.header, header.getContext())
+                      )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>

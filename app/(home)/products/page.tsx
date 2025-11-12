@@ -1,13 +1,14 @@
 "use client";
 
+import React, { useEffect, useState, useMemo } from "react"; // <-- Add useMemo
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import Loader from "@/components/custom ui/Loader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/custom ui/DataTable";
 import { columns } from "@/components/products/ProductColumns";
+import ProductForm from "@/components/products/ProductForm";
 import { useTheme } from '@/lib/ThemeProvider';
 
 type MakeType = { _id: string; title: string };
@@ -78,16 +79,18 @@ const Products = () => {
     fetchOptions("/api/categories", setCategories);
   }, []);
 
-
   const { theme } = useTheme();
 
-  const filteredProducts = products
-    .filter(p => !selectedMake || p.make === selectedMake)
-    .filter(p => !selectedStatus || p.status === selectedStatus)
-    .filter(p => !selectedDriveType || p.driveType === selectedDriveType)
-    .filter(p => !selectedFuelType || p.fuelType === selectedFuelType)
-    .filter(p => !selectedTransmission || p.transmission === selectedTransmission)
-    .filter(p => !selectedCategory || p.categories === selectedCategory);
+  // Memoize filteredProducts to prevent unnecessary re-renders
+  const filteredProducts = useMemo(() => {
+    return products
+      .filter(p => !selectedMake || p.make === selectedMake)
+      .filter(p => !selectedStatus || p.status === selectedStatus)
+      .filter(p => !selectedDriveType || p.driveType === selectedDriveType)
+      .filter(p => !selectedFuelType || p.fuelType === selectedFuelType)
+      .filter(p => !selectedTransmission || p.transmission === selectedTransmission)
+      .filter(p => !selectedCategory || p.categories === selectedCategory);
+  }, [products, selectedMake, selectedStatus, selectedDriveType, selectedFuelType, selectedTransmission, selectedCategory]);
 
   const getUniqueSorted = (arr: any[], key: string) =>
     Array.from(new Set(arr.map(item => item[key]).filter(Boolean))).sort((a, b) => a.localeCompare(b));
@@ -223,5 +226,22 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default React.memo(Products);
+
+// Example of the problematic edit page
+const EditProduct = ({ params }: { params: { productId: string } }) => {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await fetch(`/api/products/${params.productId}`);
+      const data = await res.json();
+      setProduct(data);
+    };
+    fetchProduct(); // <-- This runs on every render if no dependencies
+  }, [params.productId]); // <-- Add [params.productId] to prevent loops
+
+  return <ProductForm initialData={product} />;
+};
+
 

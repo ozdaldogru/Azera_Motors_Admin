@@ -25,7 +25,7 @@ const ProductDetails = (props: { params: Promise<{ productId: string }>}) => {
 
   useEffect(() => {
     getProductDetails()
-  })
+  }, [params.productId]) // <-- Add dependencies to prevent infinite loop
 
   return loading ? <Loader /> : (
     <ProductForm initialData={productDetails} />
