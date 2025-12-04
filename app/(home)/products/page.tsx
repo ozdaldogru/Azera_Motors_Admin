@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react"; // <-- Add useMemo
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import Loader from "@/components/custom ui/Loader";
@@ -13,23 +13,134 @@ import { useTheme } from '@/lib/ThemeProvider';
 
 type MakeType = { _id: string; title: string };
 
+const MultiCheckboxFilter = ({
+  options,
+  selected,
+  onApply,
+  placeholder,
+  theme,
+}: {
+  options: { value: string; label: string }[];
+  selected: string[];
+  onApply: (selected: string[]) => void;
+  placeholder: string;
+  theme: string;
+}) => {
+  const [open, setOpen] = useState(false);
+  const [tempSelected, setTempSelected] = useState<string[]>(selected);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    if (!open) return;
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".multi-checkbox-popover")) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const handleCheckboxChange = (value: string) => {
+    setTempSelected(prev =>
+      prev.includes(value)
+        ? prev.filter(v => v !== value)
+        : [...prev, value]
+    );
+  };
+
+  const handleApply = () => {
+    onApply(tempSelected);
+    setOpen(false);
+  };
+
+  const handleClear = () => {
+    setTempSelected([]);
+    onApply([]);
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setTempSelected(selected);
+    setOpen(prev => !prev); // Toggle open/close when filter button is clicked
+  };
+
+  const popoverStyle =
+    theme === "dark"
+      ? "bg-[#23272f] text-white border border-gray-700"
+      : "bg-white text-black border border-gray-300";
+
+  const applyButtonStyle =
+    "mt-4 w-full bg-green-600 hover:bg-green-700 text-white";
+
+  const clearButtonStyle =
+    "mt-2 w-full bg-gray-300 hover:bg-gray-400 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600";
+
+  // Change button text color to red if filtered
+  const filterButtonStyle =
+    (selected.length > 0 ? "text-red-600 " : "") +
+    (theme === "dark"
+      ? "bg-[#23272f] border border-gray-700"
+      : "bg-white border border-gray-300");
+
+  return (
+    <div className="relative min-w-[200px]">
+      <Button
+        variant="outline"
+        className={filterButtonStyle + " w-full"}
+        onClick={handleOpen}
+      >
+        {placeholder}
+      </Button>
+      {open && (
+        <div
+          className={`multi-checkbox-popover absolute z-10 mt-2 rounded shadow-lg p-4 min-w-[200px] ${popoverStyle}`}
+        >
+          <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
+            {options.map(opt => (
+              <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={tempSelected.includes(opt.value)}
+                  onChange={() => handleCheckboxChange(opt.value)}
+                />
+                <span>{opt.label}</span>
+              </label>
+            ))}
+          </div>
+          <Button className={applyButtonStyle} onClick={handleApply}>
+            Apply
+          </Button>
+          <Button className={clearButtonStyle} onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Products = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<any[]>([]);
   const [makes, setMakes] = useState<MakeType[]>([]);
-  const [selectedMake, setSelectedMake] = useState<string>("");
-  const [selectedStatus, setSelectedStatus] = useState<string>("");
-  const [selectedDriveType, setSelectedDriveType] = useState<string>("");
-  const [selectedFuelType, setSelectedFuelType] = useState<string>("");
-  const [selectedTransmission, setSelectedTransmission] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-
   const [statuses, setStatuses] = useState<{ _id: string; title: string }[]>([]);
   const [driveTypes, setDriveTypes] = useState<{ _id: string; title: string }[]>([]);
   const [fuelTypes, setFuelTypes] = useState<{ _id: string; title: string }[]>([]);
   const [transmissions, setTransmissions] = useState<{ _id: string; title: string }[]>([]);
   const [categories, setCategories] = useState<{ _id: string; title: string }[]>([]);
+
+  // Multi-checkbox filter states
+  const [selectedMakes, setSelectedMakes] = useState<string[]>([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [selectedDriveTypes, setSelectedDriveTypes] = useState<string[]>([]);
+  const [selectedFuelTypes, setSelectedFuelTypes] = useState<string[]>([]);
+  const [selectedTransmissions, setSelectedTransmissions] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const { theme } = useTheme();
 
   // Fetch products
   useEffect(() => {
@@ -53,7 +164,6 @@ const Products = () => {
       try {
         const res = await fetch("/api/makes", { method: "GET" });
         const data = await res.json();
-        // data is an array of { _id, title }
         setMakes(data);
       } catch (err) {
         console.log("[makes_GET]", err);
@@ -79,23 +189,40 @@ const Products = () => {
     fetchOptions("/api/categories", setCategories);
   }, []);
 
-  const { theme } = useTheme();
-
   // Memoize filteredProducts to prevent unnecessary re-renders
   const filteredProducts = useMemo(() => {
     return products
-      .filter(p => !selectedMake || p.make === selectedMake)
-      .filter(p => !selectedStatus || p.status === selectedStatus)
-      .filter(p => !selectedDriveType || p.driveType === selectedDriveType)
-      .filter(p => !selectedFuelType || p.fuelType === selectedFuelType)
-      .filter(p => !selectedTransmission || p.transmission === selectedTransmission)
-      .filter(p => !selectedCategory || p.categories === selectedCategory);
-  }, [products, selectedMake, selectedStatus, selectedDriveType, selectedFuelType, selectedTransmission, selectedCategory]);
+      .filter(p => selectedMakes.length === 0 || selectedMakes.includes(p.make))
+      .filter(p => selectedStatuses.length === 0 || selectedStatuses.includes(p.status))
+      .filter(p => selectedDriveTypes.length === 0 || selectedDriveTypes.includes(p.driveType))
+      .filter(p => selectedFuelTypes.length === 0 || selectedFuelTypes.includes(p.fuelType))
+      .filter(p => selectedTransmissions.length === 0 || selectedTransmissions.includes(p.transmission))
+      .filter(p => selectedCategories.length === 0 || selectedCategories.includes(p.categories));
+  }, [
+    products,
+    selectedMakes,
+    selectedStatuses,
+    selectedDriveTypes,
+    selectedFuelTypes,
+    selectedTransmissions,
+    selectedCategories
+  ]);
 
-  const getUniqueSorted = (arr: any[], key: string) =>
-    Array.from(new Set(arr.map(item => item[key]).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+  // Helper to transform options for MultiCheckboxFilter and sort alphabetically
+  const toOptions = (arr: any[], key: string) =>
+    [...arr]
+      .sort((a, b) => a[key].localeCompare(b[key]))
+      .map(item => ({ value: item.title, label: item.title }));
 
-  const allStatuses = ["Available", "Sold", "Pending"];
+  // Clear all filters handler
+  const handleClearAll = () => {
+    setSelectedMakes([]);
+    setSelectedStatuses([]);
+    setSelectedDriveTypes([]);
+    setSelectedFuelTypes([]);
+    setSelectedTransmissions([]);
+    setSelectedCategories([]);
+  };
 
   return loading ? (
     <Loader />
@@ -113,86 +240,55 @@ const Products = () => {
       </div>
       <Separator className={`${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'} my-4`} />
 
-      <div className="flex flex-wrap gap-4 mb-4">
-        {/* Make */}
-        <select
-          id="make-filter"
-          value={selectedMake}
-          onChange={e => setSelectedMake(e.target.value)}
-          className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#23272f] text-white border-gray-700' : 'bg-white text-black border-gray-300'}`}
+      <div className="flex flex-wrap gap-4 mb-4 items-center">
+        <MultiCheckboxFilter
+          options={toOptions(makes, "title")}
+          selected={selectedMakes}
+          onApply={setSelectedMakes}
+          placeholder="All Makes"
+          theme={theme}
+        />
+        <MultiCheckboxFilter
+          options={toOptions(statuses, "title")}
+          selected={selectedStatuses}
+          onApply={setSelectedStatuses}
+          placeholder="All Statuses"
+          theme={theme}
+        />
+        <MultiCheckboxFilter
+          options={toOptions(driveTypes, "title")}
+          selected={selectedDriveTypes}
+          onApply={setSelectedDriveTypes}
+          placeholder="All Drive Types"
+          theme={theme}
+        />
+        <MultiCheckboxFilter
+          options={toOptions(fuelTypes, "title")}
+          selected={selectedFuelTypes}
+          onApply={setSelectedFuelTypes}
+          placeholder="All Fuel Types"
+          theme={theme}
+        />
+        <MultiCheckboxFilter
+          options={toOptions(transmissions, "title")}
+          selected={selectedTransmissions}
+          onApply={setSelectedTransmissions}
+          placeholder="All Transmissions"
+          theme={theme}
+        />
+        <MultiCheckboxFilter
+          options={toOptions(categories, "title")}
+          selected={selectedCategories}
+          onApply={setSelectedCategories}
+          placeholder="All Categories"
+          theme={theme}
+        />
+        <Button
+          className="ml-2 bg-red-600 hover:bg-red-700 text-white h-[40px]"
+          onClick={handleClearAll}
         >
-          <option value="" className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>All Makes</option>
-          {[...makes].sort((a, b) => a.title.localeCompare(b.title)).map(make => (
-            <option key={make._id} value={make.title} className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>
-              {make.title}
-            </option>
-          ))}
-        </select>
-        {/* Status */}
-        <select
-          value={selectedStatus}
-          onChange={e => setSelectedStatus(e.target.value)}
-          className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#23272f] text-white border-gray-700' : 'bg-white text-black border-gray-300'}`}
-        >
-          <option value="" className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>All Statuses</option>
-          {statuses.sort((a, b) => a.title.localeCompare(b.title)).map(status => (
-            <option key={status._id} value={status.title} className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>
-              {status.title}
-            </option>
-          ))}
-        </select>
-        {/* Drive Type */}
-        <select
-          value={selectedDriveType}
-          onChange={e => setSelectedDriveType(e.target.value)}
-          className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#23272f] text-white border-gray-700' : 'bg-white text-black border-gray-300'}`}
-        >
-          <option value="" className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>All Drive Types</option>
-          {driveTypes.sort((a, b) => a.title.localeCompare(b.title)).map(dt => (
-            <option key={dt._id} value={dt.title} className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>
-              {dt.title}
-            </option>
-          ))}
-        </select>
-        {/* Fuel Type */}
-        <select
-          value={selectedFuelType}
-          onChange={e => setSelectedFuelType(e.target.value)}
-          className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#23272f] text-white border-gray-700' : 'bg-white text-black border-gray-300'}`}
-        >
-          <option value="" className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>All Fuel Types</option>
-          {fuelTypes.sort((a, b) => a.title.localeCompare(b.title)).map(ft => (
-            <option key={ft._id} value={ft.title} className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>
-              {ft.title}
-            </option>
-          ))}
-        </select>
-        {/* Transmission */}
-        <select
-          value={selectedTransmission}
-          onChange={e => setSelectedTransmission(e.target.value)}
-          className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#23272f] text-white border-gray-700' : 'bg-white text-black border-gray-300'}`}
-        >
-          <option value="" className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>All Transmissions</option>
-          {transmissions.sort((a, b) => a.title.localeCompare(b.title)).map(tr => (
-            <option key={tr._id} value={tr.title} className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>
-              {tr.title}
-            </option>
-          ))}
-        </select>
-        {/* Categories */}
-        <select
-          value={selectedCategory}
-          onChange={e => setSelectedCategory(e.target.value)}
-          className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#23272f] text-white border-gray-700' : 'bg-white text-black border-gray-300'}`}
-        >
-          <option value="" className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>All Categories</option>
-          {categories.sort((a, b) => a.title.localeCompare(b.title)).map(cat => (
-            <option key={cat._id} value={cat.title} className={theme === 'dark' ? 'text-white bg-[#23272f]' : 'text-black bg-white'}>
-              {cat.title}
-            </option>
-          ))}
-        </select>
+          Clear Filters
+        </Button>
       </div>
 
       <div className={theme === 'dark' ? 'text-white' : ''}>
