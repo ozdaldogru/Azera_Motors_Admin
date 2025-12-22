@@ -88,6 +88,9 @@ export const POST = async (req: NextRequest) => {
       for (const featureId of features) {
         const feature = await Feature.findById(featureId);
         if (feature) {
+          if (!Array.isArray(feature.products)) {
+            feature.products = [];
+          }
           feature.products.push(newProduct._id);
           await feature.save();
         }

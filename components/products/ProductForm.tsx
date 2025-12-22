@@ -389,7 +389,7 @@ return loading ? (
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                       <option value="">Select A Make</option>
-                      {makes && makes.map((makes) => (
+                      {makes && [...makes].sort((a, b) => a.title.localeCompare(b.title)).map((makes) => (
                         <option className="overflow-visible bg-white"
                           key={makes.title}>
                           {makes.title}
@@ -436,7 +436,7 @@ return loading ? (
                         : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                       <option value="">Select A Category</option>
-                      {categories && categories.map((categories) => (
+                      {categories && [...categories].sort((a, b) => a.title.localeCompare(b.title)).map((categories) => (
                         <option className="overflow-visible bg-white"
                           key={categories.title}>
                           {categories.title}
@@ -600,7 +600,7 @@ return loading ? (
                      components={animatedComponents}
                      isMulti
                      placeholder="Select Features - Multiple Selection Allowed"
-                     options={features.map((feature) => ({ value: feature._id, label: feature.title })) as any}
+                     options={features && [...features].sort((a, b) => a.title.localeCompare(b.title)).map((feature) => ({ value: feature._id, label: feature.title })) as any}
                      onChange={(selectedOptions) => {
                      const values = selectedOptions.map((option) => option.value);
                      field.onChange(values);
@@ -633,7 +633,7 @@ return loading ? (
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Status</option>
-                  {statuses && statuses.map((statuses) => (
+                  {statuses && [...statuses].sort((a, b) => a.title.localeCompare(b.title)).map((statuses) => (
                     <option className="overflow-visible bg-white"
                       key={statuses.title}>
                       {statuses.title}
@@ -692,7 +692,7 @@ return loading ? (
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Drive Type</option>
-                  {drivetypes && drivetypes.map((drivetypes) => (
+                  {drivetypes && [...drivetypes].sort((a, b) => a.title.localeCompare(b.title)).map((drivetypes) => (
                     <option 
                     className="overflow-visible bg-white"
                       key={drivetypes.title}>
@@ -721,7 +721,7 @@ return loading ? (
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Fuel Type</option>
-                  {fueltypes && fueltypes.map((fueltypes) => (
+                  {fueltypes && [...fueltypes].sort((a, b) => a.title.localeCompare(b.title)).map((fueltypes) => (
                     <option className="overflow-visible bg-white"
                       key={fueltypes.title}>
                       {fueltypes.title}
@@ -750,7 +750,7 @@ return loading ? (
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Transmission</option>
-                  {transmissions && transmissions.map((transmissions) => (
+                  {transmissions && [...transmissions].sort((a, b) => a.title.localeCompare(b.title)).map((transmissions) => (
                     <option className="overflow-visible bg-white"
                       key={transmissions.title}>
                       {transmissions.title}
@@ -956,13 +956,29 @@ return loading ? (
                           }}
                         >
                           <JoditEditor
-                            {...field}
+                            value={field.value}
+                            onBlur={field.onBlur}
                             config={{
                               theme: "default", // Always use light theme for Jodit
                               style: {
                                 background: "#fff",
                                 color: "#000",
                               },
+                              askBeforePasteHTML: true,
+                              askBeforePasteFromWord: true,
+                              defaultActionOnPaste: 'insert_as_text',
+                              extraPlugins: ['paste'],
+                            }}
+                            onChange={value => {
+                              // Strip HTML tags and trim whitespace for validation
+                              const textContent = value.replace(/<[^>]+>/g, '').trim();
+                              field.onChange(value);
+                              // Optionally, if you want to validate immediately:
+                              if (textContent.length < 10) {
+                                form.setError('description', { message: '***Description must be at least 10 characters***' });
+                              } else {
+                                form.clearErrors('description');
+                              }
                             }}
                           />
                         </div>
