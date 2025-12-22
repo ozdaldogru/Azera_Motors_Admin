@@ -357,14 +357,22 @@ const { theme } = useTheme(); // <-- Add this line
 return loading ? (
   <Loader />
 ) : (
-  <div className={`p-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
+  <>
+    {/* Custom style for select option hover */}
+    <style>{`
+      select option:hover {
+        background-color: #3b82f6 !important; /* Tailwind blue-500 */
+        color: #fff !important;
+      }
+    `}</style>
+    <div className={`p-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f] text-white' : ''}`}>
     {initialData ? (
       <div className="flex items-center justify-between">
         <p className="text-heading2-bold">Edit Product</p>
         <Delete id={initialData._id} item="product" />
       </div>
     ) : (
-      <p className="text-heading2-bold">Create Product</p>
+      <p className="text-heading1-bold text-[35px]">Create Product</p>
     )}
     <Separator className="bg-gray-300 mt-4 mb-7" />
 
@@ -385,13 +393,12 @@ return loading ? (
                 <select  
                 className={`border text-sm rounded-lg block w-full p-2.5 
                   ${theme === 'dark'
-                    ? 'bg-[#23272f] text-white border-gray-700'
+                    ? 'bg-[#23272f] text-white border-white'
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                       <option value="">Select A Make</option>
-                      {makes && [...makes].sort((a, b) => a.title.localeCompare(b.title)).map((makes) => (
-                        <option className="overflow-visible bg-white"
-                          key={makes.title}>
+                      {makes && makes.slice().sort((a, b) => a.title.localeCompare(b.title)).map((makes) => (
+                        <option className="overflow-visible custom-option" style={{backgroundColor: '#23272f', color: 'white'}} key={makes.title}>
                           {makes.title}
                         </option>
                       ))}
@@ -432,13 +439,12 @@ return loading ? (
                 <select  
                     className={`border text-sm rounded-lg block w-full p-2.5 
                       ${theme === 'dark'
-                        ? 'bg-[#23272f] text-white border-gray-700'
+                        ? 'bg-[#23272f] text-white border-white'
                         : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                       <option value="">Select A Category</option>
-                      {categories && [...categories].sort((a, b) => a.title.localeCompare(b.title)).map((categories) => (
-                        <option className="overflow-visible bg-white"
-                          key={categories.title}>
+                      {categories && categories.slice().sort((a, b) => a.title.localeCompare(b.title)).map((categories) => (
+                        <option className="overflow-visible custom-option" style={{backgroundColor: '#23272f', color: 'white'}} key={categories.title}>
                           {categories.title}
                         </option>
                       ))}
@@ -595,17 +601,49 @@ return loading ? (
                 <FormLabel>Features</FormLabel>
                 <FormControl>
                   <Select
-                     {...field}
-                     closeMenuOnSelect={false}
-                     components={animatedComponents}
-                     isMulti
-                     placeholder="Select Features - Multiple Selection Allowed"
-                     options={features && [...features].sort((a, b) => a.title.localeCompare(b.title)).map((feature) => ({ value: feature._id, label: feature.title })) as any}
-                     onChange={(selectedOptions) => {
-                     const values = selectedOptions.map((option) => option.value);
-                     field.onChange(values);
+                    {...field}
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    isMulti
+                    placeholder="Select Features - Multiple Selection Allowed"
+                    options={features.slice().sort((a, b) => a.title.localeCompare(b.title)).map((feature) => ({ value: feature._id, label: feature.title })) as any}
+                    onChange={(selectedOptions) => {
+                      const values = selectedOptions.map((option) => option.value);
+                      field.onChange(values);
                     }}
                     value={features.filter((feature) => field.value.includes(feature._id)).map((feature) => ({ value: feature._id, label: feature.title }))}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        backgroundColor: '#23272f',
+                        color: '#fff',
+                        borderColor: 'white',
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: '#23272f',
+                        color: '#fff',
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isFocused || state.isSelected ? '#3b82f6' : '#23272f', // blue-500 on hover/selected
+                        color: '#fff',
+                        cursor: 'pointer',
+                      }),
+                      singleValue: (base) => ({
+                        ...base,
+                        color: '#fff',
+                      }),
+                      multiValue: (base) => ({
+                        ...base,
+                        backgroundColor: '#333',
+                        color: '#fff',
+                      }),
+                      input: (base) => ({
+                        ...base,
+                        color: '#fff',
+                      }),
+                    }}
                   />
                 </FormControl>
                 <FormMessage className="text-red-500 text-[15px]" />
@@ -629,13 +667,12 @@ return loading ? (
                 <select  
                 className={`border text-sm rounded-lg block w-full p-2.5 
                   ${theme === 'dark'
-                    ? 'bg-[#23272f] text-white border-gray-700'
+                    ? 'bg-[#23272f] text-white border-white'
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Status</option>
-                  {statuses && [...statuses].sort((a, b) => a.title.localeCompare(b.title)).map((statuses) => (
-                    <option className="overflow-visible bg-white"
-                      key={statuses.title}>
+                  {statuses && statuses.slice().sort((a, b) => a.title.localeCompare(b.title)).map((statuses) => (
+                    <option className="overflow-visible custom-option" style={{backgroundColor: '#23272f', color: 'white'}} key={statuses.title}>
                       {statuses.title}
                     </option>
                   ))}
@@ -688,16 +725,15 @@ return loading ? (
                 <select                    
                 className={`border text-sm rounded-lg block w-full p-2.5 
                   ${theme === 'dark'
-                    ? 'bg-[#23272f] text-white border-gray-700'
+                    ? 'bg-[#23272f] text-white border-white'
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Drive Type</option>
-                  {drivetypes && [...drivetypes].sort((a, b) => a.title.localeCompare(b.title)).map((drivetypes) => (
+                  {drivetypes && drivetypes.slice().sort((a, b) => a.title.localeCompare(b.title)).map((drivetypes) => (
                     <option 
-                    className="overflow-visible bg-white"
-                      key={drivetypes.title}>
-                      {drivetypes.title}
-                    </option>
+                      className="overflow-visible custom-option" style={{backgroundColor: '#23272f', color: 'white'}} key={drivetypes.title}>
+                        {drivetypes.title}
+                      </option>
                   ))}
                 </select>  
      
@@ -717,13 +753,12 @@ return loading ? (
                 <select  
                 className={`border text-sm rounded-lg block w-full p-2.5 
                   ${theme === 'dark'
-                    ? 'bg-[#23272f] text-white border-gray-700'
+                    ? 'bg-[#23272f] text-white border-white'
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Fuel Type</option>
-                  {fueltypes && [...fueltypes].sort((a, b) => a.title.localeCompare(b.title)).map((fueltypes) => (
-                    <option className="overflow-visible bg-white"
-                      key={fueltypes.title}>
+                  {fueltypes && fueltypes.slice().sort((a, b) => a.title.localeCompare(b.title)).map((fueltypes) => (
+                    <option className="overflow-visible custom-option" style={{backgroundColor: '#23272f', color: 'white'}} key={fueltypes.title}>
                       {fueltypes.title}
                     </option>
                   ))}
@@ -746,13 +781,12 @@ return loading ? (
                 <select  
                 className={`border text-sm rounded-lg block w-full p-2.5 
                   ${theme === 'dark'
-                    ? 'bg-[#23272f] text-white border-gray-700'
+                    ? 'bg-[#23272f] text-white border-white'
                     : 'bg-white text-black border-gray-300'}`}
                      {...field}>
                   <option value="">Select A Transmission</option>
-                  {transmissions && [...transmissions].sort((a, b) => a.title.localeCompare(b.title)).map((transmissions) => (
-                    <option className="overflow-visible bg-white"
-                      key={transmissions.title}>
+                  {transmissions && transmissions.slice().sort((a, b) => a.title.localeCompare(b.title)).map((transmissions) => (
+                    <option className="overflow-visible custom-option" style={{backgroundColor: '#23272f', color: 'white'}} key={transmissions.title}>
                       {transmissions.title}
                     </option>
                   ))}
@@ -956,29 +990,13 @@ return loading ? (
                           }}
                         >
                           <JoditEditor
-                            value={field.value}
-                            onBlur={field.onBlur}
+                            {...field}
                             config={{
                               theme: "default", // Always use light theme for Jodit
                               style: {
                                 background: "#fff",
                                 color: "#000",
                               },
-                              askBeforePasteHTML: true,
-                              askBeforePasteFromWord: true,
-                              defaultActionOnPaste: 'insert_as_text',
-                              extraPlugins: ['paste'],
-                            }}
-                            onChange={value => {
-                              // Strip HTML tags and trim whitespace for validation
-                              const textContent = value.replace(/<[^>]+>/g, '').trim();
-                              field.onChange(value);
-                              // Optionally, if you want to validate immediately:
-                              if (textContent.length < 10) {
-                                form.setError('description', { message: '***Description must be at least 10 characters***' });
-                              } else {
-                                form.clearErrors('description');
-                              }
                             }}
                           />
                         </div>
@@ -1034,10 +1052,8 @@ return loading ? (
 
  
 
-  </div>
-
-  
-  
+    </div>
+  </>
 );
 };
 

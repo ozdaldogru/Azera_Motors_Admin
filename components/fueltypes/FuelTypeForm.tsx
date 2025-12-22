@@ -69,7 +69,7 @@ const FuelTypeForm: React.FC<FuelTypeFormProps> = ({ initialData }) => {
           <Delete id={initialData._id} item="fueltype" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create FuelType</p>
+        <p className="text-heading1-bold text-[35px]">Create FuelType</p>
       )}
       <Separator className="bg-gray-300 dark:bg-gray-700 mt-4 mb-7" />
       <Form {...form}>

@@ -69,7 +69,7 @@ const DriveTypeForm: React.FC<DriveTypeFormProps> = ({ initialData }) => {
           <Delete id={initialData._id} item="drivetype" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create DriveType</p>
+        <p className="text-heading1-bold text-[35px]">Create DriveType</p>
       )}
       <Separator className="bg-gray-300 dark:bg-gray-700 mt-4 mb-7" />
       <Form {...form}>

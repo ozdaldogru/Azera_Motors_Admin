@@ -112,7 +112,7 @@ const MakeForm: React.FC<MakeFormProps> = ({ initialData }) => {
           <Delete id={initialData._id} item="make" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create Make</p>
+        <p className="text-heading1-bold text-[35px]">Create Make</p>
       )}
       <Separator className="bg-gray-300 dark:bg-gray-700 mt-4 mb-7" />
       <Form {...form}>

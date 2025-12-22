@@ -69,7 +69,7 @@ const FeatureForm: React.FC<FeatureFormProps> = ({ initialData }) => {
           <Delete id={initialData._id} item="feature" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create Feature</p>
+        <p className="text-heading1-bold text-[35px]">Create Feature</p>
       )}
       <Separator className="bg-gray-300 dark:bg-gray-700 mt-4 mb-7" />
       <Form {...form}>
