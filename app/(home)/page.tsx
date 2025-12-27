@@ -1,8 +1,20 @@
+
 "use client";
+// Type for unsold info car
+type UnsoldInfoCar = {
+  _id: string;
+  model: string;
+  make: string;
+  year: number;
+  totalCost?: number;
+  soldPrice?: number;
+  soldDate?: string;
+};
 
 import { useEffect, useState } from "react";
 import { useTheme } from '@/lib/ThemeProvider';
 import Image from "next/image";
+import Link from "next/link";
 
 
 type SourceMediumRow = {
@@ -38,6 +50,10 @@ export default function Home() {
   const [salesSummary, setSalesSummary] = useState<SalesSummary | null>(null);
   const [salesLoading, setSalesLoading] = useState(true);
 
+  // Unsold info cars
+  const [unsoldInfoCars, setUnsoldInfoCars] = useState<UnsoldInfoCar[]>([]);
+  const [unsoldLoading, setUnsoldLoading] = useState(true);
+
   useEffect(() => {
     fetch("/api/analytics-google?sourceMediumTable=true")
       .then(res => res.json())
@@ -65,6 +81,17 @@ export default function Home() {
         setSalesSummary(data);
         setSalesLoading(false);
       });
+  }, []);
+
+  // Fetch unsold info cars
+  useEffect(() => {
+    fetch("/api/analytics.unsold-cars")
+      .then(res => res.json())
+      .then(data => {
+        setUnsoldInfoCars(Array.isArray(data) ? data : []);
+        setUnsoldLoading(false);
+      })
+      .catch(() => setUnsoldLoading(false));
   }, []);
 
   // Table 1 totals
@@ -233,6 +260,49 @@ export default function Home() {
       </div>
 
 
+
+      {/* Table 3: Sold cars with missing/zero cost, sold price, or sold date */}
+      <div className={`mt-8 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-red-300' : 'text-red-700'}`}>
+          Sold Cars With Incomplete Sale Info
+        </h2>
+        <div className="overflow-x-auto w-full py-2">
+          {unsoldLoading ? (
+            <p>Loading incomplete sale cars...</p>
+          ) : unsoldInfoCars.length ? (
+            <table className={`min-w-[400px] max-w-full w-full border rounded text-xs sm:text-sm md:text-base mx-auto ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
+              <thead>
+                <tr>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Model</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Make</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Year</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Total Cost</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Sold Price</th>
+                  <th className={`border px-2 py-1 ${theme === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-gray-100 border-gray-300'}`}>Sold Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unsoldInfoCars.map(car => (
+                  <tr key={car._id}>
+                    <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700 underline' : 'bg-white border-gray-300 underline'}`}>
+                      <Link href={`/products/${car._id}`} className="hover:text-blue-500">
+                        {car.model}
+                      </Link>
+                    </td>
+                    <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>{car.make}</td>
+                    <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-white border-gray-300'}`}>{car.year}</td>
+                    <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-red-300 border-gray-700' : 'bg-white text-red-700 border-gray-300'}`}>{car.totalCost ?? ''}</td>
+                    <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-red-300 border-gray-700' : 'bg-white text-red-700 border-gray-300'}`}>{car.soldPrice ?? ''}</td>
+                    <td className={`border px-2 py-1 text-center ${theme === 'dark' ? 'bg-gray-900 text-red-300 border-gray-700' : 'bg-white text-red-700 border-gray-300'}`}>{car.soldDate || ''}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No incomplete sale cars found.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -615,33 +615,43 @@ return loading ? (
                     styles={{
                       control: (base) => ({
                         ...base,
-                        backgroundColor: '#23272f',
-                        color: '#fff',
-                        borderColor: 'white',
+                        backgroundColor: theme === 'dark' ? '#23272f' : base.backgroundColor,
+                        color: theme === 'dark' ? '#fff' : base.color,
+                        borderColor: theme === 'dark' ? 'white' : base.borderColor,
                       }),
                       menu: (base) => ({
                         ...base,
-                        backgroundColor: '#23272f',
-                        color: '#fff',
+                        backgroundColor: theme === 'dark' ? '#23272f' : base.backgroundColor,
+                        color: theme === 'dark' ? '#fff' : base.color,
                       }),
                       option: (base, state) => ({
                         ...base,
-                        backgroundColor: state.isFocused || state.isSelected ? '#3b82f6' : '#23272f', // blue-500 on hover/selected
-                        color: '#fff',
+                        backgroundColor: theme === 'dark'
+                          ? (state.isFocused || state.isSelected ? '#3b82f6' : '#23272f')
+                          : (state.isFocused || state.isSelected ? base.backgroundColor : base.backgroundColor),
+                        color: theme === 'dark' ? '#fff' : base.color,
                         cursor: 'pointer',
                       }),
                       singleValue: (base) => ({
                         ...base,
-                        color: '#fff',
+                        color: theme === 'dark' ? '#fff' : base.color,
                       }),
                       multiValue: (base) => ({
                         ...base,
-                        backgroundColor: '#333',
-                        color: '#fff',
+                        backgroundColor: theme === 'dark' ? '#333' : base.backgroundColor,
+                        color: theme === 'dark' ? '#fff' : base.color,
+                      }),
+                      multiValueLabel: (base) => ({
+                        ...base,
+                        color: theme === 'dark' ? '#fff' : base.color,
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: theme === 'dark' ? '#fff' : base.color,
                       }),
                       input: (base) => ({
                         ...base,
-                        color: '#fff',
+                        color: theme === 'dark' ? '#fff' : base.color,
                       }),
                     }}
                   />
