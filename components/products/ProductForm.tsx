@@ -56,7 +56,7 @@ const formSchema = z.object({
   numberofowner: z.coerce.number().min(1, "***Number of owners is required***"),
   vin: z.string(),
   history: z.string(),
-  description: z.string().min(10, "***Description must be at least 10 characters***"),
+  description: z.string(), 
   media: z.array(z.string()),
   totalCost: z.coerce.number(),
   soldPrice: z.coerce.number(),
@@ -156,7 +156,7 @@ const form = useForm<z.infer<typeof formSchema>>({
         make: "",
         price: 0,
         features: [],
-        year: 1900,
+        year: 2000,
         mileage: 0,
         driveType: "",
         fuelType: "",
@@ -186,6 +186,28 @@ const form = useForm<z.infer<typeof formSchema>>({
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // Check required fields before submitting
+    // Improved required field check
+    const isEmpty = (val: any) => val === undefined || val === null || (typeof val === 'string' && val.trim() === '');
+    if (
+      isEmpty(values.model) ||
+      isEmpty(values.make) ||
+      isEmpty(values.price) ||
+      isEmpty(values.description) ||
+      !values.media || !Array.isArray(values.media) || values.media.length === 0
+    ) {
+      const debugFields = {
+        model: values.model,
+        make: values.make,
+        price: values.price,
+        description: values.description,
+        media: values.media
+      };
+      console.log('DEBUG required fields:', debugFields);
+      alert('DEBUG required fields: ' + JSON.stringify(debugFields, null, 2));
+      toast.error("Please fill all required fields: Model, Make, Price, Description, and at least one Image.");
+      return;
+    }
     try {
       setLoading(true);
       const url = initialData
@@ -991,7 +1013,6 @@ return loading ? (
                       <FormControl>
                         <div
                           className="rounded"
-                          // Prevent dark theme styles from affecting the editor
                           style={{
                             background: "#fff",
                             color: "#000",
@@ -1000,9 +1021,11 @@ return loading ? (
                           }}
                         >
                           <JoditEditor
-                            {...field}
+                            value={field.value}
+                            onBlur={newContent => field.onChange(newContent)}
+                            onChange={newContent => field.onChange(newContent)}
                             config={{
-                              theme: "default", // Always use light theme for Jodit
+                              theme: "default",
                               style: {
                                 background: "#fff",
                                 color: "#000",
