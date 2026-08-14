@@ -17,7 +17,9 @@ const TopBar = () => {
   return (
     <div className="lg:hidden">
       <div className={`sticky top-0 z-20 w-full flex justify-between items-center px-4 py-4 shadow-xl transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
-        <Image src="/logo.svg" alt="logo" width={70} height={70} />
+        <div style={{ width: '70px', aspectRatio: '1/1', position: 'relative' }}>
+          <Image src="/logo.svg" alt="logo" fill style={{ objectFit: 'contain' }} />
+        </div>
 
         <div className="relative flex gap-4 items-center">
           <Menu

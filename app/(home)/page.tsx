@@ -13,7 +13,7 @@ type UnsoldInfoCar = {
 
 import { useEffect, useState } from "react";
 import { useTheme } from '@/lib/ThemeProvider';
-import Image from "next/image";
+
 import Link from "next/link";
 
 
@@ -125,14 +125,7 @@ export default function Home() {
   return (
     <div className={`w-dpv min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
       {/* Azera Logo */}
-      <Image
-        src="/AzeraLogo.svg"
-        alt="Azera Motors Logo"
-        width={160}
-        height={80}
-        className="mb-2"
-        priority
-      />
+
       <h1 className={`mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
         Azera Motors Admin Dashboard
       </h1>
