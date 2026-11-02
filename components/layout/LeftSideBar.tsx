@@ -6,34 +6,41 @@ import { navLinks } from "@/lib/constants";
 import { useTheme } from '@/lib/ThemeProvider';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 
 const LeftSideBar = () => {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className={`min-h-screen left-0 top-0 sticky p-10 flex flex-col gap-16 shadow-xl max-lg:hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
-
-      <div className="flex flex-col gap-12 flex-1">
+    <aside className="sticky left-0 top-0 z-30 flex min-h-screen w-72 flex-col border-r border-white/10 bg-[var(--sidebar)] px-5 py-6 shadow-2xl max-lg:hidden">
+      <div className="mb-10 flex items-center gap-3 px-3">
+        <Image src="/logo.svg" alt="Azera Motors" width={42} height={42} className="rounded-xl bg-white p-1" />
+        <div>
+          <p className="text-sm font-bold tracking-wide text-white">AZERA MOTORS</p>
+          <p className="text-xs text-slate-400">Admin workspace</p>
+        </div>
+      </div>
+      <nav className="flex flex-1 flex-col gap-1">
         {navLinks.map((link) => (
           <Link
             href={link.url}
             key={link.label}
-            className={`flex gap-4 text-body-medium hover:text-red-1 transition-colors ${theme === 'dark' ? 'text-gray-200 hover:text-yellow-300' : pathname === link.url ? 'text-blue-1' : 'text-grey-1'}`}
+            className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-colors ${pathname === link.url || (link.url !== "/" && pathname?.startsWith(`${link.url}/`)) ? 'bg-blue-500/15 text-blue-300 shadow-sm' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
           >
-            {link.icon} <p>{link.label}</p>
+            <span className="opacity-80">{link.icon}</span><p>{link.label}</p>
             
           </Link>
           
         ))}
 
-       <div className={`flex flex-col gap-4 text-body-medium items-center ${theme === 'dark' ? 'text-gray-200' : ''}`}>
-          <div className="flex flex-row items-center gap-2">
-            <p>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</p>
+       <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-5 text-sm text-slate-300">
+          <div className="flex items-center justify-between px-3">
+            <p>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</p>
             <button
               aria-label="Toggle dark mode"
               onClick={toggleTheme}
-              className="rounded-full p-2 border border-gray-300 bg-transparent dark:bg-gray-800 dark:border-gray-600 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="rounded-lg border border-white/10 bg-white/5 p-2 shadow hover:bg-white/10"
             >
               {theme === 'dark' ? (
                 <SunIcon className="w-5 h-5 text-yellow-400" />
@@ -44,15 +51,13 @@ const LeftSideBar = () => {
           </div>
           <button
             onClick={() => signOut({ callbackUrl: "/sign-in" })}
-            className="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded transition-colors"
+            className="mt-2 rounded-lg border border-red-400/20 bg-red-500/10 px-4 py-2.5 font-semibold text-red-300 hover:bg-red-500/20"
           >
             Log Out
           </button>
         </div>
-      </div>
-
-
-    </div>
+      </nav>
+    </aside>
   );
 };
 

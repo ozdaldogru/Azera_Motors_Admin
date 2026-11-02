@@ -55,6 +55,7 @@ export default function Home() {
   const [eventDates, setEventDates] = useState<string[]>([]);
   const [eventRows, setEventRows] = useState<EventRow[]>([]);
   const [eventLoading, setEventLoading] = useState(true);
+  const [analyticsError, setAnalyticsError] = useState("");
 
   // Sales Summary
   const [salesSummary, setSalesSummary] = useState<SalesSummary | null>(null);
@@ -65,23 +66,32 @@ export default function Home() {
   const [unsoldLoading, setUnsoldLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/analytics-google?sourceMediumTable=true")
-      .then(res => res.json())
-      .then(data => {
-        setDates(Array.isArray(data.dates) ? data.dates : []);
-        setRows(Array.isArray(data.rows) ? data.rows : []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    const loadAnalytics = async (url: string, table: "source" | "event") => {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Unable to load analytics data.");
+        }
 
-    fetch("/api/analytics-google?eventTable=true")
-      .then(res => res.json())
-      .then(data => {
-        setEventDates(Array.isArray(data.dates) ? data.dates : []);
-        setEventRows(Array.isArray(data.rows) ? data.rows : []);
-        setEventLoading(false);
-      })
-      .catch(() => setEventLoading(false));
+        if (table === "source") {
+          setDates(Array.isArray(data.dates) ? data.dates : []);
+          setRows(Array.isArray(data.rows) ? data.rows : []);
+          setLoading(false);
+        } else {
+          setEventDates(Array.isArray(data.dates) ? data.dates : []);
+          setEventRows(Array.isArray(data.rows) ? data.rows : []);
+          setEventLoading(false);
+        }
+      } catch (error) {
+        setAnalyticsError(error instanceof Error ? error.message : "Unable to load analytics data.");
+        if (table === "source") setLoading(false);
+        else setEventLoading(false);
+      }
+    };
+
+    loadAnalytics("/api/analytics-google?sourceMediumTable=true", "source");
+    loadAnalytics("/api/analytics-google?eventTable=true", "event");
   }, []);
 
   useEffect(() => {
@@ -123,16 +133,24 @@ export default function Home() {
   const eventGrandTotal = eventTotals.reduce((sum, t) => sum + t, 0);
 
   return (
-    <div className={`w-dpv min-h-screen flex flex-col items-center justify-center px-2 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#a0a1a3]'}`}>
+    <div className="dashboard-page flex min-h-screen flex-col items-center px-4 py-8 sm:px-8 lg:px-10">
       {/* Azera Logo */}
 
-      <h1 className={`mt-2 mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
-        Azera Motors Admin Dashboard
+      <div className="w-full max-w-6xl">
+      <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">Overview</p>
+      <h1 className={`mb-2 text-3xl font-bold tracking-tight sm:text-4xl ${theme === "dark" ? "text-white" : "text-black"}`}>
+        Good morning, admin
       </h1>
+      <p className="mb-8 text-sm text-slate-500 dark:text-slate-400">Here’s what’s happening across your vehicle inventory.</p>
+      {analyticsError && (
+        <div className="mb-6 w-full rounded-xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200">
+          <strong>Google Analytics unavailable:</strong> {analyticsError}
+        </div>
+      )}
 
       {/* Sales Summary */}
-      <div className={`mt-8 w-full max-w-6xl py-${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+      <div className="w-full">
+        <h2 className={`mb-3 text-center text-lg font-semibold ${theme === "dark" ? "text-white" : "text-black"}`}>
           Sales Summary (All Time)
         </h2>
         <div className="overflow-x-auto w-full py-2">
@@ -168,7 +186,7 @@ export default function Home() {
               </table>
 
               <div className={`mt-6 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-                <h3 className={`text-sm sm:text-base md:text-lg font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+                <h3 className={`mb-2 text-center text-lg font-semibold ${theme === "dark" ? "text-white" : "text-black"}`}>
                   Monthly Profit (Last 12 Months)
                 </h3>
                 <div className="overflow-x-auto w-full py-2">
@@ -208,8 +226,8 @@ export default function Home() {
       </div>
 
       {/* Table 1 */}
-      <div className={`mt-4 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+      <div className="mt-8 w-full">
+        <h2 className={`mb-3 text-center text-lg font-semibold ${theme === "dark" ? "text-white" : "text-black"}`}>
           User Source (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full py-2">
@@ -250,11 +268,12 @@ export default function Home() {
           ) : (
             <p>No data found.</p>
           )}
+          </div>
         </div>
       </div>
       {/* Table 2 */}
       <div className={`mt-8 w-full max-w-6xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
-        <h2 className={`text-base sm:text-lg md:text-xl font-semibold mb-2 text-center ${theme === 'dark' ? 'text-gray-100' : ''}`}>
+        <h2 className={`mb-2 text-center text-lg font-semibold ${theme === "dark" ? "text-white" : "text-black"}`}>
           User Interactions (Last 7 Days)
         </h2>
         <div className="overflow-x-auto w-full py-2">

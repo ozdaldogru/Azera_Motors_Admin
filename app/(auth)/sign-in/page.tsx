@@ -30,20 +30,24 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#23272f]">
+    <div className="auth-card flex flex-col gap-6 rounded-2xl px-6 py-8 sm:px-8">
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-[#23272f] shadow-xl rounded-xl px-8 py-10 flex flex-col gap-6 w-full max-w-md border border-gray-700"
+        className="flex flex-col gap-6"
       >
-        <h1 className="text-3xl font-bold text-center text-blue-700 dark:text-yellow-300 mb-2">
+        <div className="mb-2">
+        <p className="mb-2 text-center text-xs font-bold uppercase tracking-[0.2em] text-blue-400">Azera Motors</p>
+        <h1 className="text-center text-3xl font-bold text-white">
           Sign In
         </h1>
+        <p className="mt-2 text-center text-sm text-slate-400">Welcome back. Sign in to manage your inventory.</p>
+        </div>
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={e => setUsername(e.target.value)}
-          className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100"
+          className="rounded-xl border border-slate-700 bg-slate-900/60 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
           required
           disabled={loading}
         />
@@ -53,7 +57,7 @@ export default function LoginPage() {
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="border border-gray-300 dark:border-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-[#23272f] dark:text-gray-100 w-full pr-10"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-4 py-3 pr-10 text-white outline-none placeholder:text-slate-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
             required
             autoComplete="current-password"
             disabled={loading}
@@ -69,7 +73,7 @@ export default function LoginPage() {
         </div>
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center"
+          className="flex items-center justify-center rounded-xl bg-blue-600 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 hover:bg-blue-500"
           disabled={loading}
         >
           {loading ? (
@@ -82,13 +86,13 @@ export default function LoginPage() {
         </button>
         <a
           href="/sign-up"
-          className="text-center text-blue-600 dark:text-yellow-300 hover:underline"
+          className="text-center text-sm text-blue-400 hover:text-blue-300 hover:underline"
         >
           Don&apos;t have an account? Sign Up
         </a>
         <a
           href="/forgot-password"
-          className="text-center text-blue-600 dark:text-yellow-300 hover:underline mt-2"
+          className="mt-2 text-center text-sm text-slate-400 hover:text-white hover:underline"
         >
           Forgot Password?
         </a>

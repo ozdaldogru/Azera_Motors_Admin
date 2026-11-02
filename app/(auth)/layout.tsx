@@ -21,7 +21,7 @@ export default function AuthLayout({
       <body className={inter.className}>
         <ThemeProvider>
           <ToasterProvider />
-          <div className="flex flex-col items-center justify-center bg-[#23272f]">
+          <div className="auth-shell flex flex-col items-center justify-center px-4 py-10">
             <div className="w-full max-w-md">{children}</div>
           </div>
         </ThemeProvider>

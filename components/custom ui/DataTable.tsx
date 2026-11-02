@@ -100,8 +100,8 @@ export function DataTable<TData extends Record<string, any>, TValue>({
 
   const { theme } = useTheme();
   return (
-    <div className="py-5">
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 sm:grid-cols-2flex space-around">
+    <div className="data-table py-5">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center py-4">
           <Input
             placeholder="Search..."
@@ -111,12 +111,12 @@ export function DataTable<TData extends Record<string, any>, TValue>({
           />
         </div>
         {/* Page size selector inside the table */}
-        <div className="flex items-center mb-4">
-          <span className={`mr-2 ${theme === 'dark' ? 'text-white' : ''}`}>Items per page:</span>
+        <div className="flex items-center">
+          <span className={`mr-2 text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-500'}`}>Items per page:</span>
           <select
             value={currentPageSize}
             onChange={e => setCurrentPageSize(Number(e.target.value))}
-            className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-black text-white border-gray-700' : ''}`}
+            className={`rounded-lg border px-3 py-2 text-sm ${theme === 'dark' ? 'bg-slate-950 text-white border-gray-700' : 'bg-white text-slate-700'}`}
           >
             {[10, 20, 50, 100].map(size => (
               <option key={size} value={size}>{size}</option>
@@ -125,9 +125,9 @@ export function DataTable<TData extends Record<string, any>, TValue>({
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="overflow-hidden rounded-xl border bg-[var(--surface)] shadow-sm">
         <Table>
-          <TableHeader className="bg-slate-950 text-white text-[20px]">
+          <TableHeader className="bg-[var(--sidebar)] text-white">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

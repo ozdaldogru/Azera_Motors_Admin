@@ -2,21 +2,20 @@
 "use client";
 export default function SignUpPage() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#23272f]">
-      <div className="bg-white dark:bg-[#23272f] shadow-xl rounded-xl px-8 py-10 w-full max-w-md border border-gray-700 flex flex-col gap-6">
-        <h1 className="text-3xl font-bold text-center text-blue-700 dark:text-yellow-300 mb-2">
+    <div className="auth-card flex w-full flex-col gap-6 rounded-2xl px-6 py-8 sm:px-8">
+        <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-blue-400">Azera Motors</p>
+        <h1 className="text-center text-3xl font-bold text-white">
           Sign Up Disabled
         </h1>
-        <p className="text-center text-gray-700 dark:text-gray-300">
+        <p className="text-center text-slate-400">
           New user registration is currently closed. Please contact the administrator if you need access.
         </p>
-        <button type="submit" disabled className="bg-gray-400 text-white py-3 rounded-lg">
+        <button type="submit" disabled className="rounded-xl bg-slate-700 py-3 font-semibold text-slate-300">
           Sign Up (Disabled)
         </button>
-        <p className="text-center text-red-500 mt-2">
+        <p className="mt-2 text-center text-sm text-red-300">
           Registration is currently closed.
         </p>
-      </div>
     </div>
   );
 }

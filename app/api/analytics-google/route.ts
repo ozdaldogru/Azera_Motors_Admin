@@ -1,12 +1,31 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
+const normalizePrivateKey = (value: string) =>
+  value
+    .trim()
+    .replace(/^["']/, '')
+    .replace(/["']$/, '')
+    .replace(/\\n/g, '\n');
+
 export async function GET(request: Request) {
   try {
     const propertyId = process.env.GA_PROPERTY_ID;
+    const clientEmail = process.env.GA_CLIENT_EMAIL;
+    const privateKey = process.env.GA_PRIVATE_KEY;
+
+    if (!propertyId || !clientEmail || !privateKey) {
+      return new Response(JSON.stringify({
+        error: 'Google Analytics is not configured. Set GA_PROPERTY_ID, GA_CLIENT_EMAIL, and GA_PRIVATE_KEY.',
+      }), {
+        headers: { "Content-Type": "application/json" },
+        status: 503,
+      });
+    }
+
     const analyticsDataClient = new BetaAnalyticsDataClient({
       credentials: {
-        client_email: process.env.GA_CLIENT_EMAIL,
-        private_key: (process.env.GA_PRIVATE_KEY ?? '').split(String.raw`\n`).join('\n'),
+        client_email: clientEmail,
+        private_key: normalizePrivateKey(privateKey),
       },
     });
 
@@ -107,7 +126,16 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('Error fetching analytics data:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch analytics data' }), {
+    const code = typeof error === "object" && error !== null && "code" in error
+      ? (error as { code?: number }).code
+      : undefined;
+    const message = code === 16
+      ? 'Google Analytics rejected the service-account credentials. Verify GA_CLIENT_EMAIL and GA_PRIVATE_KEY, then make sure the service account has Viewer access to the GA4 property.'
+      : code === 7
+        ? 'The Google Analytics Data API is disabled for the Google Cloud project. Enable analyticsdata.googleapis.com in the project that owns the service account, then wait a few minutes and retry.'
+      : 'Unable to load Google Analytics data. Check the server logs for details.';
+
+    return new Response(JSON.stringify({ error: message }), {
       headers: { "Content-Type": "application/json" },
       status: 500,
     });

@@ -28,10 +28,10 @@ export default function RootLayout({
         <body className={inter.className}>
           <ThemeProvider>
             <ToasterProvider />
-            <div className="flex max-lg:flex-col text-black-1 bg-color-grey-1">
+            <div className="flex min-h-screen max-lg:flex-col bg-[var(--background)] text-[var(--foreground)]">
               <LeftSideBar />
               <TopBar />
-              <div className="flex-1">{children}</div>
+              <main className="min-w-0 flex-1">{children}</main>
             </div>
           </ThemeProvider>
         </body>

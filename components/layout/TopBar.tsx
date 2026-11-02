@@ -16,7 +16,7 @@ const TopBar = () => {
 
   return (
     <div className="lg:hidden">
-      <div className={`sticky top-0 z-20 w-full flex justify-between items-center px-4 py-4 shadow-xl transition-colors duration-300 ${theme === 'dark' ? 'bg-[#23272f]' : 'bg-[#d0d3d4]'}`}>
+      <div className="sticky top-0 z-20 flex w-full items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3 shadow-sm">
         <div style={{ width: '70px', aspectRatio: '1/1', position: 'relative' }}>
           <Image src="/logo.svg" alt="logo" fill style={{ objectFit: 'contain' }} />
         </div>
@@ -28,7 +28,7 @@ const TopBar = () => {
             color={theme === 'dark' ? "#fff" : "#23272f"}
           />
           {dropdownMenu && (
-            <div className="fixed top-0 right-0 z-30 w-64 h-full bg-[#23272f] shadow-xl flex flex-col gap-4 p-5 lg:hidden">
+            <div className="fixed right-0 top-0 z-30 flex h-full w-72 flex-col gap-2 border-l border-white/10 bg-[var(--sidebar)] p-5 shadow-xl lg:hidden">
               <button
                 className="self-end mb-2"
                 onClick={() => setDropdownMenu(false)}
@@ -40,7 +40,7 @@ const TopBar = () => {
                 <Link
                   href={link.url}
                   key={link.label}
-                  className="flex gap-4 text-body-medium transition-colors py-2 rounded text-gray-100 hover:text-yellow-300"
+                  className="flex gap-4 rounded-lg px-3 py-3 text-sm text-gray-100 transition-colors hover:bg-white/5 hover:text-blue-300"
                   onClick={() => setDropdownMenu(false)}
                 >
                   {link.icon} <p>{link.label}</p>
@@ -52,7 +52,7 @@ const TopBar = () => {
                   <button
                     aria-label="Toggle dark mode"
                     onClick={toggleTheme}
-                    className="rounded-full p-2 border border-gray-700 bg-[#23272f] shadow hover:bg-gray-800 transition-colors "
+                    className="rounded-lg border border-white/10 bg-white/5 p-2 shadow hover:bg-white/10"
                   >
                     {theme === 'dark' ? (
                       <SunIcon className="w-5 h-5 text-yellow-400" />
@@ -66,7 +66,7 @@ const TopBar = () => {
                     setDropdownMenu(false);
                     signOut({ callbackUrl: "/sign-in" });
                   }}
-                  className="rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded transition-colors text-sm self-start"
+                  className="rounded-lg bg-red-500/15 px-4 py-2 text-sm font-semibold text-red-200 transition-colors hover:bg-red-500/25"
                 >
                   Log Out
                 </button>
